@@ -7,9 +7,7 @@ body {
     /* These Flexbox commands are just to set standards for EVERYTHING */
     /* We can change these values for each container on the page later */
     /* when we need an HTML element to have specific behavior */
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Arranges header and instrument containers in a column */
 
     font-family: Roboto, sans-serif; /* Imported font from above */
     background-color: #242526;
@@ -18,7 +16,26 @@ body {
     min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
-a {
-    text-decoration: None;
-    color: #E5E7EB;
+/* Easy border visual for all divs (AKA containers) */
+div {
+    border: 1px solid red;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instrument-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.instrument-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }

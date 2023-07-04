@@ -38,27 +38,16 @@ div {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-left: 40px;
+    margin-left: 20px;
 
     /* The last instrument note button in a row will add 10px to this */
-    /* Ultimately making padding on left and right side of screen 40px each */
-    padding-right: 30px;
+    /* Ultimately making margin on left and right side of screen 20px each */
+    margin-right: 10px;
 }
 
-/* Spacing out an instrument channel button */
+/* Spacing out an instrument channel button from its notes */
 .instrument-channel {
-    margin-left: auto;
-    padding-right: 40px;
-}
-
-/* Spacing out instrument notes in a row */
-.instrument-notes {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin-right: 20px;
 }
 
 /* Default button styling (for buttons in general) */

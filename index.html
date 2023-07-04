@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Some boilerplate code to scale viewport size to device width -->
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BeatBox</title>
+
+        <!-- Our CSS styles page and JavaScript pages will be linked here -->
+        <link rel="stylesheet" href="./style/style.css">
     </head>
+
     <body>
-        <h1>Welcome!</h1>
+        <!-- This div contains the entire menu bar at the top of the screen -->
+        <div class="header-container">
+
+            <!-- This div contains all the controls in the menu bar -->
+            <div class="header-controls">
+                <button class="header-tempo">Tempo: 120 bpm</button>
+                <button class="header-play">Play</button>
+                <button class="header-stop">Stop</button>
+                <button class="header-download">Download</button>
+            </div>
+
+            <!-- This div contains everything related to user accounts -->
+            <!-- and saving/loading snapshots of drum patterns/sound files -->
+            <div class="header-account">
+                <button class="header-login">Log In</button>
+            </div>
+        </div>
+
+        <!-- This div contains all instrument-related elements on the screen -->
+        <div class="instrument-container">
+
+            <!-- This div contains a single instrument across the screen -->
+            <div class="instrument-row">
+
+                <!-- This div contains a single instrument button on the left -->
+                <button class="instrument-channel">Kick</button>
+
+                <!-- This div contains an instrument's notes grid to the right -->
+                <div class="instrument-notes">
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                    <button class="instrument-note"></button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

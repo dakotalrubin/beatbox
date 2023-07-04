@@ -1,13 +1,21 @@
+/* Just a cool font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body {
-    display: flex;
+    display: flex; /* This command enables all Flexbox commands! */
+
+    /* These Flexbox commands are just to set standards for EVERYTHING */
+    /* We can change these values for each container on the page later */
+    /* when we need an HTML element to have specific behavior */
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    font-family: Roboto, sans-serif;
+
+    font-family: Roboto, sans-serif; /* Imported font from above */
     background-color: #242526;
     color: #F9FAF8;
-    margin: 0px;
-    min-height: 100vh;
+    margin: 0px; /* Don't need space around borders by default */
+    min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
 a {

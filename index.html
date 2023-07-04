@@ -16,6 +16,7 @@
         <div class="header-container">
 
             <!-- This div contains all the controls in the menu bar -->
+            <!-- These controls are located in the top-middle of the screen -->
             <div class="header-controls">
                 <button class="header-tempo">Tempo: 120 bpm</button>
                 <button class="header-play">Play</button>
@@ -25,6 +26,7 @@
 
             <!-- This div contains everything related to user accounts -->
             <!-- and saving/loading snapshots of drum patterns/sound files -->
+            <!-- at the top-right of the screen -->
             <div class="header-account">
                 <button class="header-login">Log In</button>
             </div>
@@ -37,9 +39,12 @@
             <div class="instrument-row">
 
                 <!-- This div contains a single instrument button on the left -->
-                <button class="instrument-channel">Kick</button>
+                <div class="instrument-channel">
+                    <button class="instrument-channel-kick">Kick</button>
+                </div>
 
                 <!-- This div contains an instrument's notes grid to the right -->
+                <!-- There are 8 notes in sequence across the screen -->
                 <div class="instrument-notes">
                     <button class="instrument-note"></button>
                     <button class="instrument-note"></button>

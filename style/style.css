@@ -36,7 +36,7 @@ button {
     font-size: 18px;
 }
 
-/* Styles the menu bart containers at the top of the screen */
+/* Styles the menu bar containers at the top of the screen */
 .header-container {
     display: flex;
     flex-direction: row;
@@ -51,7 +51,7 @@ button {
     flex-direction: column;
 }
 
-/* Styles instrument-channel and instrument-notes containers */
+/* Styles instrument-channel container and instrument-note-buttons */
 .instrument-row {
     display: flex;
     flex-direction: row;
@@ -66,7 +66,8 @@ button {
 
 /* Spacing out an instrument channel button from its notes */
 .instrument-channel {
-    margin-right: 30px;
+    padding-right: 20px;
+    margin-right: 10px;
 }
 
 /* Note button styling */

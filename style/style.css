@@ -1,12 +1,9 @@
 /* Just importing a cool font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* Applies to everything as a default! */
 body {
     display: flex; /* This command enables all Flexbox commands! */
-
-    /* These Flexbox commands are just to set standards for EVERYTHING */
-    /* We can change these values for each container on the page later */
-    /* when we need an HTML element to have specific behavior */
     flex-direction: column; /* Arranges header and instrument containers in a column */
 
     font-family: Roboto, sans-serif; /* Imported font from above, else use safe font */
@@ -16,12 +13,12 @@ body {
     min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
-/* Easy border visuals for all divs (AKA containers), WILL DELETE LATER */
+/* Easy border visuals for all divs (AKA containers), WILL DELETE LATER! */
 div {
     border: 1px solid red;
 }
 
-/* Styles header-logo, header-controls, and header-account */
+/* Styles the menu bar at the top of the screen */
 .header-container {
     display: flex;
     flex-direction: row;
@@ -39,14 +36,29 @@ div {
 .instrument-row {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    padding-left: 40px;
+
+    /* The last instrument note button in a row will add 10px to this */
+    /* Ultimately making padding on left and right side of screen 40px each */
+    padding-right: 30px;
 }
 
 /* Spacing out an instrument channel button */
 .instrument-channel {
-    padding-left: 40px;
+    margin-left: auto;
     padding-right: 40px;
+}
+
+/* Spacing out instrument notes in a row */
+.instrument-notes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Default button styling (for buttons in general) */
@@ -66,6 +78,8 @@ button {
 }
 
 /* Note button styling */
-.instrument-note {
+.instrument-note-button {
     background-color: #FF8243;
+    margin-left: 10px;
+    margin-right: 10px;
 }

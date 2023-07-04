@@ -18,7 +18,24 @@ div {
     border: 1px solid red;
 }
 
-/* Styles the menu bar at the top of the screen */
+/* Default button styling (for buttons in general) */
+button {
+    width: 140px; /* Default button sizing */
+    height: 100px;
+    background-color: #551ABB;
+    color: #FFFFFF;
+
+    /* Removes ugly default button border */
+    /* Buttons are clickable, but no visual feedback! */
+    border: 0px;
+
+    border-radius: 24px; /* Default edge roundness */
+    font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
+    font-size: 18px;
+}
+
+/* Styles the header-logo, header-controls and header-account containers */
+/* at the top of the screen */
 .header-container {
     display: flex;
     flex-direction: row;
@@ -41,29 +58,13 @@ div {
     margin-left: 20px;
 
     /* The last instrument note button in a row will add 10px to this */
-    /* Ultimately making margin on left and right side of screen 20px each */
+    /* Ultimately making margin on left and right side of instrument row 20px each */
     margin-right: 10px;
 }
 
 /* Spacing out an instrument channel button from its notes */
 .instrument-channel {
-    margin-right: 20px;
-}
-
-/* Default button styling (for buttons in general) */
-button {
-    width: 140px; /* Default button sizing */
-    height: 100px;
-    background-color: #551ABB;
-    color: #FFFFFF;
-
-    /* Removes ugly default button border */
-    /* Buttons are clickable, but no visual feedback! */
-    border: 0px;
-
-    border-radius: 24px; /* Default edge roundness */
-    font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
-    font-size: 18px;
+    margin-right: 30px;
 }
 
 /* Note button styling */

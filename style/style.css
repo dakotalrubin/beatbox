@@ -3,17 +3,17 @@
 
 /* Applies to everything as a default! */
 body {
-    display: flex; /* This command enables all Flexbox commands! */
+    display: flex; /* This command enables all Flexbox commands when you need them! */
     flex-direction: column; /* Arranges header and instrument containers in a column */
 
     font-family: Roboto, sans-serif; /* Imported font from above, else use safe font */
     background-color: #242526;
     color: #F9FAF8;
     margin: 0px; /* Don't need space around borders by default */
-    min-height: 100vh; /* Sets the min height of the page to the screen size */
+    min-height: 100vh; /* Sets the min height of the page to equal the screen size */
 }
 
-/* Easy border visuals for divs (containers): Uncomment this to show borders! */
+/* Uncomment this to show borders! */
 /*
 div {
     border: 1px solid red;
@@ -36,22 +36,22 @@ button {
     font-size: 18px;
 }
 
-/* Styles the menu bar containers at the top of the screen */
+/* Styles the purple row of icons at the top of the screen */
 .header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px; /* Creates some space between the menu bar and instruments */
+    margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
 }
 
-/* Styles instrument-row containers */
+/* Styles the rows of instruments */
 .instrument-container {
     display: flex;
     flex-direction: column;
 }
 
-/* Styles instrument-channel container and instrument-note-buttons */
+/* Styles all content in a row of instruments */
 .instrument-row {
     display: flex;
     flex-direction: row;
@@ -64,13 +64,13 @@ button {
     margin-right: 10px;
 }
 
-/* Styling the instrument channel buttons */
+/* Styling the purple instrument channel buttons */
 .instrument-channel-button {
     width: 160px;
     margin-right: 20px;
 }
 
-/* Note button styling */
+/* Styling the orange note buttons */
 .instrument-note-button {
     background-color: #FF8243;
     margin-left: 10px;

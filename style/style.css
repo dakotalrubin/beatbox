@@ -22,7 +22,7 @@ div {
 
 /* Default button styling (for buttons in general) */
 button {
-    width: 120px; /* Default button sizing */
+    width: 110px; /* Default button sizing */
     height: 80px;
     background-color: #551ABB;
     color: #FFFFFF;
@@ -64,10 +64,10 @@ button {
     margin-right: 10px;
 }
 
-/* Spacing out an instrument channel button from its notes */
-.instrument-channel {
-    padding-right: 20px;
-    margin-right: 10px;
+/* Styling the instrument channel buttons */
+.instrument-channel-button {
+    width: 160px;
+    margin-right: 20px;
 }
 
 /* Note button styling */

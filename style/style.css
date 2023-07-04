@@ -1,4 +1,4 @@
-/* Just a cool font */
+/* Just importing a cool font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
@@ -9,14 +9,14 @@ body {
     /* when we need an HTML element to have specific behavior */
     flex-direction: column; /* Arranges header and instrument containers in a column */
 
-    font-family: Roboto, sans-serif; /* Imported font from above */
+    font-family: Roboto, sans-serif; /* Imported font from above, else use safe font */
     background-color: #242526;
     color: #F9FAF8;
     margin: 0px; /* Don't need space around borders by default */
     min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
-/* Easy border visuals for all divs (AKA containers), will delete later */
+/* Easy border visuals for all divs (AKA containers), WILL DELETE LATER */
 div {
     border: 1px solid red;
 }
@@ -41,4 +41,31 @@ div {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+
+/* Spacing out an instrument channel button */
+.instrument-channel {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* Default button styling (for buttons in general) */
+button {
+    width: 140px; /* Default button sizing */
+    height: 100px;
+    background-color: #551ABB;
+    color: #FFFFFF;
+
+    /* Removes ugly default button border */
+    /* Buttons are clickable, but no visual feedback! */
+    border: 0px;
+
+    border-radius: 24px; /* Default edge roundness */
+    font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
+    font-size: 18px;
+}
+
+/* Note button styling */
+.instrument-note {
+    background-color: #FF8243;
 }

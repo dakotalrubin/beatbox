@@ -13,15 +13,17 @@ body {
     min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
-/* Easy border visuals for all divs (AKA containers), WILL DELETE LATER! */
+/* Easy border visuals for divs (containers): Uncomment this to show borders! */
+/*
 div {
     border: 1px solid red;
 }
+*/
 
 /* Default button styling (for buttons in general) */
 button {
-    width: 140px; /* Default button sizing */
-    height: 100px;
+    width: 120px; /* Default button sizing */
+    height: 80px;
     background-color: #551ABB;
     color: #FFFFFF;
 
@@ -29,18 +31,18 @@ button {
     /* Buttons are clickable, but no visual feedback! */
     border: 0px;
 
-    border-radius: 24px; /* Default edge roundness */
+    border-radius: 16px; /* Default edge roundness */
     font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
     font-size: 18px;
 }
 
-/* Styles the header-logo, header-controls and header-account containers */
-/* at the top of the screen */
+/* Styles the menu bart containers at the top of the screen */
 .header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 40px; /* Creates some space between the menu bar and instruments */
 }
 
 /* Styles instrument-row containers */

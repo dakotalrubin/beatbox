@@ -16,11 +16,12 @@ body {
     min-height: 100vh; /* Sets the min height of the page to the screen size */
 }
 
-/* Easy border visual for all divs (AKA containers) */
+/* Easy border visuals for all divs (AKA containers), will delete later */
 div {
     border: 1px solid red;
 }
 
+/* Styles header-logo, header-controls, and header-account */
 .header-container {
     display: flex;
     flex-direction: row;
@@ -28,11 +29,13 @@ div {
     align-items: center;
 }
 
+/* Styles instrument-row containers */
 .instrument-container {
     display: flex;
     flex-direction: column;
 }
 
+/* Styles instrument-channel and instrument-notes containers */
 .instrument-row {
     display: flex;
     flex-direction: row;

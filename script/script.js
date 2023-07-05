@@ -11,6 +11,7 @@ function play_icb_sound(e) {
   }
   // Play audio
   audio.play();
+  return;
 }
 
 // This function plays the beat at the default 120bpm
@@ -25,11 +26,10 @@ function play_beat() {
   const tbb = 1/useless;
 
   // Code for metronome 
-  let beat = 0; // beat variable will always be 1-8 (except when being initialized) 
 
+  let beat = 0; // beat variable will always be 1-8 (except when being initialized) 
   // Uncomment to test, this sets a default sound to play every beat
   //let audio = document.querySelector("audio");
-
   interval = setInterval(() => {
     if (beat == 8) {
       beat = 1; // Beat will reset to 1
@@ -44,10 +44,7 @@ function play_beat() {
 
     // Uncomment to test, this will play one sound every beat
     //audio.play();
-    
-
   }, tbb); // Set the interval to time between beats (tbb)
-  
   return;
 }
 

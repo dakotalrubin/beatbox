@@ -28,7 +28,7 @@ function play_beat() {
   let beat = 0; // beat variable will always be 1-8 (except when being initialized) 
 
   // Uncomment to test, this sets a default sound to play every beat
-  let audio = document.querySelector("audio");
+  //let audio = document.querySelector("audio");
 
   interval = setInterval(() => {
     if (beat == 8) {
@@ -43,7 +43,7 @@ function play_beat() {
     // 
 
     // Uncomment to test, this will play one sound every beat
-    audio.play();
+    //audio.play();
     
 
   }, tbb); // Set the interval to time between beats (tbb)

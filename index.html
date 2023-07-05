@@ -10,6 +10,7 @@
 
         <!-- Our CSS styles page and JavaScript pages will be linked here -->
         <link rel="stylesheet" href="./style/style.css">
+        <script src="./script/script.js" defer></script>
     </head>
 
     <body>
@@ -47,7 +48,10 @@
 
                 <!-- This div contains a single instrument button on the left -->
                 <div class="instrument-channel">
-                    <button class="instrument-channel-button">Kick</button>
+                    <button class="instrument-channel-button">Kick
+                        <!-- This is the audio for the default kick sound -->
+                        <audio src="./sounds/kick.wav"></audio>
+                    </button>
                 </div>
 
                 <!-- These divs contain an instrument row's notes to the right -->

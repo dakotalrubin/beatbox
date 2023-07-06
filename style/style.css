@@ -65,9 +65,44 @@ button {
 }
 
 /* Styling the purple instrument channel buttons */
-.instrument-channel-button {
-    width: 160px;
-    margin-right: 20px;
+.instrument-channel {
+    display: flex;
+    background-color: #551A8B;
+    border-radius: 10px;
+    /* border: 3px solid blue; */
+    width: 286px;
+    height: 80px;
+}
+.instrument-name {
+
+    margin-top: 20px 0 20px 0;
+    padding: auto 5px auto 10px;
+    /* border: 3px solid orange; */
+    overflow-wrap: normal;
+    
+}
+
+.channel-left {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    /* border: 3px dotted green; */
+    width: 50%;
+    text-align: center;
+    margin-left: 8px;
+}
+
+.channel-right {
+    /* border: 3px dotted yellow; */
+    margin: 0 auto;   
+}
+
+#playBtn1 {
+    padding: 0 3px;
+    background-color: #545454;
+    width: 40px;
+    height: 40px;
+    /* border: 3px solid red; */
 }
 
 /* Styling the note buttons */
@@ -76,3 +111,4 @@ button {
     margin-left: 10px;
     margin-right: 10px;
 }
+

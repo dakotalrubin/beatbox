@@ -1,4 +1,4 @@
-// Global variables -----------------------------------------------------------
+// Global Variables -----------------------------------------------------------
 let interval; // interval for playing beat
 // ----------------------------------------------------------------------------
 
@@ -58,8 +58,8 @@ function stop_beat() {
   return;
 }
 
-// This function toggles a button on (orange) or off (gray)
-function button_toggle(id) {
+// This function toggles a note button on (orange) or off (gray)
+function note_toggle(id) {
 
   // Get background color of a note button
   // The 'background' variable has no value when you click a specific
@@ -70,11 +70,12 @@ function button_toggle(id) {
   // Changes background color of a note button
   // Also changes the Boolean value associated with that note button
   if(background == "rgb(255, 130, 67)") { // If the note button is orange...
+
     document.getElementById(id).style.backgroundColor="rgb(84, 84, 84)"; // Make gray
-    document.getElementById(id).value="0"; // The note is now INACTIVE for playback
+    document.getElementById(id).value = 0; // The note is now INACTIVE for playback
   } else {
     document.getElementById(id).style.backgroundColor="rgb(255, 130, 67)"; // Make orange
-    document.getElementById(id).value="1"; // The note is now ACTIVE for playback
+    document.getElementById(id).value = 1; // The note is now ACTIVE for playback
   }
 }
 

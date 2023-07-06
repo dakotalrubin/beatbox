@@ -53,32 +53,42 @@
 
                 <!-- These divs contain an instrument row's notes to the right -->
                 <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note1" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note2" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note3" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note4" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note5" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note6" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note7" value=0 
+                    class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button class="instrument-note-button"></button>
+                    <button onclick="button_toggle(this.id)" id="note8" value=0 
+                    class="instrument-note-button"></button>
                 </div>
             </div>
         </div>
+
         <!-- Default sounds -->
         <audio sound="1" src="./sounds/kick.wav"></audio>
         <audio sound="2" src="./sounds/hihat.wav"></audio>

@@ -70,9 +70,9 @@ button {
     margin-right: 20px;
 }
 
-/* Styling the orange note buttons */
+/* Styling the note buttons */
 .instrument-note-button {
-    background-color: #FF8243;
+    background-color: #545454;
     margin-left: 10px;
     margin-right: 10px;
 }

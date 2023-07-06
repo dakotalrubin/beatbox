@@ -90,7 +90,7 @@ const play_button = document.querySelector(".header-play");
 play_button.addEventListener("click", play_beat);
 
 // Creates node list (icbs) of intsrument-channel-buttons
-const icbs = document.querySelectorAll(".instrument-channel-button");
+const icbs = document.querySelectorAll(".playBtn");
 // For each intsrument-channel-button, adds event listener for "click" 
 icbs.forEach((button) => {
   button.addEventListener("click", play_icb_sound);

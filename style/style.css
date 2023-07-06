@@ -65,9 +65,52 @@ button {
 }
 
 /* Styling the purple instrument channel buttons */
-.instrument-channel-button {
-    width: 160px;
-    margin-right: 20px;
+.instrument-channel {
+    display: flex;
+    background-color: #551A8B;
+    border-radius: 10px;
+    width: 286px;
+    height: 80px;
+}
+/* Styles the box that holds the instrument name */
+.instrument-name {
+    margin: 20px 0 20px 0;
+    padding: auto 5px auto 10px;
+    overflow-wrap: normal;
+}
+/* Styles the box that holds contents on left side of channel */
+.channel-left {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    /* border: 3px dotted green; */
+    width: 50%;
+    text-align: center;
+    margin-left: 8px;
+}
+/* Styles the box that holds the playBtn */
+.channel-right-playBtn {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 0 0;   
+    padding-top: 3px;
+}
+/* styles the actual play button */
+.playBtn {
+    padding: 0;
+    background-color: #545454;
+    border-radius: 8px;
+    width: 35px;
+    height: 38px;
+    box-shadow: 0 0 0 1px rgb(43, 41, 41);
+}
+
+/* Adds animation to the playbutton  */
+.playBtn:hover {background-color: #7c7b7b;}
+.playBtn:active {
+    background-color: #7c7b7b;
+    transform: translateY(1px);
 }
 
 /* Styling the note buttons */
@@ -76,3 +119,4 @@ button {
     margin-left: 10px;
     margin-right: 10px;
 }
+

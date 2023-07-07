@@ -1,7 +1,5 @@
-// ----------------------------------------------------------------------------
-// Global variables:
+// Global Variables -----------------------------------------------------------
 let interval; // Interval for playing beat
-let bpm = 120; // Default 120 bpm
 // ----------------------------------------------------------------------------
 
 // Creates play_button
@@ -37,46 +35,43 @@ function play_icb_sound(e) {
     return;
   }
 
-  // Plays audio without waiting for previous sound to finish
-  audio.currentTime = 0;
+  // Play audio
+  audio.currentTime = 0; // Plays sound without waiting for previous sound to finish
   audio.play();
   return;
 }
 
-// This function plays the beat using the given time between beats (tbb)
+// This function plays the beat at the default 120bpm
 function play_beat() {
 
-  // Prevents errors from spamming play button (multiple intervals at a time)
+  // Prevents error caused by spamming the play button (multiple intervals going at one time)
   clearInterval(interval);
 
-  let audio = document.querySelector("audio");
+  // Default 120 bpm
+  let bpm = 120;
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
-  let tbb = (60 / bpm) * 1000;
+  const milli_in_1min = 60000;
+  let useless = bpm / milli_in_1min;
+  const tbb = 1 / useless;
 
-  // Beat variable will always be 1-8 (except when being initialized)
-  let beat = 0;
+  let beat = 0; // beat variable will always be 1-8 (except when being initialized) 
 
+  let audio = document.querySelector("audio");
   interval = setInterval(() => {
-
     if (beat == 8) {
       beat = 1; // Beat will reset to 1
     } else {
       beat++; // Increment beat
     }
-
     const id = 'note' + beat;
     const noteBtn = document.getElementById(id);
     const value = noteBtn.value;
-
-    // Play selected notes
     if (value == 1) {
-
-      // Plays audio without waiting for previous sound to finish
       audio.currentTime = 0;
       audio.play();
     }
-  }, tbb); // Sets the interval to time between beats (tbb)
+  }, tbb); // Set the interval to time between beats (tbb)
   return;
 }
 

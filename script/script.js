@@ -4,6 +4,11 @@ let interval; // Interval for playing beat
 let bpm = 120; // Default 120 bpm
 // ----------------------------------------------------------------------------
 
+// Creates tempo_button
+const tempo_button = document.querySelector(".header-tempo");
+// for tempo_button, adds event listener for "click"
+tempo_button.addEventListener("click", update_tempo_button);
+
 // Creates play_button
 const play_button = document.querySelector(".header-play");
 // for play_button, adds event listener for "click"
@@ -21,6 +26,12 @@ const icbs = document.querySelectorAll(".playBtn");
 icbs.forEach((button) => {
   button.addEventListener("click", play_icb_sound);
 });
+
+// This function updates the tempo button value (the bpm)
+function update_tempo_button() {
+  document.querySelector(".header-tempo").textContent = "Updated";
+  return;
+}
 
 // This function plays the audio of the clicked instrument-channel-button(ICB)
 function play_icb_sound(e) {
@@ -43,7 +54,7 @@ function play_icb_sound(e) {
   return;
 }
 
-// This function plays the beat using the given time between beats (tbb)
+// This function plays the beat at the project's bpm
 function play_beat() {
 
   // Prevents errors from spamming play button (multiple intervals at a time)
@@ -57,6 +68,7 @@ function play_beat() {
   // Beat variable will always be 1-8 (except when being initialized)
   let beat = 0;
 
+  // Sets the interval to time between beats (tbb)
   interval = setInterval(() => {
 
     if (beat == 8) {
@@ -69,14 +81,14 @@ function play_beat() {
     const noteBtn = document.getElementById(id);
     const value = noteBtn.value;
 
-    // Play selected notes
+    // Play a selected note
     if (value == 1) {
 
       // Plays audio without waiting for previous sound to finish
       audio.currentTime = 0;
       audio.play();
     }
-  }, tbb); // Sets the interval to time between beats (tbb)
+  }, tbb);
   return;
 }
 

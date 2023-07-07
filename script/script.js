@@ -64,20 +64,14 @@ function play_beat() {
     } else {
       beat++; // Increment beat
     }
-  }, tbb); // Set the interval to time between beats (tbb)
-
-  // Play selected notes
-  for (let i = 1; i <= 8; i += 1) {
-    const id = 'note' + i;
+    const id = 'note' + beat;
     const noteBtn = document.getElementById(id);
     const value = noteBtn.value;
     if (value == 1) {
-      setTimeout(() => {
-        audio.currentTime = 0;
-        audio.play();
-      }, i * 125); 
-    } 
-  }
+      audio.currentTime = 0;
+      audio.play();
+    }
+  }, tbb); // Set the interval to time between beats (tbb)
   return;
 }
 

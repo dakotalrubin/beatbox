@@ -86,7 +86,10 @@ function play_beat() {
 
       // Plays audio without waiting for previous sound to finish
       audio.currentTime = 0;
+      highlightElemBackground(noteBtn, '#9e5803')
       audio.play();
+    }else{
+      highlightElemBackground(noteBtn, '#303030') 
     }
   }, tbb);
   return;
@@ -117,4 +120,20 @@ function note_toggle(id) {
     document.getElementById(id).value = 1; // The note is now ACTIVE for playback
   }
   return;
+}
+
+//This function will highlight the background of any element 
+//obj - the affected object
+//color - the color pallete to be applied wrapped in quotations e.i. '#fffff' for the color white
+function highlightElemBackground(obj, color) {
+  // Calculation to turn bpm into time between beats (tbb) in milliseconds
+  let tbb = (60 / bpm) * 1000;
+
+  //Create timeout so the btn flashes with the beat
+  const btnFlash = obj.style.backgroundColor
+  obj.style.backgroundColor = color
+  setTimeout(() => {
+    obj.style.backgroundColor = btnFlash
+  }, tbb);
+
 }

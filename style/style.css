@@ -29,6 +29,10 @@ button {
     font-size: 18px;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 /* Styles the purple row of icons at the top of the screen */
 .header-container {
     display: flex;
@@ -95,7 +99,7 @@ button {
     text-align: center;
     margin-left: 8px;
 }
-/* Styles the box that holds the playBtn */
+/* Styles the box that holds the channel playBtn */
 .channel-right-playBtn {
     display: flex;
     flex-direction: column;
@@ -104,7 +108,7 @@ button {
     margin: 0 0;   
     padding-top: 8px;
 }
-/* styles the actual play button */
+/* styles the play button that's inside the channel */
 .playBtn {
     padding: 0;
     background-color: #545454;

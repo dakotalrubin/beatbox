@@ -1,6 +1,8 @@
 // Global Variables -----------------------------------------------------------
 let interval; // interval for playing beat
+let selectedNotes = []; // array for storing toggle note value
 // ----------------------------------------------------------------------------
+
 
 // This function plays the audio of the clicked instrument-channel-button(ICB)
 function play_icb_sound(e) {
@@ -33,7 +35,7 @@ function play_beat() {
 
   let beat = 0; // beat variable will always be 1-8 (except when being initialized) 
   // Uncomment to test, this sets a default sound to play every beat
-  //let audio = document.querySelector("audio");
+  let audio = document.querySelector("audio");
   interval = setInterval(() => {
     if (beat == 8) {
       beat = 1; // Beat will reset to 1
@@ -47,8 +49,20 @@ function play_beat() {
     // 
 
     // Uncomment to test, this will play one sound every beat
-    //audio.play();
   }, tbb); // Set the interval to time between beats (tbb)
+
+  // Play selected notes
+  for (let i = 1; i <= 8; i += 1) {
+    const id = 'note' + i;
+    const noteBtn = document.getElementById(id);
+    const value = noteBtn.value;
+    if (value == 1) {
+      setTimeout(() => {
+        audio.play();
+      }, i * 500); 
+    } 
+  }
+
   return;
 }
 
@@ -70,7 +84,6 @@ function note_toggle(id) {
   // Changes background color of a note button
   // Also changes the Boolean value associated with that note button
   if(background == "rgb(255, 130, 67)") { // If the note button is orange...
-
     document.getElementById(id).style.backgroundColor="rgb(84, 84, 84)"; // Make gray
     document.getElementById(id).value = 0; // The note is now INACTIVE for playback
   } else {
@@ -88,6 +101,7 @@ stop_button.addEventListener("click", stop_beat);
 const play_button = document.querySelector(".header-play");
 // for play_button, adds event listener for "click"
 play_button.addEventListener("click", play_beat);
+
 
 // Creates node list (icbs) of intsrument-channel-buttons
 const icbs = document.querySelectorAll(".playBtn");

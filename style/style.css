@@ -45,18 +45,45 @@ button:hover {
 }
 
 /* Styles the play and stop buttons */
-.header-play, .header-stop {
-    vertical-align: top;
+.header-play, .header-stop, .header-tempo {
+    vertical-align: top; */
     /* font-size: 46px; */
 }
-/* Play and Stop button font sizes are set seperately because the Unicode 
-triangle and square icons are different sizes*/
+
+
 .header-play {
     font-size: 42px;
 }
-.header-stop {
-    font-size: 48px;
+
+/* Adds animation to the Play button */
+.header-play:hover {background-color: #7c7b7b;}
+.header-play:active {
+    background-color: #7c7b7b;
+    transform: translateY(1px);
 }
+
+.header-stop {
+    font-size: 42px;
+}
+
+/* Adds animation to the Stop button */
+.header-stop:hover {background-color: #7c7b7b;}
+.header-stop:active {
+    background-color: #7c7b7b;
+    transform: translateY(1px);
+}
+
+.header-download {
+    font-size: 42px;
+}
+
+/* Adds animation to the Download button */
+.header-download:hover {background-color: #7c7b7b;}
+.header-download:active {
+    background-color: #7c7b7b;
+    transform: translateY(1px);
+}
+
 
 /* Styles the header tempo button text box */
 .header-tempo {

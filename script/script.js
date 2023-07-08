@@ -36,15 +36,17 @@ function update_header_tempo() {
   // Keep track of original tempo value
   let tempo_value_original = document.querySelector("input").value;
 
-  // Make the cursor appear for visual feedback
+  // Make the cursor appear for visual feedback, highlight button
   tempo_text.style.caretColor = "white";
+  tempo_text.style.backgroundColor = "#7621C5";
 
   // Pressing enter after typing a new value will update the project's tempo
   tempo_text.addEventListener("keypress", ({key}) => {
     if (key == "Enter") {
 
-      // Make the cursor disappear after pressing "Enter"
+      // Make the cursor disappear after pressing "Enter", undo highlight button
       tempo_text.style.caretColor = "transparent";
+      tempo_text.style.backgroundColor = "#551ABB";
 
       // Extract text field value
       let tempo_value = document.querySelector("input").value;

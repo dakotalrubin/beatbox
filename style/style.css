@@ -16,7 +16,7 @@ body {
 /* Default button styling (for buttons in general) */
 button, input {
     width: 110px; /* Default button sizing */
-    height: 80px;
+    height: 82px;
     background-color: #551ABB;
     color: #FFFFFF;
 
@@ -44,46 +44,37 @@ button:hover {
     margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
 }
 
-/* Styles the play and stop buttons */
-.header-play, .header-stop, .header-tempo {
-    vertical-align: top; */
-    /* font-size: 46px; */
-}
-
-
-.header-play {
+/* Styles all header control buttons */
+.header-tempo, .header-play, .header-stop, .header-download {
     font-size: 42px;
+    vertical-align: top;
 }
 
-/* Adds animation to the Play button */
-.header-play:hover {background-color: #7c7b7b;}
+/* Styles header-tempo button sizing so it's consistent with other header buttons */
+.header-tempo {
+    height: 80px;
+}
+
+/* Adds animation to the header-play button */
+.header-play:hover {background-color: #7621C5;}
 .header-play:active {
-    background-color: #7c7b7b;
+    background-color: #7621C5;
     transform: translateY(1px);
 }
 
-.header-stop {
-    font-size: 42px;
-}
-
-/* Adds animation to the Stop button */
-.header-stop:hover {background-color: #7c7b7b;}
+/* Adds animation to the header-stop button */
+.header-stop:hover {background-color: #7621C5;}
 .header-stop:active {
-    background-color: #7c7b7b;
+    background-color: #7621C5;
     transform: translateY(1px);
 }
 
-.header-download {
-    font-size: 42px;
-}
-
-/* Adds animation to the Download button */
-.header-download:hover {background-color: #7c7b7b;}
+/* Adds animation to the header-download button */
+.header-download:hover {background-color: #7621C5;}
 .header-download:active {
-    background-color: #7c7b7b;
+    background-color: #7621C5;
     transform: translateY(1px);
 }
-
 
 /* Styles the header tempo button text box */
 .header-tempo {

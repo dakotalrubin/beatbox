@@ -40,7 +40,14 @@ button:hover {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-top: 5px;
     margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
+}
+
+/* Styles the play and stop buttons */
+/* Currently not included because of issues with box placement */
+.header-play, .header-stop {
+    font-size: 32px;
 }
 
 /* Styles the header tempo button text box */

@@ -31,23 +31,56 @@ icpbs.forEach((button) => {
 function update_header_tempo() {
 
   const tempo_text = document.querySelector(".header-tempo");
+
+  // Make the cursor appear for visual feedback
+  tempo_text.style.caretColor = "white";
+
+  // Pressing enter after typing a new value will update the project's tempo
   tempo_text.addEventListener("keypress", ({key}) => {
     if (key == "Enter") {
 
       // Make the cursor disappear after pressing "Enter"
       tempo_text.style.caretColor = "transparent";
 
-      // Extract text field value and convert to int
+      // Extract text field value
       let tempo_value = document.querySelector("input").value;
-      tempo_value = parseInt(tempo_value);
 
-      // Do error-checking on sanitized user input (IN PROGRESS)
-      // 
+      // Create new regex to determine if user entered valid tempo
+      var regex = /^\d*\.?\d*$/;
+      var is_valid_tempo_value = regex.test(tempo_value);
 
-      // Set new project bpm from tempo_value
-      // bpm = tempo_value;
+      // Exit function if user entered invalid tempo
+      if (is_valid_tempo_value == false) {
+        return;
+      }
+
+      // Convert valid tempo string into a number
+      tempo_value = Number(tempo_value);
+
+      // Set tempo value lower bound, update tempo button display
+      if (tempo_value < 10) {
+        bpm = 10;
+        document.querySelector("input").value = 10;
+        return;
+      }
+
+      // Set tempo value upper bound, update tempo button display
+      if (tempo_value > 200) {
+        bpm = 200;
+        document.querySelector("input").value = 200;
+        return;
+      }
+
+      // Set new project bpm from tempo_value rounded to the nearest int
+      tempo_value = Math.round(tempo_value);
+      bpm = tempo_value;
+
+      // Update tempo button display and stop playback
+      document.querySelector("input").value = tempo_value;
+      stop_beat();
     }
   });
+
   return;
 }
 
@@ -69,6 +102,7 @@ function play_icpb_sound(e) {
   // Plays audio without waiting for previous sound to finish
   audio.currentTime = 0;
   audio.play();
+
   return;
 }
 
@@ -110,6 +144,7 @@ function play_beat() {
       highlightElemBackground(instrument_note_button, '#303030');
     }
   }, tbb);
+
   return;
 }
 
@@ -137,6 +172,7 @@ function note_toggle(id) {
     document.getElementById(id).style.backgroundColor="rgb(255, 130, 67)"; // Make it orange
     document.getElementById(id).value = 1; // The note is now ACTIVE for playback
   }
+
   return;
 }
 

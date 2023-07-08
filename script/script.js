@@ -1,49 +1,67 @@
 // ----------------------------------------------------------------------------
 // Global variables
-let interval; // Interval for playing beat
+let interval; // Interval for playing the beat
 let bpm = 120; // Default 120 bpm
 // ----------------------------------------------------------------------------
 
-// Creates tempo_button
-const tempo_button = document.querySelector(".header-tempo");
-// for tempo_button, adds event listener for "click"
-tempo_button.addEventListener("click", update_tempo_button);
+// Creates header_tempo
+const header_tempo = document.querySelector(".header-tempo");
+// for header_tempo, adds event listener for "click"
+header_tempo.addEventListener("click", update_header_tempo);
 
-// Creates play_button
-const play_button = document.querySelector(".header-play");
-// for play_button, adds event listener for "click"
-play_button.addEventListener("click", play_beat);
+// Creates header_play
+const header_play = document.querySelector(".header-play");
+// for header_play, adds event listener for "click"
+header_play.addEventListener("click", play_beat);
 
-// Creates stop_button
-const stop_button = document.querySelector(".header-stop");
-// for stop_button, adds event listener for "click"
-stop_button.addEventListener("click", stop_beat);
+// Creates header_stop
+const header_stop = document.querySelector(".header-stop");
+// for header_stop, adds event listener for "click"
+header_stop.addEventListener("click", stop_beat);
 
-// Creates node list (icbs) of intsrument-channel-buttons
-const icbs = document.querySelectorAll(".playBtn");
+// Creates node list (icpbs) of instrument-channel-play-buttons
+const icpbs = document.querySelectorAll(".instrument-channel-play-button");
 
-// For each intsrument-channel-button, adds event listener for "click" 
-icbs.forEach((button) => {
-  button.addEventListener("click", play_icb_sound);
+// For each instrument-channel-play-button, adds event listener for "click"
+icpbs.forEach((button) => {
+  button.addEventListener("click", play_icpb_sound);
 });
 
 // This function updates the tempo button value (the bpm)
-function update_tempo_button() {
-  document.querySelector(".header-tempo").textContent = "Updated";
+function update_header_tempo() {
+
+  const tempo_text = document.querySelector(".header-tempo");
+  tempo_text.addEventListener("keypress", ({key}) => {
+    if (key == "Enter") {
+
+      // Make the cursor disappear after pressing "Enter"
+      tempo_text.style.caretColor = "transparent";
+
+      // Extract text field value and convert to int
+      let tempo_value = document.querySelector("input").value;
+      tempo_value = parseInt(tempo_value);
+
+      // Do error-checking on sanitized user input (IN PROGRESS)
+      // 
+
+      // Set new project bpm from tempo_value
+      // bpm = tempo_value;
+    }
+  });
   return;
 }
 
-// This function plays the audio of the clicked instrument-channel-button(ICB)
-function play_icb_sound(e) {
+// This function plays the audio of the clicked instrument-channel-play-button (ICPB)
+function play_icpb_sound(e) {
 
-  // Initializes icb variable with the clicked ICB
-  const icb = e.target;
+  // Initializes icpb variable with the clicked ICPB
+  const icpb = e.target;
 
-  // Initializes audio variable with the clicked ICB's associated sound
-  const sound = icb.getAttribute('sound');
+  // Initializes audio variable with the clicked ICPB's associated sound
+  const sound = icpb.getAttribute('sound');
   const audio = document.querySelector(`audio[sound="${sound}"]`);
 
-  // Exits function if the clicked ICB has no audio (unnecessary as of right now)
+  // Exits function if the clicked ICPB has no audio (unnecessary as of right now)
   if (!audio) {
     return;
   }
@@ -57,7 +75,7 @@ function play_icb_sound(e) {
 // This function plays the beat at the project's bpm
 function play_beat() {
 
-  // Prevents errors from spamming play button (multiple intervals at a time)
+  // Prevents errors from spamming header-play button (multiple intervals at a time)
   clearInterval(interval);
 
   let audio = document.querySelector("audio");
@@ -78,18 +96,18 @@ function play_beat() {
     }
 
     const id = 'note' + beat;
-    const noteBtn = document.getElementById(id);
-    const value = noteBtn.value;
+    const instrument_note_button = document.getElementById(id);
+    const value = instrument_note_button.value;
 
-    // Play a selected note
+    // Play a selected instrument note button
     if (value == 1) {
 
       // Plays audio without waiting for previous sound to finish
       audio.currentTime = 0;
-      highlightElemBackground(noteBtn, '#9e5803')
+      highlightElemBackground(instrument_note_button, '#9e5803');
       audio.play();
-    }else{
-      highlightElemBackground(noteBtn, '#303030') 
+    } else {
+      highlightElemBackground(instrument_note_button, '#303030');
     }
   }, tbb);
   return;
@@ -101,18 +119,18 @@ function stop_beat() {
   return;
 }
 
-// This function toggles a note button on (orange) or off (gray)
+// This function toggles an instrument note button on (orange) or off (gray)
 function note_toggle(id) {
 
-  // Get background color of a note button
+  // Get background color of an instrument note button
   // The 'background' variable has no value when you click a specific
   // note button for the first time, because that 'id' has no styling.
   // The following if-else block was written to handle every case!
   let background = document.getElementById(id).style.backgroundColor;
 
-  // Changes background color of a note button
-  // Also changes the Boolean value associated with that note button
-  if(background == "rgb(255, 130, 67)") { // If the note button is orange...
+  // Changes background color of an instrument note button
+  // Also changes the Boolean value associated with that instrument note button
+  if(background == "rgb(255, 130, 67)") { // If the instrument note button is orange...
     document.getElementById(id).style.backgroundColor="rgb(84, 84, 84)"; // Make it gray
     document.getElementById(id).value = 0; // The note is now INACTIVE for playback
   } else {
@@ -122,18 +140,22 @@ function note_toggle(id) {
   return;
 }
 
-//This function will highlight the background of any element 
-//obj - the affected object
-//color - the color pallete to be applied wrapped in quotations e.i. '#fffff' for the color white
+// This function will highlight the background of any element
+// obj - the affected object
+// color - the color palette to be applied wrapped in quotes
+// e.g. '#fffff' for the color white
 function highlightElemBackground(obj, color) {
+
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
 
-  //Create timeout so the btn flashes with the beat
-  const btnFlash = obj.style.backgroundColor
-  obj.style.backgroundColor = color
+  // Create timeout so the element flashes with the beat
+  const flash = obj.style.backgroundColor;
+  obj.style.backgroundColor = color;
+
   setTimeout(() => {
-    obj.style.backgroundColor = btnFlash
+    obj.style.backgroundColor = flash;
   }, tbb);
 
+  return;
 }

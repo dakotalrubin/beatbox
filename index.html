@@ -25,7 +25,7 @@
             <!-- This div contains all the controls in the menu bar -->
             <!-- These controls are located in the top-middle of the screen -->
             <div class="header-controls">
-                <button class="header-tempo">120 bpm</button>
+                <input class="header-tempo" type="text" value=120 onclick="update_tempo_button()">
                 <button class="header-play">Play</button>
                 <button class="header-stop">Stop</button>
                 <button class="header-download">Download</button>
@@ -50,14 +50,14 @@
                 <div class="instrument-channel">
 
                     <!-- This div contains the name of an instrument channel -->
-                    <div class="channel-left">
-                        <h3 class="instrument-name">Kick</h3>
+                    <div class="instrument-channel-left">
+                        <h3 class="instrument-channel-name">Kick</h3>
                     </div>
 
                     <!-- This div contains the play button on the right side of a channel -->
-                   <div class="channel-right-playBtn">
-                        <div class="playBtn">
-                            <button sound=1 class="playBtn">&#9658</button>
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=1 class="instrument-channel-play-button">&#9658</button>
                         </div>
                    </div>
                 </div>

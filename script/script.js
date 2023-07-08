@@ -30,7 +30,11 @@ icpbs.forEach((button) => {
 // This function updates the tempo button value (the bpm)
 function update_header_tempo() {
 
+  // Keep track of tempo text box cursor style
   const tempo_text = document.querySelector(".header-tempo");
+
+  // Keep track of original tempo value
+  let tempo_value_original = document.querySelector("input").value;
 
   // Make the cursor appear for visual feedback
   tempo_text.style.caretColor = "white";
@@ -51,6 +55,7 @@ function update_header_tempo() {
 
       // Exit function if user entered invalid tempo
       if (is_valid_tempo_value == false) {
+        document.querySelector("input").value = tempo_value_original;
         return;
       }
 

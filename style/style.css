@@ -88,11 +88,7 @@ triangle and square icons are different sizes*/
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-left: 20px;
-
-    /* The last instrument note button in a row will add 10px to this */
-    /* Ultimately making margin on left and right side of instrument row 20px each */
-    margin-right: 10px;
+    margin: 0 auto;
 }
 
 /* Styles the purple instrument channel buttons */

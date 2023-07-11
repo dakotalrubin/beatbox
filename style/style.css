@@ -168,9 +168,12 @@ button:hover {
     box-shadow: 0 0 0 1px rgb(43, 41, 41);
 }
 
-/* Adds animation to an instrument channel play button */
-.instrument-channel-play-button:hover {background-color: #7c7b7b;}
-.instrument-channel-play-button:active {
+/* Adds animation to an instrument channel buttons */
+.instrument-channel-play-button:hover,
+.instrument-channel-upload-button:hover {background-color: #7c7b7b;}
+
+.instrument-channel-play-button:active,
+.instrument-channel-upload-button:active {
     background-color: #7c7b7b;
     transform: translateY(1px);
 }

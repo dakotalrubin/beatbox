@@ -163,6 +163,43 @@ button:hover {
     transform: translateY(1px);
 }
 
+/* Styles the right side of an instrument channel button */
+.instrument-channel-right {
+    display: flex;
+}
+
+/* Styles the instrument channel volume and panning button container */
+.instrument-channel-volume-panning-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 0 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Styles an instrument channel volume button */
+.instrument-channel-volume-button {
+    padding: 0;
+    background-color: #545454;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    background-color: #3882F6;
+    box-shadow: 0 0 0 1px rgb(43, 41, 41);
+    font-size: 16px;
+}
+
+/* Adds animation to an instrument channel volume button */
+.instrument-channel-volume-button:hover {background-color: #3882F6;}
+.instrument-channel-volume-button:active {
+    background-color: #3882F6;
+    transform: translateY(1px);
+}
+
 /* Styles the note buttons that can be toggled */
 .instrument-note-button {
     background-color: #545454;

@@ -11,6 +11,9 @@
         <!-- Our CSS styles page and JavaScript pages will be linked here -->
         <link rel="stylesheet" href="./style/style.css">
         <script src="./script/script.js" defer></script>
+        
+        <!--Link for header button icons-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <body>
@@ -26,9 +29,12 @@
             <!-- These controls are located in the top-middle of the screen -->
             <div class="header-controls">
                 <input class="header-tempo" type="text" value=120 onclick="update_header_tempo()">
-                <button class="header-play">&#9658</button>
+                <!-- <button class="header-play">&#9658</button>
                 <button class="header-stop">&#x25A0</button>
-                <button class="header-download">Download</button>
+                <button class="header-download">Download</button> -->
+                <button class="header-play"><i class="fa fa-play"></i></button>
+                <button class="header-stop"><i class="fa fa-pause"></i></button>
+                <button class="header-download"><i class="fa fa-download"></i></button>
             </div>
 
             <!-- This div contains everything related to user accounts -->
@@ -54,10 +60,31 @@
                         <h3 class="instrument-channel-name">Kick</h3>
                     </div>
 
-                    <!-- This div contains the play button on the left side of a channel -->
+                    <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
                             <button sound=1 class="instrument-channel-play-button">&#9658</button>
+                            <button class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" 
+                                    onclick="open_popup()">Vol</button>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text" type="text" value=100 onclick="update_volume()">
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" onclick="close_popup()">OK</button>
+                                        <button class="cancel" onclick="close_popup()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                    </div>
                 </div>

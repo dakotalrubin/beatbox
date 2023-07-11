@@ -16,7 +16,7 @@ body {
 /* Default button styling (for buttons in general) */
 button, input {
     width: 110px; /* Default button sizing */
-    height: 80px;
+    height: 82px;
     background-color: #551ABB;
     color: #FFFFFF;
 
@@ -44,18 +44,36 @@ button:hover {
     margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
 }
 
-/* Styles the play and stop buttons */
-.header-play, .header-stop {
-    vertical-align: top;
-    /* font-size: 46px; */
-}
-/* Play and Stop button font sizes are set seperately because the Unicode 
-triangle and square icons are different sizes*/
-.header-play {
+/* Styles all header control buttons */
+.header-tempo, .header-play, .header-stop, .header-download {
     font-size: 42px;
+    vertical-align: top;
 }
-.header-stop {
-    font-size: 48px;
+
+/* Styles header-tempo button sizing so it's consistent with other header buttons */
+.header-tempo {
+    height: 80px;
+}
+
+/* Adds animation to the header-play button */
+.header-play:hover {background-color: #7621C5;}
+.header-play:active {
+    background-color: #7621C5;
+    transform: translateY(1px);
+}
+
+/* Adds animation to the header-stop button */
+.header-stop:hover {background-color: #7621C5;}
+.header-stop:active {
+    background-color: #7621C5;
+    transform: translateY(1px);
+}
+
+/* Adds animation to the header-download button */
+.header-download:hover {background-color: #7621C5;}
+.header-download:active {
+    background-color: #7621C5;
+    transform: translateY(1px);
 }
 
 /* Styles the header tempo button text box */
@@ -88,11 +106,7 @@ triangle and square icons are different sizes*/
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-left: 20px;
-
-    /* The last instrument note button in a row will add 10px to this */
-    /* Ultimately making margin on left and right side of instrument row 20px each */
-    margin-right: 10px;
+    margin: 0 auto;
 }
 
 /* Styles the purple instrument channel buttons */
@@ -142,11 +156,137 @@ triangle and square icons are different sizes*/
     box-shadow: 0 0 0 1px rgb(43, 41, 41);
 }
 
-/* Adds animation to an instrument channel play button */
-.instrument-channel-play-button:hover {background-color: #7c7b7b;}
-.instrument-channel-play-button:active {
+/* Styles an instrument channel upload button */
+.instrument-channel-upload-button {
+    padding: 0;
+    margin-top: 5px;
+    font-size: 1.6rem;
+    background-color: #545454;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 0 1px rgb(43, 41, 41);
+}
+
+/* Adds animation to an instrument channel buttons */
+.instrument-channel-play-button:hover,
+.instrument-channel-upload-button:hover {background-color: #7c7b7b;}
+
+.instrument-channel-play-button:active,
+.instrument-channel-upload-button:active {
     background-color: #7c7b7b;
     transform: translateY(1px);
+}
+
+/* Styles the right side of an instrument channel button */
+.instrument-channel-right {
+    display: flex;
+}
+
+/* Styles the instrument channel volume and panning button container */
+.instrument-channel-volume-panning-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 0 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Styles an instrument channel volume button */
+.instrument-channel-volume-button {
+    padding: 0;
+    background-color: #545454;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    background-color: #3882F6;
+    box-shadow: 0 0 0 1px rgb(43, 41, 41);
+    font-size: 16px;
+}
+
+/* Adds animation to an instrument channel volume button */
+.instrument-channel-volume-button:hover {background-color: #3882F6;}
+.instrument-channel-volume-button:active {
+    background-color: #3882F6;
+    transform: translateY(1px);
+}
+
+/* Styles the instrument channel popup windows */
+.popup {
+    width: 400px;
+    background-color: #C9B7FF;
+    border-radius: 8px;
+    position: absolute;
+    center: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: #333333;
+    visibility: hidden;
+    transition: transform 0.15s, center 0.15s;
+}
+
+/* Styles the instrument channel popup window's label text */
+.popup h2 {
+    font-size: 42px;
+    font-weight: 700;
+    margin: 30px 0 10px;
+}
+
+/* Styles the instrument channel popup window's text box */
+.popup-text {
+    font-size: 42px;
+    text-align: center;
+    width: 50%;
+    height: 80px;
+    margin-top: 16px;
+}
+
+/* Styles the instrument channel popup window's OK and Cancel buttons */
+.ok-cancel-buttons {
+    display: flex;
+}
+
+/* Styles the instrument channel popup window's buttons */
+.popup button {
+    width: 50%;
+    margin-top: 40px;
+    margin-right: 8px;
+    margin-left: 8px;
+    padding: 10px 0;
+    color: #FFFFFF;
+    border: 0px;
+    font-size: 32px;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles the instrument channel popup window's text field */
+.popup input {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles the instrument channel popup window's OK button */
+.ok {
+    background-color: #21D375;
+}
+
+/* Styles the instrument channel popup window's Cancel button */
+.cancel {
+    background-color: #EA3B52;
+}
+
+/* Plays an instrument channel popup window animation */
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* Styles the note buttons that can be toggled */

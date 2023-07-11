@@ -13,6 +13,8 @@ let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when volume button is added 
 // ---------------------------------------------------------------------------- 
+let popup = document.getElementById("popup");
+// ----------------------------------------------------------------------------
 
 // Creates header_tempo
 const header_tempo = document.querySelector(".header-tempo");
@@ -48,15 +50,17 @@ function update_header_tempo() {
   // Keep track of original tempo value
   let tempo_value_original = document.querySelector("input").value;
 
-  // Make the cursor appear for visual feedback
+  // Make the cursor appear for visual feedback, highlight button
   tempo_text.style.caretColor = "white";
+  tempo_text.style.backgroundColor = "#7621C5";
 
   // Pressing enter after typing a new value will update the project's tempo
   tempo_text.addEventListener("keypress", ({key}) => {
     if (key == "Enter") {
 
-      // Make the cursor disappear after pressing "Enter"
+      // Make the cursor disappear after pressing "Enter", undo highlight button
       tempo_text.style.caretColor = "transparent";
+      tempo_text.style.backgroundColor = "#551ABB";
 
       // Extract text field value
       let tempo_value = document.querySelector("input").value;
@@ -152,6 +156,22 @@ function runSchedulerAndBeat(){
     scheduleBeat(beat, nextNoteTime); // Schedule beat for immediate playback 
     playNextBeat();                   // Play beat at scheduled time (now)
   }
+}
+// This function opens an instrument channel popup window
+function open_popup() {
+  popup.classList.add("open-popup");
+  return;
+}
+
+// This function closes an instrument channel popup window
+function close_popup() {
+  popup.classList.remove("open-popup");
+  return;
+}
+
+// This function updates the volume button value
+function update_volume() {
+  return;
 }
 
 // This function plays the audio of the clicked instrument-channel-play-button (ICPB)

@@ -200,6 +200,79 @@ button:hover {
     transform: translateY(1px);
 }
 
+/* Styles the instrument channel popup windows */
+.popup {
+    width: 400px;
+    background-color: #FED9D5;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: #333333;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+
+/* Styles the instrument channel popup window label text */
+.popup h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 30px 0 10px;
+}
+
+/* Styles the instrument channel popup window input/text box */
+.popup input {
+    background-color: #3882F6;
+}
+
+/* Styles the instrument channel popup window text box */
+.popup-text {
+    font-size: 42px;
+    text-align: center;
+    height: 80px;
+    margin-top: 16px;
+}
+
+/* Styles the popup OK and Cancel buttons */
+.ok-cancel-buttons {
+    display: flex;
+}
+
+/* Styles the instrument channel popup window buttons */
+.popup button {
+    width: 50%;
+    margin-top: 40px;
+    margin-right: 8px;
+    margin-left: 8px;
+    padding: 10px 0;
+    color: #FFFFFF;
+    border: 0px;
+    font-size: 30px;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles the instrument channel popup window OK button */
+.ok {
+    background-color: #21D375;
+}
+
+/* Styles the instrument channel popup window Cancel button */
+.cancel {
+    background-color: #EA3B52;
+}
+
+/* Plays an instrument channel popup window animation */
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
 /* Styles the note buttons that can be toggled */
 .instrument-note-button {
     background-color: #545454;

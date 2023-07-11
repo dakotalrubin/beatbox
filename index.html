@@ -65,8 +65,24 @@
                         <div class="instrument-channel-play-button-container">
                             <button sound=1 class="instrument-channel-play-button">&#9658</button>
                         </div>
+
+                        <!-- This div contains the volume and panning buttons -->
                         <div class="instrument-channel-volume-panning-button-container">
-                            <button class="instrument-channel-volume-button">Vol</button>
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" onclick="open_popup()">Vol</button>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text" type="text" value=100 onclick="update_volume()">
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" onclick="close_popup()">OK</button>
+                                        <button class="cancel" onclick="close_popup()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                    </div>
                 </div>

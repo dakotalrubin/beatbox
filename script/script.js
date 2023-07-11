@@ -2,6 +2,7 @@
 // Global variables
 let interval; // Interval for playing the beat
 let bpm = 120; // Default 120 bpm
+let popup = document.getElementById("popup");
 // ----------------------------------------------------------------------------
 
 // Creates header_tempo
@@ -88,6 +89,23 @@ function update_header_tempo() {
     }
   });
 
+  return;
+}
+
+// This function opens an instrument channel popup window
+function open_popup() {
+  popup.classList.add("open-popup");
+  return;
+}
+
+// This function closes an instrument channel popup window
+function close_popup() {
+  popup.classList.remove("open-popup");
+  return;
+}
+
+// This function updates the volume button value
+function update_volume() {
   return;
 }
 

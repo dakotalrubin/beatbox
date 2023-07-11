@@ -203,17 +203,17 @@ button:hover {
 /* Styles the instrument channel popup windows */
 .popup {
     width: 400px;
-    background-color: #FED9D5;
+    background-color: #C9B7FF;
     border-radius: 8px;
     position: absolute;
-    top: 0;
+    center: 0;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.1);
     text-align: center;
     padding: 0 30px 30px;
     color: #333333;
     visibility: hidden;
-    transition: transform 0.4s, top 0.4s;
+    transition: transform 0.15s, center 0.15s;
 }
 
 /* Styles the instrument channel popup window label text */
@@ -223,15 +223,11 @@ button:hover {
     margin: 30px 0 10px;
 }
 
-/* Styles the instrument channel popup window input/text box */
-.popup input {
-    background-color: #3882F6;
-}
-
 /* Styles the instrument channel popup window text box */
 .popup-text {
     font-size: 42px;
     text-align: center;
+    width: 50%;
     height: 80px;
     margin-top: 16px;
 }

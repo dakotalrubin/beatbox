@@ -216,14 +216,14 @@ button:hover {
     transition: transform 0.15s, center 0.15s;
 }
 
-/* Styles the instrument channel popup window label text */
+/* Styles the instrument channel popup window's label text */
 .popup h2 {
-    font-size: 36px;
+    font-size: 42px;
     font-weight: 700;
     margin: 30px 0 10px;
 }
 
-/* Styles the instrument channel popup window text box */
+/* Styles the instrument channel popup window's text box */
 .popup-text {
     font-size: 42px;
     text-align: center;
@@ -232,12 +232,12 @@ button:hover {
     margin-top: 16px;
 }
 
-/* Styles the popup OK and Cancel buttons */
+/* Styles the instrument channel popup window's OK and Cancel buttons */
 .ok-cancel-buttons {
     display: flex;
 }
 
-/* Styles the instrument channel popup window buttons */
+/* Styles the instrument channel popup window's buttons */
 .popup button {
     width: 50%;
     margin-top: 40px;
@@ -246,18 +246,23 @@ button:hover {
     padding: 10px 0;
     color: #FFFFFF;
     border: 0px;
-    font-size: 30px;
+    font-size: 32px;
     border-radius: 16px;
     cursor: pointer;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Styles the instrument channel popup window OK button */
+/* Styles the instrument channel popup window's text field */
+.popup input {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles the instrument channel popup window's OK button */
 .ok {
     background-color: #21D375;
 }
 
-/* Styles the instrument channel popup window Cancel button */
+/* Styles the instrument channel popup window's Cancel button */
 .cancel {
     background-color: #EA3B52;
 }

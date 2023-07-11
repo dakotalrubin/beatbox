@@ -2,7 +2,17 @@
 // Global variables
 let interval; // Interval for playing the beat
 let bpm = 120; // Default 120 bpm
-// ----------------------------------------------------------------------------
+    //**** new additions for beat playback and latency maintenance */
+let beatsInLoop = 8;
+let nextNoteTime = 0.0;
+let beat = 0;
+let queueBeats = [];
+let audioContx = null;
+let scheduleTimeBuf = 0.1;
+let beatsPlaying = false;
+let scheduleFreq = 25;
+let trackVolume = 1; // To be modified when volume button is added 
+// ---------------------------------------------------------------------------- 
 
 // Creates header_tempo
 const header_tempo = document.querySelector(".header-tempo");
@@ -25,7 +35,9 @@ const icpbs = document.querySelectorAll(".instrument-channel-play-button");
 // For each instrument-channel-play-button, adds event listener for "click"
 icpbs.forEach((button) => {
   button.addEventListener("click", play_icpb_sound);
+  
 });
+
 
 // This function updates the tempo button value (the bpm)
 function update_header_tempo() {
@@ -89,6 +101,59 @@ function update_header_tempo() {
   return;
 }
 
+// Play highlighted beats at scheduled time (now) with current audio, and increment beats 
+function playNextBeat() {
+  // Advance current note and time by a quarter note (crotchet if you're posh)
+  var secondsPerBeat = 60.0 / bpm; // Get length of beat
+  nextNoteTime += secondsPerBeat; // Add beat length to last beat time
+
+  let audio = document.querySelector("audio");
+
+  if (beat == beatsInLoop) {
+    beat = 1; // Beat will reset to 1
+  } else {
+    beat++; // Increment beat
+  } 
+
+  const id = 'note' + beat;
+  const instrument_note_button = document.getElementById(id);
+  const value = instrument_note_button.value;
+
+  // Play a selected instrument note button
+  if (value == 1) {
+
+    // Plays audio without waiting for previous sound to finish
+    audio.currentTime = 0;
+    highlightElemBackground(instrument_note_button, '#9e5803');
+    audio.play();
+  } else {
+    highlightElemBackground(instrument_note_button, '#303030');
+  }
+}
+
+// Schedule beat at time now for immediate playback 
+function scheduleBeat(beatNumber, time) {
+  // push beat onto queue, even if played or not
+  queueBeats.push({ note: beatNumber, time: time });
+  const source = audioContx.createGain();
+        
+  source.gain.value = trackVolume;  
+  source.gain.exponentialRampToValueAtTime(1, time + 0.001);
+  source.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
+
+  source.connect(audioContx.destination);
+
+}
+
+// This function schedules beats for minimal latency, then calls for beat to be played
+function runSchedulerAndBeat(){
+  // while there are notes that will need to play before the next interval, schedule them and advance pointer
+  while (nextNoteTime < audioContx.currentTime + scheduleTimeBuf ) {
+    scheduleBeat(beat, nextNoteTime); // Schedule beat for immediate playback 
+    playNextBeat();                   // Play beat at scheduled time (now)
+  }
+}
+
 // This function plays the audio of the clicked instrument-channel-play-button (ICPB)
 function play_icpb_sound(e) {
 
@@ -113,48 +178,30 @@ function play_icpb_sound(e) {
 
 // This function plays the beat at the project's bpm
 function play_beat() {
-
   // Prevents errors from spamming header-play button (multiple intervals at a time)
   clearInterval(interval);
-
-  let audio = document.querySelector("audio");
+  if (beatsPlaying) return; // *** may need to remove this once adding more tracks ******
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
 
-  // Beat variable will always be 1-8 (except when being initialized)
-  let beat = 0;
-
-  // Sets the interval to time between beats (tbb)
-  interval = setInterval(() => {
-
-    if (beat == 8) {
-      beat = 1; // Beat will reset to 1
-    } else {
-      beat++; // Increment beat
-    }
-
-    const id = 'note' + beat;
-    const instrument_note_button = document.getElementById(id);
-    const value = instrument_note_button.value;
-
-    // Play a selected instrument note button
-    if (value == 1) {
-
-      // Plays audio without waiting for previous sound to finish
-      audio.currentTime = 0;
-      highlightElemBackground(instrument_note_button, '#9e5803');
-      audio.play();
-    } else {
-      highlightElemBackground(instrument_note_button, '#303030');
-    }
-  }, tbb);
+  beatsPlaying = true;
+  beat = 0; // Restart at beginning of loop. Beat variable will always be 1-8 (except when being initialized)
+  // *** Add Audio Context for scheduling *** // 
+  if (audioContx == null){
+    audioContx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  nextNoteTime = audioContx.currentTime + 0.05;
+  // Run scheduler and play beats
+  interval = setInterval(() => runSchedulerAndBeat(), scheduleFreq );
 
   return;
 }
 
-// This function stops the beat
+// This function stops the beat and resets to the beginning. 
 function stop_beat() {
+  beatsPlaying = false;
+  beat = 1;
   clearInterval(interval);
   return;
 }

@@ -130,17 +130,28 @@ button:hover {
 /* Styles the left side of an instrument channel button */
 .instrument-channel-left {
     display: flex;
-    justify-content: start;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     width: 50%;
     text-align: center;
-    margin-left: 8px;
 }
 
 /* Styles the container that holds the instrument channel name */
 .instrument-channel-name {
-    height: 78px;
-    width: 99px;
+    height: 40px;
+    width: 100px;
+    margin-top: 20px;
+}
+
+/* Styles the instrument channel lock icon OFF by default */
+.fa-lock {
+    visibility: hidden;
+}
+
+/* Controls the appearance of the instrument channel lock icon */
+.show-instrument-channel-lock {
+    visibility: visible;
 }
 
 /* Styles the instrument channel play button container */

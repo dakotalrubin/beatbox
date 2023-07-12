@@ -5,7 +5,8 @@
 let interval; // Interval for playing the beat
 let bpm = 120; // Default 120 bpm
 let lock_grid = false; // Locks note grid during playback
-let popup = document.getElementById("popup");
+let popup = document.getElementById("popup"); // Toggles popup window
+let lock_icon = document.getElementById("lock-icon"); // Toggles lock icon
 
 // Global variables for beat playback and latency maintenance
 let beatsInLoop = 8;
@@ -158,8 +159,8 @@ function update_instrument_channel_name() {
     // Extract text field value
     let name_value = name_text.value;
 
-    // Update instrument channel name and truncate at 10 characters
-    name_text.value = name_value.substring(0, 10);
+    // Update instrument channel name and truncate at 16 characters
+    name_text.value = name_value.substring(0, 16);
     return;
   });
 
@@ -205,6 +206,9 @@ function play_beat() {
   // Lock the note grid during playback
   lock_grid = true;
 
+  // Shows the instrument channel lock icon during playback
+  lock_icon.classList.add("show-instrument-channel-lock");
+
   // Prevents errors from spamming header-play button
   // (multiple intervals at a time)
   clearInterval(interval);
@@ -235,6 +239,9 @@ function stop_beat() {
 
   // Unlock the note grid after playback
   lock_grid = false;
+
+  // Removes the instrument channel lock icon after playback
+  lock_icon.classList.remove("show-instrument-channel-lock");
 
   beatsPlaying = false;
   beat = 1;

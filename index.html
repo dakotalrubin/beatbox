@@ -29,7 +29,8 @@
             <!-- This div contains all the controls in the menu bar -->
             <!-- These controls are located in the top-middle of the screen -->
             <div class="header-controls">
-                <input class="header-tempo" type="text" value=120 onclick="update_header_tempo()">
+                <input class="header-tempo" type="text" value=120 spellcheck="false" 
+                    onclick="update_header_tempo()">
                 <button class="header-play"><i class="fa fa-play"></i></button>
                 <button class="header-stop"><i class="fa fa-pause"></i></button>
                 <button class="header-download"><i class="fa fa-download"></i></button>
@@ -55,7 +56,8 @@
 
                     <!-- This div contains the name of an instrument channel -->
                     <div class="instrument-channel-left">
-                        <h3 class="instrument-channel-name">Kick</h3>
+                        <input class="instrument-channel-name" type="text" spellcheck="false" 
+                            value="Kick" onclick="update_instrument_channel_name()">
                     </div>
 
                     <!-- This div contains the buttons on the right side of a channel -->
@@ -73,13 +75,13 @@
                             <!-- This div contains all elements related to the volume buttom -->
                             <div class="instrument-channel-volume-button-container">
                                 <button class="instrument-channel-volume-button" 
-                                    onclick="open_instrument_channel_popup()">Vol</button>
+                                    onclick="open_instrument_channel_popup()">V</button>
 
                                 <!-- This div contains all volume button pop-up elements -->
                                 <div class="popup" id="popup">
                                     <h2>Volume</h2>
                                     <input class="popup-text" type="text" value=100 
-                                        onclick="update_instrument_channel_volume()">
+                                        spellcheck="false" onclick="update_instrument_channel_volume()">
 
                                     <!-- This div contains the OK and Cancel buttons in a pop-up window -->
                                     <div class="ok-cancel-buttons">

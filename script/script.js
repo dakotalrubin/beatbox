@@ -4,6 +4,7 @@
 
 let interval; // Interval for playing the beat
 let bpm = 120; // Default 120 bpm
+let lock_grid = false; // Locks note grid during playback
 let popup = document.getElementById("popup");
 
 // Global variables for beat playback and latency maintenance
@@ -43,7 +44,8 @@ function update_header_tempo() {
   tempo_text.addEventListener("keypress", ({key}) => {
     if (key == "Enter") {
 
-      // Make the cursor disappear after pressing "Enter", undo highlight button
+      // Make the cursor disappear after pressing "Enter"
+      // Also undoes highlight button
       tempo_text.style.caretColor = "transparent";
       tempo_text.style.backgroundColor = "#551ABB";
 
@@ -120,6 +122,50 @@ icpbs.forEach((button) => {
   button.addEventListener("click", play_icpb_sound);
 });
 
+// This function updates an instrument channel's name value
+function update_instrument_channel_name() {
+
+  // Keep track of instrument channel text box cursor style
+  const name_text = document.querySelector(".instrument-channel-name");
+
+  // Make the cursor appear for visual feedback
+  name_text.style.caretColor = "white";
+
+  // Pressing enter after typing a new value updates the instrument
+  // channel's name
+  name_text.addEventListener("keypress", ({key}) => {
+    if (key == "Enter") {
+
+      // Make the cursor disappear after pressing "Enter"
+      name_text.style.caretColor = "transparent";
+
+      // Extract text field value
+      let name_value = name_text.value;
+
+      // Update instrument channel name and truncate at 10 characters
+      name_text.value = name_value.substring(0, 10);
+      return;
+    }
+  });
+
+  // Clicking outside the text after typing a new value also updates
+  // the instrument channel's name
+  name_text.addEventListener("blur", function() {
+
+    // Make the cursor disappear after clicking away from the text
+    name_text.style.caretColor = "transparent";
+
+    // Extract text field value
+    let name_value = name_text.value;
+
+    // Update instrument channel name and truncate at 10 characters
+    name_text.value = name_value.substring(0, 10);
+    return;
+  });
+
+  return;
+}
+
 // This function updates an instrument channel's volume button value
 function update_instrument_channel_volume() {
   // IN PROGRESS
@@ -127,10 +173,11 @@ function update_instrument_channel_volume() {
 }
 
 // ----------------------------------------------------------------------------
-// AUDIO PLAYBACK HANDLING -----------------------------------------------------
+// AUDIO PLAYBACK HANDLING ----------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// This function plays the audio of the clicked instrument-channel-play-button (ICPB)
+// This function plays the audio
+// of the clicked instrument-channel-play-button (ICPB)
 function play_icpb_sound(e) {
 
   // Initializes icpb variable with the clicked ICPB
@@ -140,7 +187,7 @@ function play_icpb_sound(e) {
   const sound = icpb.getAttribute('sound');
   const audio = document.querySelector(`audio[sound="${sound}"]`);
 
-  // Exits function if the clicked ICPB has no audio (unnecessary as of right now)
+  // Exits function if clicked ICPB has no audio (unnecessary right now)
   if (!audio) {
     return;
   }
@@ -155,9 +202,13 @@ function play_icpb_sound(e) {
 // This function plays the beat at the project's bpm
 function play_beat() {
 
-  // Prevents errors from spamming header-play button (multiple intervals at a time)
+  // Lock the note grid during playback
+  lock_grid = true;
+
+  // Prevents errors from spamming header-play button
+  // (multiple intervals at a time)
   clearInterval(interval);
-  if (beatsPlaying) return; // May need to remove this once adding more tracks!
+  if (beatsPlaying) return; // May need to remove this once adding more tracks
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
@@ -182,6 +233,9 @@ function play_beat() {
 // This function stops the beat and resets to the beginning
 function stop_beat() {
 
+  // Unlock the note grid after playback
+  lock_grid = false;
+
   beatsPlaying = false;
   beat = 1;
   clearInterval(interval);
@@ -189,7 +243,8 @@ function stop_beat() {
   return;
 }
 
-// Play highlighted notes at scheduled time (now) with current audio and increment beats 
+// Play highlighted notes at scheduled time (now) with current audio
+// and increment beats
 function playNextBeat() {
 
   // Advance current note and time by a quarter note (crotchet if you're posh)
@@ -237,8 +292,9 @@ function scheduleBeat(beatNumber, time) {
   return;
 }
 
-// This function schedules beats for minimal latency, then calls for beat to be played
-function runSchedulerAndBeat(){
+// This function schedules beats for minimal latency,
+// then calls for beat to be played
+function runSchedulerAndBeat() {
 
   // While there are notes that will need to play before the next interval,
   // schedule those notes and advance pointer
@@ -301,6 +357,11 @@ function close_instrument_channel_popup() {
 // This function toggles an instrument note button on (orange) or off (gray)
 function note_toggle(id) {
 
+  // Don't allow notes to be toggled during beat playback
+  if (lock_grid == true) {
+    return;
+  }
+
   // Get background color of an instrument note button
   // The 'background' variable has no value when you click a specific
   // note button for the first time, because that 'id' has no styling.
@@ -308,13 +369,13 @@ function note_toggle(id) {
   let background = document.getElementById(id).style.backgroundColor;
 
   // Changes background color of an instrument note button
-  // Also changes the Boolean value associated with that instrument note button
-  if(background == "rgb(255, 130, 67)") { // If the instrument note button is orange...
-    document.getElementById(id).style.backgroundColor="rgb(84, 84, 84)"; // Make it gray
-    document.getElementById(id).value = 0; // The note is now INACTIVE for playback
-  } else {
-    document.getElementById(id).style.backgroundColor="rgb(255, 130, 67)"; // Make it orange
-    document.getElementById(id).value = 1; // The note is now ACTIVE for playback
+  // Also changes Boolean value associated with that instrument note button
+  if(background == "rgb(255, 130, 67)") { // If orange note button, make gray
+    document.getElementById(id).style.backgroundColor="rgb(84, 84, 84)";
+    document.getElementById(id).value = 0; // Note is now INACTIVE for playback
+  } else { // If gray note button, make orange
+    document.getElementById(id).style.backgroundColor="rgb(255, 130, 67)";
+    document.getElementById(id).value = 1; // Note is now ACTIVE for playback
   }
 
   return;

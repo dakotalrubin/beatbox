@@ -83,7 +83,6 @@ button:hover {
 
 /* Styles the header login button */
 .header-login {
-    border: 2px solid #3882F6;
     border-radius: 8px;
     background-color: #3882F6;
     color: #FFFFFF;
@@ -93,6 +92,15 @@ button:hover {
     width: 110px;
     position: relative;
     left: -22px;
+}
+
+/* Styles the header login button on hover */
+.header-login:hover {background-color: #649DFA;}
+
+/* Styles the header login button on click */
+.header-login:active {
+    background-color: #649DFA;
+    transform: translateY(1px);
 }
 
 /* Styles the rows of instruments */
@@ -119,13 +127,6 @@ button:hover {
     margin-right: 10px;
 }
 
-/* Styles the container that holds the instrument channel name */
-.instrument-channel-name {
-    margin: 20px 0 20px 0;
-    padding: auto 5px auto 10px;
-    overflow-wrap: normal;
-}
-
 /* Styles the left side of an instrument channel button */
 .instrument-channel-left {
     display: flex;
@@ -134,6 +135,12 @@ button:hover {
     width: 50%;
     text-align: center;
     margin-left: 8px;
+}
+
+/* Styles the container that holds the instrument channel name */
+.instrument-channel-name {
+    height: 78px;
+    width: 99px;
 }
 
 /* Styles the instrument channel play button container */
@@ -168,10 +175,11 @@ button:hover {
     box-shadow: 0 0 0 1px rgb(43, 41, 41);
 }
 
-/* Adds animation to an instrument channel buttons */
+/* Styles an instrument channel's play and upload buttons on hover */
 .instrument-channel-play-button:hover,
 .instrument-channel-upload-button:hover {background-color: #7c7b7b;}
 
+/* Styles an instrument channel's play and upload buttons on click */
 .instrument-channel-play-button:active,
 .instrument-channel-upload-button:active {
     background-color: #7c7b7b;
@@ -192,8 +200,8 @@ button:hover {
     margin: 0 0;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* Styles an instrument channel volume button */
@@ -203,15 +211,15 @@ button:hover {
     border-radius: 8px;
     width: 30px;
     height: 30px;
-    background-color: #3882F6;
     box-shadow: 0 0 0 1px rgb(43, 41, 41);
     font-size: 16px;
+    font-weight: 900;
 }
 
 /* Adds animation to an instrument channel volume button */
-.instrument-channel-volume-button:hover {background-color: #3882F6;}
+.instrument-channel-volume-button:hover {background-color: #7c7b7b;}
 .instrument-channel-volume-button:active {
-    background-color: #3882F6;
+    background-color: #7c7b7b;
     transform: translateY(1px);
 }
 

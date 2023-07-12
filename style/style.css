@@ -141,11 +141,12 @@ button:hover {
 .instrument-channel-name {
     height: 40px;
     width: 100px;
-    margin-top: 20px;
+    margin-top: 23px;
 }
 
 /* Styles the instrument channel lock icon OFF by default */
 .fa-lock {
+    margin-bottom: 5px;
     visibility: hidden;
 }
 

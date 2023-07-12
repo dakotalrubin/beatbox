@@ -307,6 +307,33 @@ function runSchedulerAndBeat() {
   return;
 }
 
+//Grab hidden-upload-button and instument-channel-upload-button from HTML
+const hiddenUploadBtn = document.querySelector(".hidden-upload-button")
+const customUploadBtn = document.querySelector(".instrument-channel-upload-button")
+//Our custom upload button "listens" for a click
+//When it does, it "clicks" the hidden upload button
+customUploadBtn.addEventListener("click", function(){
+  hiddenUploadBtn.click()
+})
+
+//When the file is uploaded, the hiddenUploadBtn will call the upload_audio func
+hiddenUploadBtn.addEventListener("change", upload_audio, false)
+
+function upload_audio(event){
+    let files = event.target.files;
+
+    //Check if file is smaller than 1MB
+    if (this.files[0].size > 1048576){
+      alert("File is too big!")
+      return
+    }
+    
+    $("audio").attr("src", URL.createObjectURL(files[0]));
+    //Right now, hardcoded for first Instrument Channel
+    //Will need to find a way to change dynamically for each I. Channel
+    document.querySelector(`audio[sound="${1}"]`).load();
+}
+
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------
 // ----------------------------------------------------------------------------

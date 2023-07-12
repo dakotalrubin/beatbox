@@ -11,6 +11,7 @@
         <!-- Our CSS style page and JavaScript pages will be linked here -->
         <link rel="stylesheet" href="./style/style.css">
         <script src="./script/script.js" defer></script>
+        <script src="./script/jQuery/jquery.js" defer></script>
         
         <!-- Link for header button icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -63,7 +64,9 @@
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
                             <button sound=1 class="instrument-channel-play-button">&#9658</button>
-                            <button class="instrument-channel-upload-button">&#43</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" class="hidden-upload-button" hidden="hidden" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
                         </div>
 
                         <!-- This div contains the volume and panning buttons -->

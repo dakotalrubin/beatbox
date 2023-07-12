@@ -8,7 +8,7 @@ let nextNoteTime = 0.0;
 let beat = 0;
 let queueBeats = [];
 let audioContx = null;
-let scheduleTimeBuf = 0.1;
+let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when volume button is added 
@@ -86,9 +86,9 @@ function update_header_tempo() {
       }
 
       // Set tempo value upper bound, update tempo button display
-      if (tempo_value > 200) {
-        bpm = 200;
-        document.querySelector("input").value = 200;
+      if (tempo_value > 400) {
+        bpm = 400;
+        document.querySelector("input").value = 400;
         return;
       }
 

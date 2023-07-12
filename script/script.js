@@ -159,8 +159,8 @@ function update_instrument_channel_name() {
     // Extract text field value
     let name_value = name_text.value;
 
-    // Update instrument channel name and truncate at 16 characters
-    name_text.value = name_value.substring(0, 16);
+    // Update instrument channel name and truncate at 10 characters
+    name_text.value = name_value.substring(0, 10);
     return;
   });
 
@@ -169,7 +169,6 @@ function update_instrument_channel_name() {
 
 // This function updates an instrument channel's volume button value
 function update_instrument_channel_volume() {
-  // IN PROGRESS
   return;
 }
 

@@ -21,7 +21,7 @@ let trackVolume = 1; // To be modified when changing volume
 // HEADER TEMPO BUTTON HANDLING -----------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Creates header_tempo
+// Creates header_tempo event listener
 const header_tempo = document.querySelector(".header-tempo");
 // for header_tempo, adds event listener for "click"
 header_tempo.addEventListener("click", update_header_tempo);
@@ -94,7 +94,7 @@ function update_header_tempo() {
 // HEADER PLAY BUTTON HANDLING ------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Creates header_play
+// Creates header_play event listener
 const header_play = document.querySelector(".header-play");
 // for header_play, adds event listener for "click"
 header_play.addEventListener("click", play_beat);
@@ -103,7 +103,7 @@ header_play.addEventListener("click", play_beat);
 // HEADER STOP BUTTON HANDLING ------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Creates header_stop
+// Creates header_stop event listener
 const header_stop = document.querySelector(".header-stop");
 // for header_stop, adds event listener for "click"
 header_stop.addEventListener("click", stop_beat);
@@ -119,6 +119,16 @@ const icpbs = document.querySelectorAll(".instrument-channel-play-button");
 icpbs.forEach((button) => {
   button.addEventListener("click", play_icpb_sound);
 });
+
+// This function updates an instrument channel's volume button value
+function update_instrument_channel_volume() {
+  // IN PROGRESS
+  return;
+}
+
+// ----------------------------------------------------------------------------
+// AUDIO PLAYBACK HANDLING -----------------------------------------------------
+// ----------------------------------------------------------------------------
 
 // This function plays the audio of the clicked instrument-channel-play-button (ICPB)
 function play_icpb_sound(e) {
@@ -141,16 +151,6 @@ function play_icpb_sound(e) {
 
   return;
 }
-
-// This function updates an instrument channel's volume button value
-function update_instrument_channel_volume() {
-  // IN PROGRESS
-  return;
-}
-
-// ----------------------------------------------------------------------------
-// AUDIO PLAYBACK HANDLING -----------------------------------------------------
-// ----------------------------------------------------------------------------
 
 // This function plays the beat at the project's bpm
 function play_beat() {

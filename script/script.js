@@ -20,6 +20,10 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+let defaultSoundArry = [
+"./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
+"./sounds/openhat.wav", "./sounds/ride.wav", "./sounds/snare.wav", "./sounds/tink.wav"
+]
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON HANDLING -----------------------------------------------
@@ -538,7 +542,7 @@ function upload_audio(event){
       if (audioElem.duration > 2) {
         alert("Max Duration size is 2 seconds. Try Again!");
         // Reset the audio element
-        audioElem.src = "./sounds/kick.wav";
+        audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
         audioElem.load();
         return;
       }

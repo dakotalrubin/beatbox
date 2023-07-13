@@ -517,7 +517,9 @@ customUploadBtn.addEventListener("click", function(){
 hiddenUploadBtn.addEventListener("change", upload_audio, false)
 
 function upload_audio(event){
-    let files = event.target.files;
+    const uploadBtn = event.target
+    const files = event.target.files
+    const instrumentChannelIndex = uploadBtn.getAttribute("data-channel")
 
     //Check if file is smaller than 1MB
     if (this.files[0].size > 1048576){
@@ -525,10 +527,8 @@ function upload_audio(event){
       return
     }
     
-    $("audio").attr("src", URL.createObjectURL(files[0]));
-    //Right now, hardcoded for first Instrument Channel
-    //Will need to find a way to change dynamically for each I. Channel
-    document.querySelector(`audio[sound="${1}"]`).load();
+    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
+    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 }
 
 // ----------------------------------------------------------------------------

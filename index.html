@@ -67,7 +67,8 @@
                         <div class="instrument-channel-play-button-container">
                             <button sound=1 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
-                            <input accept=".wav, .mp3" type="file" class="hidden-upload-button" hidden="hidden" />
+                            <input accept=".wav, .mp3" type="file" data-channel="2"
+                                class="hidden-upload-button" hidden="hidden" sound="1" />
                             <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
                         </div>
 

@@ -35,7 +35,7 @@ function update_header_tempo() {
   const tempo_text = document.querySelector(".header-tempo");
 
   // Keep track of original tempo value
-  let tempo_value_original = document.querySelector("input").value;
+  let tempo_value_original = document.querySelector(".header-tempo").value;
 
   // Make the cursor appear for visual feedback, highlight button
   tempo_text.style.caretColor = "white";
@@ -50,16 +50,16 @@ function update_header_tempo() {
       tempo_text.style.caretColor = "transparent";
       tempo_text.style.backgroundColor = "#551ABB";
 
-      // Extract text field value
-      let tempo_value = document.querySelector("input").value;
+      // Extract tempo text field value
+      let tempo_value = document.querySelector(".header-tempo").value;
 
       // Create new regex to determine if user entered valid tempo
-      var regex = /^\d*\.?\d*$/;
+      var regex = /^\d*\-*\.?\d*$/;
       var is_valid_tempo_value = regex.test(tempo_value);
 
       // Exit function if user entered invalid tempo
       if (is_valid_tempo_value == false) {
-        document.querySelector("input").value = tempo_value_original;
+        document.querySelector(".header-tempo").value = tempo_value_original;
         return;
       }
 
@@ -69,14 +69,14 @@ function update_header_tempo() {
       // Set tempo value lower bound, update tempo button display
       if (tempo_value < 10) {
         bpm = 10;
-        document.querySelector("input").value = 10;
+        document.querySelector(".header-tempo").value = 10;
         return;
       }
 
       // Set tempo value upper bound, update tempo button display
       if (tempo_value > 400) {
         bpm = 400;
-        document.querySelector("input").value = 400;
+        document.querySelector(".header-tempo").value = 400;
         return;
       }
 
@@ -85,7 +85,7 @@ function update_header_tempo() {
       bpm = tempo_value;
 
       // Update tempo button display and stop playback
-      document.querySelector("input").value = tempo_value;
+      document.querySelector(".header-tempo").value = tempo_value;
       stop_beat();
     }
   });
@@ -167,8 +167,65 @@ function update_instrument_channel_name() {
   return;
 }
 
-// This function updates an instrument channel's volume button value
+// This function updates an instrument channel's volume
 function update_instrument_channel_volume() {
+
+  // Keep track of volume text box cursor style
+  const volume_text = document.querySelector(".volume-popup-text");
+
+  // Keep track of original volume value
+  let volume_value_original = document.querySelector(".volume-popup-text").value;
+
+  // Make the cursor appear for visual feedback, highlight button
+  volume_text.style.caretColor = "white";
+  volume_text.style.backgroundColor = "#7621C5";
+
+  // Pressing "Enter" after typing a new value will update the volume
+  volume_text.addEventListener("keydown", ({key}) => {
+    if (key == "Enter") {
+
+      // Make the cursor disappear after pressing "Enter"
+      // Also undoes highlight button
+      volume_text.style.caretColor = "transparent";
+      volume_text.style.backgroundColor = "#551ABB";
+
+      // Extract volume text field value
+      let volume_value = document.querySelector(".volume-popup-text").value;
+
+      // Create new regex to determine if user entered valid volume
+      var regex = /^\d*\-*\.?\d*$/;
+      var is_valid_volume_value = regex.test(volume_value);
+
+      // Exit function if user entered invalid volume
+      if (is_valid_volume_value == false) {
+        document.querySelector(".volume-popup-text").value = volume_value_original;
+        return;
+      }
+
+      // Convert valid volume string into a number
+      volume_value = Number(volume_value);
+
+      // Set volume value lower bound, update volume button display
+      if (volume_value < 0) {
+        document.querySelector(".volume-popup-text").value = 0;
+        return;
+      }
+
+      // Set volume value upper bound, update volume button display
+      if (volume_value > 120) {
+        document.querySelector(".volume-popup-text").value = 120;
+        return;
+      }
+
+      // Set new volume value from volume_value rounded to the nearest int
+      volume_value = Math.round(volume_value);
+
+      // Update volume button display
+      document.querySelector(".volume-popup-text").value = volume_value;
+      return;
+    }
+  });
+
   return;
 }
 

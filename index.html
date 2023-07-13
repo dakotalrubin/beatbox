@@ -57,8 +57,8 @@
                     <!-- This div contains the name of an instrument channel -->
                     <!-- and a lock icon during playback -->
                     <div class="instrument-channel-left">
-                        <input class="instrument-channel-name" type="text" spellcheck="false" 
-                            value="Kick" onclick="update_instrument_channel_name()">
+                        <input class="instrument-channel-name" id="channel-name-1" type="text" 
+                            spellcheck="false" value="Kick" onclick="update_instrument_channel_name(this.id)">
                         <i class="fa fa-lock" id="lock-icon"></i>
                     </div>
 
@@ -82,15 +82,16 @@
                                 <!-- This div contains all volume button pop-up elements -->
                                 <div class="popup" id="popup">
                                     <h2>Volume</h2>
-                                    <input class="popup-text volume-popup-text" type="text" value=100 
-                                        spellcheck="false" onclick="update_instrument_channel_volume()">
+                                    <input class="popup-text volume-popup-text" id="volume-text-1" 
+                                        type="text" value=100 spellcheck="false" 
+                                        onclick="update_instrument_channel_volume(this.id)">
 
                                     <!-- This div contains the OK and Cancel buttons in a pop-up window -->
                                     <div class="ok-cancel-buttons">
-                                        <button class="ok" 
-                                            onclick="close_instrument_channel_popup()">OK</button>
-                                        <button class="cancel" 
-                                            onclick="close_instrument_channel_popup()">Cancel</button>
+                                        <button class="ok" id="ok-1"
+                                            onclick="accept_instrument_channel_volume(this.id)">OK</button>
+                                        <button class="cancel" id="cancel-1"
+                                            onclick="deny_instrument_channel_volume(this.id)">Cancel</button>
                                     </div>
                                 </div>
                             </div>

@@ -7,6 +7,9 @@ let bpm = 120; // Default 120 bpm
 let lock_grid = false; // Locks note grid during playback
 let popup = document.getElementById("popup"); // Toggles popup window
 let lock_icon = document.getElementById("lock-icon"); // Toggles lock icon
+let playing_beat = false; // Only allow header play button once
+
+let volume_value_original; // Recovers original volume value
 
 // Global variables for beat playback and latency maintenance
 let beatsInLoop = 8;
@@ -35,7 +38,7 @@ function update_header_tempo() {
   const tempo_text = document.querySelector(".header-tempo");
 
   // Keep track of original tempo value
-  let tempo_value_original = document.querySelector(".header-tempo").value;
+  let tempo_value_original = tempo_text.value;
 
   // Make the cursor appear for visual feedback, highlight button
   tempo_text.style.caretColor = "white";
@@ -51,7 +54,7 @@ function update_header_tempo() {
       tempo_text.style.backgroundColor = "#551ABB";
 
       // Extract tempo text field value
-      let tempo_value = document.querySelector(".header-tempo").value;
+      let tempo_value = tempo_text.value;
 
       // Create new regex to determine if user entered valid tempo
       var regex = /^\d*\-*\.?\d*$/;
@@ -59,7 +62,7 @@ function update_header_tempo() {
 
       // Exit function if user entered invalid tempo
       if (is_valid_tempo_value == false) {
-        document.querySelector(".header-tempo").value = tempo_value_original;
+        tempo_text.value = tempo_value_original;
         return;
       }
 
@@ -69,14 +72,14 @@ function update_header_tempo() {
       // Set tempo value lower bound, update tempo button display
       if (tempo_value < 10) {
         bpm = 10;
-        document.querySelector(".header-tempo").value = 10;
+        tempo_text.value = 10;
         return;
       }
 
       // Set tempo value upper bound, update tempo button display
       if (tempo_value > 400) {
         bpm = 400;
-        document.querySelector(".header-tempo").value = 400;
+        tempo_text.value = 400;
         return;
       }
 
@@ -85,9 +88,56 @@ function update_header_tempo() {
       bpm = tempo_value;
 
       // Update tempo button display and stop playback
-      document.querySelector(".header-tempo").value = tempo_value;
+      tempo_text.value = tempo_value;
       stop_beat();
     }
+  });
+
+  // Clicking outside the text after typing a new value also updates
+  // the project's tempo
+  tempo_text.addEventListener("blur", function() {
+
+    // Make the cursor disappear after clicking away from the text
+    tempo_text.style.caretColor = "transparent";
+    tempo_text.style.backgroundColor = "#551ABB";
+
+    // Extract tempo text field value
+    let tempo_value = tempo_text.value;
+
+    // Create new regex to determine if user entered valid tempo
+    var regex = /^\d*\-*\.?\d*$/;
+    var is_valid_tempo_value = regex.test(tempo_value);
+
+    // Exit function if user entered invalid tempo
+    if (is_valid_tempo_value == false) {
+      tempo_text.value = tempo_value_original;
+      return;
+    }
+
+    // Convert valid tempo string into a number
+    tempo_value = Number(tempo_value);
+
+    // Set tempo value lower bound, update tempo button display
+    if (tempo_value < 10) {
+      bpm = 10;
+      tempo_text.value = 10;
+      return;
+    }
+
+    // Set tempo value upper bound, update tempo button display
+    if (tempo_value > 400) {
+      bpm = 400;
+      tempo_text.value = 400;
+      return;
+    }
+
+    // Set new project bpm from tempo_value rounded to the nearest int
+    tempo_value = Math.round(tempo_value);
+    bpm = tempo_value;
+
+    // Update tempo button display and stop playback
+    tempo_text.value = tempo_value;
+    stop_beat();
   });
 
   return;
@@ -124,10 +174,10 @@ icpbs.forEach((button) => {
 });
 
 // This function updates an instrument channel's name value
-function update_instrument_channel_name() {
+function update_instrument_channel_name(id) {
 
   // Keep track of instrument channel text box cursor style
-  const name_text = document.querySelector(".instrument-channel-name");
+  const name_text = document.getElementById(id);
 
   // Make the cursor appear for visual feedback
   name_text.style.caretColor = "white";
@@ -168,13 +218,13 @@ function update_instrument_channel_name() {
 }
 
 // This function updates an instrument channel's volume
-function update_instrument_channel_volume() {
+function update_instrument_channel_volume(id) {
 
   // Keep track of volume text box cursor style
-  const volume_text = document.querySelector(".volume-popup-text");
+  const volume_text = document.getElementById(id);
 
   // Keep track of original volume value
-  let volume_value_original = document.querySelector(".volume-popup-text").value;
+  volume_value_original = volume_text.value;
 
   // Make the cursor appear for visual feedback, highlight button
   volume_text.style.caretColor = "white";
@@ -185,12 +235,12 @@ function update_instrument_channel_volume() {
     if (key == "Enter") {
 
       // Make the cursor disappear after pressing "Enter"
-      // Also undoes highlight button
+      // Undo highlight button
       volume_text.style.caretColor = "transparent";
       volume_text.style.backgroundColor = "#551ABB";
 
       // Extract volume text field value
-      let volume_value = document.querySelector(".volume-popup-text").value;
+      let volume_value = volume_text.value;
 
       // Create new regex to determine if user entered valid volume
       var regex = /^\d*\-*\.?\d*$/;
@@ -198,7 +248,7 @@ function update_instrument_channel_volume() {
 
       // Exit function if user entered invalid volume
       if (is_valid_volume_value == false) {
-        document.querySelector(".volume-popup-text").value = volume_value_original;
+        volume_text.value = volume_value_original;
         return;
       }
 
@@ -207,25 +257,98 @@ function update_instrument_channel_volume() {
 
       // Set volume value lower bound, update volume button display
       if (volume_value < 0) {
-        document.querySelector(".volume-popup-text").value = 0;
+        volume_text.value = 0;
         return;
       }
 
       // Set volume value upper bound, update volume button display
-      if (volume_value > 120) {
-        document.querySelector(".volume-popup-text").value = 120;
+      if (volume_value > 100) {
+        volume_text.value = 100;
         return;
       }
 
       // Set new volume value from volume_value rounded to the nearest int
       volume_value = Math.round(volume_value);
 
-      // Update volume button display
-      document.querySelector(".volume-popup-text").value = volume_value;
+      // Update instrument volume value
+      volume_text.value = volume_value;
       return;
     }
   });
 
+  // Clicking outside the text after typing a new value also updates
+  // the instrument channel's volume
+  volume_text.addEventListener("blur", function() {
+
+    // Make the cursor disappear after clicking away from the text
+    volume_text.style.caretColor = "transparent";
+    volume_text.style.backgroundColor = "#551ABB";
+
+    // Extract volume text field value
+    let volume_value = volume_text.value;
+
+    // Create new regex to determine if user entered valid volume
+    var regex = /^\d*\-*\.?\d*$/;
+    var is_valid_volume_value = regex.test(volume_value);
+
+    // Exit function if user entered invalid volume
+    if (is_valid_volume_value == false) {
+      volume_text.value = volume_value_original;
+      return;
+    }
+
+    // Convert valid volume string into a number
+    volume_value = Number(volume_value);
+
+    // Set volume value lower bound, update volume button display
+    if (volume_value < 0) {
+      volume_text.value = 0;
+      return;
+    }
+
+    // Set volume value upper bound, update volume button display
+    if (volume_value > 100) {
+      volume_text.value = 100;
+      return;
+    }
+
+    // Set new volume value from volume_value rounded to the nearest int
+    volume_value = Math.round(volume_value);
+
+    // Update instrument volume value
+    volume_text.value = volume_value;
+    return;
+  });
+
+  return;
+}
+
+// This function accepts an instrument channel's updated volume
+function accept_instrument_channel_volume(id) {
+
+  // Get the volume text id using this OK button's id
+  volume_text_id = "volume-text-" + id[3];
+
+  // Update the instrument channel's volume
+  let new_volume = document.getElementById(volume_text_id).value;
+  
+
+  // Close the instrument channel popup window
+  close_instrument_channel_popup();
+  return;
+}
+
+// This function denies an instrument channel's updated volume
+function deny_instrument_channel_volume(id) {
+
+  // Get the volume text id using this Cancel button's id
+  volume_text_id = "volume-text-" + id[7];
+
+  // Revert volume value back to original value
+  document.getElementById(volume_text_id).value = volume_value_original;
+
+  // Close the instrument channel popup window
+  close_instrument_channel_popup();
   return;
 }
 
@@ -258,6 +381,14 @@ function play_icpb_sound(e) {
 
 // This function plays the beat at the project's bpm
 function play_beat() {
+
+  // Only allow header play button once
+  if (playing_beat == true) {
+    return;
+  }
+
+  // Header play button is now playing beat
+  playing_beat = true;
 
   // Lock the note grid during playback
   lock_grid = true;
@@ -292,6 +423,9 @@ function play_beat() {
 
 // This function stops the beat and resets to the beginning
 function stop_beat() {
+
+  // Header play button is not playing beat
+  playing_beat = false;
 
   // Unlock the note grid after playback
   lock_grid = false;

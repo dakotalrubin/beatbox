@@ -241,7 +241,6 @@ button:hover {
     background-color: #C9B7FF;
     border-radius: 8px;
     position: absolute;
-    center: 0;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.1);
     text-align: center;

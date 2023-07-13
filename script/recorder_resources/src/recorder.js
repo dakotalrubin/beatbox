@@ -1,4 +1,4 @@
-import InlineWorker from 'inline-worker';
+import InlineWorker from '../inline-worker/index.js';
 
 export class Recorder {
     config = {

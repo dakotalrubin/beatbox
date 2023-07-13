@@ -519,17 +519,32 @@ hiddenUploadBtn.addEventListener("change", upload_audio, false)
 function upload_audio(event){
     const uploadBtn = event.target
     const files = event.target.files
-    const instrumentChannelIndex = uploadBtn.getAttribute("data-channel")
+    const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel")
 
     //Check if file is smaller than 1MB
     if (this.files[0].size > 1048576){
-      alert("File is too big!")
+      alert("Max File size is 1MB. Try Again!")
       return
     }
     
-    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
-    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
-}
+    //Load new uploaded sound into Instrument Channel
+    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]))
+    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load()
+
+    //Check if file is 2 seconds MAX
+    const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`)
+    audioElem.addEventListener("loadedmetadata", function() {
+      //If the audio duration > 2 seconds, default to kick drum
+      if (audioElem.duration > 2) {
+        alert("Max Duration size is 2 seconds. Try Again!");
+        // Reset the audio element
+        audioElem.src = "./sounds/kick.wav";
+        audioElem.load();
+        return;
+      }
+    });
+    
+  }
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

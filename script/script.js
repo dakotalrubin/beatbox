@@ -8,7 +8,6 @@ let lock_grid = false; // Locks note grid during playback
 let popup = document.getElementById("popup"); // Toggles popup window
 let lock_icon = document.getElementById("lock-icon"); // Toggles lock icon
 let playing_beat = false; // Only allow header play button once
-
 let volume_value_original; // Recovers original volume value
 
 // Global variables for beat playback and latency maintenance
@@ -329,9 +328,10 @@ function accept_instrument_channel_volume(id) {
   // Get the volume text id using this OK button's id
   volume_text_id = "volume-text-" + id[3];
 
-  // Update the instrument channel's volume
-  let new_volume = document.getElementById(volume_text_id).value;
-  
+  // Update the instrument channel's volume as a percent
+  let new_volume = document.getElementById(volume_text_id).value * 0.01;
+  const audio = document.querySelector(`audio[sound="${id[3]}"]`);
+  audio.volume = new_volume;
 
   // Close the instrument channel popup window
   close_instrument_channel_popup();

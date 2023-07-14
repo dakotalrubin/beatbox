@@ -20,6 +20,10 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+let defaultSoundArry = [
+"./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
+"./sounds/openhat.wav", "./sounds/ride.wav", "./sounds/snare.wav", "./sounds/tink.wav"
+]
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON HANDLING -----------------------------------------------
@@ -517,59 +521,34 @@ customUploadBtn.addEventListener("click", function(){
 hiddenUploadBtn.addEventListener("change", upload_audio, false)
 
 function upload_audio(event){
-    let files = event.target.files;
+    const uploadBtn = event.target
+    const files = event.target.files
+    const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel")
 
     //Check if file is smaller than 1MB
     if (this.files[0].size > 1048576){
-      alert("File is too big!")
+      alert("Max File size is 1MB. Try Again!")
       return
     }
     
-    $("audio").attr("src", URL.createObjectURL(files[0]));
-    //Right now, hardcoded for first Instrument Channel
-    //Will need to find a way to change dynamically for each I. Channel
-    document.querySelector(`audio[sound="${1}"]`).load();
-}
+    //Load new uploaded sound into Instrument Channel
+    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]))
+    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load()
 
-// ----------------------------------------------------------------------------
-// AUDIO DOWNLOAD -----------------------------------
-// ----------------------------------------------------------------------------
-
-/* ***Commented out for now, use script section in index.html instead***
-// Creates header_download event listener
-const header_download = document.querySelector(".header-download");
-// for header_download, adds event listener for "click"
-header_download.addEventListener("click", startRecording);
-
-function startRecording(){
-  if( audioContxRec == null ){
-    audioContxRec = new AudioContext();
+    //Check if file is 2 seconds MAX
+    const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`)
+    audioElem.addEventListener("loadedmetadata", function() {
+      //If the audio duration > 2 seconds, default to kick drum
+      if (audioElem.duration > 2) {
+        alert("Max Duration size is 2 seconds. Try Again!");
+        // Reset the audio element
+        audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
+        audioElem.load();
+        return;
+      }
+    });
+    
   }
-if( endOfLoopRecording == false){
-  rec = new Recorder(audioContxRec);
-  startRec = true;
-
-  rec.record();
-  play_beat();
-  startRec = false;
-}
-  return;
-}
-
-function stopRecording(){
-  
-  rec.stop();
-  endOfLoopRecording = false;
-  downloadRecording();
-  rec.clear();
-  return;
-}
-
-function downloadRecording(){
-
-  return;
-}
-*/
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

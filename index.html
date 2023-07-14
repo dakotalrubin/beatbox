@@ -12,7 +12,8 @@
         <link rel="stylesheet" href="./style/style.css">
         <script src="./script/script.js" defer></script>
         <script src="./script/jQuery/jquery.js" defer></script>
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.js"></script>
+
         <!-- Link for header button icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
@@ -55,11 +56,9 @@
                 <div class="instrument-channel">
 
                     <!-- This div contains the name of an instrument channel -->
-                    <!-- and a lock icon during playback -->
                     <div class="instrument-channel-left">
-                        <input class="instrument-channel-name" id="channel-name-1" type="text" 
-                            spellcheck="false" value="Kick" onclick="update_instrument_channel_name(this.id)">
-                        <i class="fa fa-lock" id="lock-icon"></i>
+                        <input class="instrument-channel-name" type="text" spellcheck="false" 
+                            value="Kick" onclick="update_instrument_channel_name()">
                     </div>
 
                     <!-- This div contains the buttons on the right side of a channel -->
@@ -82,16 +81,15 @@
                                 <!-- This div contains all volume button pop-up elements -->
                                 <div class="popup" id="popup">
                                     <h2>Volume</h2>
-                                    <input class="popup-text volume-popup-text" id="volume-text-1" 
-                                        type="text" value=100 spellcheck="false" 
-                                        onclick="update_instrument_channel_volume(this.id)">
+                                    <input class="popup-text" type="text" value=100 
+                                        spellcheck="false" onclick="update_instrument_channel_volume()">
 
                                     <!-- This div contains the OK and Cancel buttons in a pop-up window -->
                                     <div class="ok-cancel-buttons">
-                                        <button class="ok" id="ok-1"
-                                            onclick="accept_instrument_channel_volume(this.id)">OK</button>
-                                        <button class="cancel" id="cancel-1"
-                                            onclick="deny_instrument_channel_volume(this.id)">Cancel</button>
+                                        <button class="ok" 
+                                            onclick="close_instrument_channel_popup()">OK</button>
+                                        <button class="cancel" 
+                                            onclick="close_instrument_channel_popup()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -138,14 +136,64 @@
         </div>
 
         <!-- Default sounds -->
-        <audio id="sound-1" sound="1" src="./sounds/kick.wav"></audio>
-        <audio id="sound-2" sound="2" src="./sounds/hihat.wav"></audio>
-        <audio id="sound-3" sound="3" src="./sounds/clap.wav"></audio>
-        <audio id="sound-4" sound="4" src="./sounds/openhat.wav"></audio>
-        <audio id="sound-5" sound="5" src="./sounds/boom.wav"></audio>
-        <audio id="sound-6" sound="6" src="./sounds/ride.wav"></audio>
-        <audio id="sound-7" sound="7" src="./sounds/snare.wav"></audio>
-        <audio id="sound-8" sound="8" src="./sounds/tom.wav"></audio>
-        <audio id="sound-9" sound="9" src="./sounds/tink.wav"></audio>
+        <audio sound="1" src="./sounds/kick.wav"></audio>
+        <audio sound="2" src="./sounds/hihat.wav"></audio>
+        <audio sound="3" src="./sounds/clap.wav"></audio>
+        <audio sound="4" src="./sounds/openhat.wav"></audio>
+        <audio sound="5" src="./sounds/boom.wav"></audio>
+        <audio sound="6" src="./sounds/ride.wav"></audio>
+        <audio sound="7" src="./sounds/snare.wav"></audio>
+        <audio sound="8" src="./sounds/tom.wav"></audio>
+        <audio sound="9" src="./sounds/tink.wav"></audio>
     </body>
+
+    <script defer type="text/javascript">
+        var audio_context;
+        var recorder;
+
+        function startAudioRecorder(stream) {
+            var input = audio_context.createMediaStreamSource(stream);
+            recorder = new Recorder(input);
+        }
+
+        window.onload = function init() {
+            try {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+                window.URL = window.URL || window.webkitURL;
+
+                audio_context = new AudioContext;
+            } catch (e) {
+                alert("Web Audio API is not supported in this browser");
+            }
+
+            navigator.getUserMedia({ audio: true }, startAudioRecorder, function (e) {
+                alert("No live audio input in this browser");
+            });
+        }
+
+        /*
+        function startRecording() {
+            recorder.clear();
+            recorder.record();
+        }
+
+        function stopRecording() {
+            recorder.stop();
+            createDownloadLink();
+        }
+
+        function createDownloadLink() {
+            var player = document.getElementById(ele);
+            recorder && recorder.exportWAV(function (blob) {
+                var filereader = new FileReader();
+                filereader.addEventListener("load", function () {
+                    player.src = filereader.result;
+
+                }, false);
+                filereader.readAsDataURL(blob);
+            });
+        }
+        */
+    </script>
 </html>

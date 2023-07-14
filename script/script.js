@@ -564,25 +564,30 @@ function upload_audio(event){
 /*
 // Creates header_download event listener
 const header_download = document.querySelector(".header-download");
-// for header_download, adds event listener for "click"
+
+// For header_download, adds event listener for "click"
 header_download.addEventListener("click", startRecording);
 
-function startRecording(){
-  if( audioContxRec == null ){
+// This function begins recording when user clicks header download button
+function startRecording() {
+
+  if(audioContxRec == null) {
     audioContxRec = new AudioContext();
   }
-if( endOfLoopRecording == false){
-  rec = new Recorder(audioContxRec);
-  startRec = true;
 
-  rec.record();
-  play_beat();
-  startRec = false;
-}
+  if(endOfLoopRecording == false) {
+    rec = new Recorder(audioContxRec);
+    startRec = true;
+
+    rec.record();
+    play_beat();
+    startRec = false;
+  }
+
   return;
 }
 
-function stopRecording(){
+function stopRecording() {
   
   rec.stop();
   endOfLoopRecording = false;
@@ -591,7 +596,7 @@ function stopRecording(){
   return;
 }
 
-function downloadRecording(){
+function downloadRecording() {
 
   return;
 }

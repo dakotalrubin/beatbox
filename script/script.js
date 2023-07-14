@@ -532,6 +532,46 @@ function upload_audio(event){
 }
 
 // ----------------------------------------------------------------------------
+// AUDIO DOWNLOAD -----------------------------------
+// ----------------------------------------------------------------------------
+
+/* ***Commented out for now, use script section in index.html instead***
+// Creates header_download event listener
+const header_download = document.querySelector(".header-download");
+// for header_download, adds event listener for "click"
+header_download.addEventListener("click", startRecording);
+
+function startRecording(){
+  if( audioContxRec == null ){
+    audioContxRec = new AudioContext();
+  }
+if( endOfLoopRecording == false){
+  rec = new Recorder(audioContxRec);
+  startRec = true;
+
+  rec.record();
+  play_beat();
+  startRec = false;
+}
+  return;
+}
+
+function stopRecording(){
+  
+  rec.stop();
+  endOfLoopRecording = false;
+  downloadRecording();
+  rec.clear();
+  return;
+}
+
+function downloadRecording(){
+
+  return;
+}
+*/
+
+// ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------
 // ----------------------------------------------------------------------------
 

@@ -20,10 +20,17 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
 "./sounds/openhat.wav", "./sounds/ride.wav", "./sounds/snare.wav", "./sounds/tink.wav"
 ]
+
+// Global variables for audio recording
+let audioContxRec = null;
+let startRec = false;
+let rec = null;
+let endOfLoopRecording = false;
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON HANDLING -----------------------------------------------
@@ -549,6 +556,46 @@ function upload_audio(event){
     });
     
   }
+
+// ----------------------------------------------------------------------------
+// AUDIO DOWNLOAD HANDLING ----------------------------------------------------
+// ----------------------------------------------------------------------------
+
+/*
+// Creates header_download event listener
+const header_download = document.querySelector(".header-download");
+// for header_download, adds event listener for "click"
+header_download.addEventListener("click", startRecording);
+
+function startRecording(){
+  if( audioContxRec == null ){
+    audioContxRec = new AudioContext();
+  }
+if( endOfLoopRecording == false){
+  rec = new Recorder(audioContxRec);
+  startRec = true;
+
+  rec.record();
+  play_beat();
+  startRec = false;
+}
+  return;
+}
+
+function stopRecording(){
+  
+  rec.stop();
+  endOfLoopRecording = false;
+  downloadRecording();
+  rec.clear();
+  return;
+}
+
+function downloadRecording(){
+
+  return;
+}
+*/
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

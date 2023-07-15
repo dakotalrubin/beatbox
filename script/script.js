@@ -20,10 +20,16 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
 "./sounds/openhat.wav", "./sounds/ride.wav", "./sounds/snare.wav", "./sounds/tink.wav"
 ]
+
+// Global variables for audio recording
+let audioContxRec = null;
+let startRec = false;
+let endOfLoopRecording = false;
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON HANDLING -----------------------------------------------
@@ -549,6 +555,106 @@ function upload_audio(event){
     });
     
   }
+
+// ----------------------------------------------------------------------------
+// AUDIO DOWNLOAD HANDLING ----------------------------------------------------
+// ----------------------------------------------------------------------------
+
+// Creates header_download event listener
+const header_download = document.querySelector(".header-download");
+
+// For header_download, adds event listener for "click"
+header_download.addEventListener("click", startRecording);
+
+// webkitURL is deprecated
+URL = window.URL || window.webkitURL;
+
+var get_user_media_stream; // Stream from getUserMedia()
+var rec; // Recorder.js object
+var input; // MediaStreamAudioSourceNode for recording
+
+// Create an AudioContext
+var AudioContext = window.AudioContext;
+var audioContext; // audioContext helps with recording process
+
+// This function begins recording when user clicks header download button
+function startRecording() {
+
+  // Basic constraints
+  var constraints = {audio: true, video: false };
+
+  // Header download button disables until we get feedback from getUserMedia()
+  header_download.disabled = true;
+
+  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+
+    // Sanity check
+    console.log("getUserMedia() success! Stream created. Initializing recorder.js...");
+
+    // Create audioContext after getUserMedia() called
+    audioContext = new AudioContext;
+
+    // Assign stream for later
+    get_user_media_stream = stream;
+
+    // Create a media source stream from stream above
+    input = audioContext.createMediaStreamSource(stream);
+
+    // Create Recorder object to record stereo sound (2 channels)
+    rec = new Recorder(input, {numChannels: 2});
+
+    // Begin recording process
+    rec.record();
+    console.log("Recording started.");
+    play_beat();
+
+  }).catch(function(err) {
+
+    // Another sanity check
+    console.log("getUserMedia() failed...");
+
+    // Enable header download button if getUserMedia() fails
+    header_download.disabled = false;
+  });
+
+  return;
+}
+
+/*
+
+// Functions from audioDownload branch we can reference
+
+function startRecording() {
+  if(audioContxRec == null) {
+    audioContxRec = new AudioContext();
+  }
+
+  if(endOfLoopRecording == false) {
+    rec = new Recorder(audioContxRec);
+    startRec = true;
+
+    rec.record();
+    play_beat();
+    startRec = false;
+  }
+
+  return;
+}
+
+function stopRecording() {
+  
+  rec.stop();
+  endOfLoopRecording = false;
+  downloadRecording();
+  rec.clear();
+  return;
+}
+
+function downloadRecording() {
+
+  return;
+}
+*/
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

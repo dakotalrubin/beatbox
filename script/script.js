@@ -362,6 +362,80 @@ function deny_instrument_channel_volume(id) {
   return;
 }
 
+// Get the panning knob element
+const panningKnob = document.querySelector(".instrument-channel-panning-tic");
+
+// Variables to keep track of the rotation state
+let isDragging = false;
+let startAngle = 0;
+let startMouseX = 0;
+let currentAngle = 0;
+const sensitivity = 1.2; // sensitivity for panning button rotation
+
+// Function to handle mouse down event
+function handleMouseDown(event) {
+  event.preventDefault(); // Prevent text selection and other default drag behavior
+  isDragging = true;
+  startAngle = getCurrentRotationAngle();
+  startMouseX = event.clientX;
+  currentAngle = startAngle;
+}
+
+// Function to handle mouse move event
+function handleMouseMove(event) {
+  if (!isDragging) return;
+  const mouseX = event.clientX;
+  const angleChange = (mouseX - startMouseX) * sensitivity;
+  const newAngle = startAngle + angleChange;
+  const clampedAngle = clampRotationAngle(newAngle); // Clamp the angle within the specified range
+
+  currentAngle = clampedAngle;
+  rotateTic(currentAngle);
+}
+
+// Function to handle mouse up event
+function handleMouseUp(event) {
+  if (!isDragging) return;
+  isDragging = false;
+  currentAngle = clampRotationAngle(currentAngle); // Clamp the final angle when dragging stops
+  rotateTic(currentAngle);
+}
+
+// Function to get the current rotation angle of the tic
+function getCurrentRotationAngle() {
+  const transformStyle = window.getComputedStyle(panningKnob).getPropertyValue("transform");
+  const matrix = transformStyle.match(/^matrix\((.+)\)$/);
+  if (matrix) {
+    const matrixValues = matrix[1].split(",");
+    if (matrixValues.length === 6) {
+      return Math.atan2(parseFloat(matrixValues[1]), parseFloat(matrixValues[0])) * (180 / Math.PI);
+    }
+  }
+  return 0;
+}
+
+// Function to clamp the rotation angle within the specified range (makes no sense for a panning knob to fully rotate 360 deg)
+function clampRotationAngle(angle) {
+  const minAngle = -141;
+  const maxAngle = 141;
+  if (angle < minAngle) {
+    return minAngle;
+  } else if (angle > maxAngle) {
+    return maxAngle;
+  }
+  return angle;
+}
+
+// Function to rotate the tic to a specific angle
+function rotateTic(angle) {
+  panningKnob.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+}
+
+// Add event listeners for the panning button
+document.addEventListener("mousedown", handleMouseDown);
+document.addEventListener("mousemove", handleMouseMove);
+document.addEventListener("mouseup", handleMouseUp);
+
 // ----------------------------------------------------------------------------
 // AUDIO PLAYBACK HANDLING ----------------------------------------------------
 // ----------------------------------------------------------------------------

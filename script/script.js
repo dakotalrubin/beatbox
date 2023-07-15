@@ -361,6 +361,15 @@ function deny_instrument_channel_volume(id) {
   close_instrument_channel_popup();
   return;
 }
+// ----------------------------------------------------------------------------
+// AUDIO PANNING HANDLING ----------------------------------------------------
+// ----------------------------------------------------------------------------
+
+function panAudio(){
+  const panner = new audioContext.PannerNode();
+
+  return;
+}
 
 // ----------------------------------------------------------------------------
 // AUDIO PLAYBACK HANDLING ----------------------------------------------------
@@ -420,7 +429,8 @@ function play_beat() {
 
   // Add Audio Context for scheduling
   if (audioContx == null) {
-    audioContx = new (window.AudioContext || window.webkitAudioContext)();
+    audioContx = new AudioContext(); //(window.AudioContext || window.webkitAudioContext)();
+
   }
 
   nextNoteTime = audioContx.currentTime + 0.05;
@@ -444,6 +454,7 @@ function stop_beat() {
   lock_icon.classList.remove("show-instrument-channel-lock");
 
   beatsPlaying = false;
+  endOfLoopRecording = false;
   beat = 1;
   clearInterval(interval);
 
@@ -461,6 +472,15 @@ function playNextBeat() {
   let audio = document.querySelector("audio");
 
   if (beat == beatsInLoop) {
+    if( startRec ){ // if we are currently recording and have reached end of loop -> STOP & SAVE
+      endOfLoopRecording = true;
+      //stopRecording();
+      stop_beat();
+      rec.stop(); // stop recording 
+      endOfLoopRecording = false;
+      downloadRecording();  
+      return; // exit before next beat plays
+    }
     beat = 1; // Beat will reset to 1
   } else {
     beat++; // Increment beat
@@ -472,7 +492,6 @@ function playNextBeat() {
 
   // Play a selected instrument note button
   if (value == 1) {
-
     // Plays audio without waiting for previous sound to finish
     audio.currentTime = 0;
     highlightElemBackground(instrument_note_button, '#9e5803');
@@ -570,8 +589,8 @@ header_download.addEventListener("click", startRecording);
 URL = window.URL || window.webkitURL;
 
 var get_user_media_stream; // Stream from getUserMedia()
-var rec; // Recorder.js object
 var input; // MediaStreamAudioSourceNode for recording
+var rec; // Recorder.js object
 
 // Create an AudioContext
 var AudioContext = window.AudioContext;
@@ -582,6 +601,7 @@ function startRecording() {
 
   // Basic constraints
   var constraints = {audio: true, video: false };
+  startRec = true;
 
   // Header download button disables until we get feedback from getUserMedia()
   header_download.disabled = true;
@@ -619,42 +639,36 @@ function startRecording() {
 
   return;
 }
-
 /*
+const downloadBtn = document.querySelector(".header-download")
+const downloadLink = document.querySelector(".header-download-link")
+downloadBtn.addEventListener("click", function(){
+  downloadLink.click()
+})*/
+/*
+downloadLink.addEventListener("click", downloadRecording)
 
-// Functions from audioDownload branch we can reference
+function createBlob(){
+  const blob = new Blob(queueBeats, {type: "audio/wav"})
+  //Create  a new unique URL that exists only on browser
+  const href = URL.createObjectURL(blob)
+  downloadLink.setAttribute("href", href)
 
-function startRecording() {
-  if(audioContxRec == null) {
-    audioContxRec = new AudioContext();
-  }
-
-  if(endOfLoopRecording == false) {
-    rec = new Recorder(audioContxRec);
-    startRec = true;
-
-    rec.record();
-    play_beat();
-    startRec = false;
-  }
-
-  return;
-}
-
-function stopRecording() {
-  
-  rec.stop();
-  endOfLoopRecording = false;
-  downloadRecording();
-  rec.clear();
-  return;
-}
+  //Clears memory
+} */
 
 function downloadRecording() {
-
+  // save recording and provide user with .WAV file
+  // write code here:
+  const blob = new Blob(queueBeats, {type: "audio/wav"})
+  //Create  a new unique URL that exists only on browser
+  const href = URL.createObjectURL(blob)
+  downloadLink.setAttribute("href", href)
+  rec.clear();
+  input.stop();
   return;
 }
-*/
+
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

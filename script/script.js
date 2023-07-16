@@ -16,6 +16,7 @@ let nextNoteTime = 0.0;
 let beat = 0;
 let queueBeats = [];
 let audioContx = null;
+let audioNode = null;
 let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
@@ -430,7 +431,6 @@ function play_beat() {
   // Add Audio Context for scheduling
   if (audioContx == null) {
     audioContx = new AudioContext(); //(window.AudioContext || window.webkitAudioContext)();
-
   }
 
   nextNoteTime = audioContx.currentTime + 0.05;
@@ -588,9 +588,9 @@ header_download.addEventListener("click", startRecording);
 // webkitURL is deprecated
 URL = window.URL || window.webkitURL;
 
-var get_user_media_stream; // Stream from getUserMedia()
 var input; // MediaStreamAudioSourceNode for recording
 var rec; // Recorder.js object
+var recordingBlob; // Blob that stores the .wav file produced by the recording
 
 // Create an AudioContext
 var AudioContext = window.AudioContext;
@@ -606,89 +606,77 @@ function startRecording() {
   // Header download button disables until we get feedback from getUserMedia()
   header_download.disabled = true;
 
-  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+  // stream = audioContx.createMediaStreamDestination();//.then(function(stream) {
 
-    // Sanity check
-    console.log("getUserMedia() success! Stream created. Initializing recorder.js...");
+  //   // Sanity check
+  //   console.log("getUserMedia() success! Stream created. Initializing recorder.js...");
 
-    // Create audioContext after getUserMedia() called
-    audioContext = new AudioContext;
+  //   // Create audioContext after getUserMedia() called
+  //   audioContext = new AudioContext;
 
-    // Assign stream for later
-    get_user_media_stream = stream;
+  //   // Assign stream for later
+  //   get_user_media_stream = stream;
 
-    // Create a media source stream from stream above
-    input = audioContext.createMediaStreamSource(stream);
+  //   // Create a media source stream from stream above
+  //   input = audioContext.createMediaStreamSource(stream);
 
     // Create Recorder object to record stereo sound (2 channels)
-    rec = new Recorder(input, {numChannels: 2});
+
+    if (audioContx == null) {
+      audioContx = new AudioContext;
+    }
+
+    console.log(audioContx);
+    if (audioNode == null) {
+      // TODO Generalize for 8 channels
+      audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
+    }
+    console.log(audioNode);
+    rec = new Recorder(audioNode, {numChannels: 2});
 
     // Begin recording process
     rec.record();
     console.log("Recording started.");
     play_beat();
 
-  }).catch(function(err) {
+  // }).catch(function(err) {
 
     // Another sanity check
-    console.log("getUserMedia() failed...");
+    // console.log("getUserMedia() failed...");
+    // console.log(err);
 
-    // Enable header download button if getUserMedia() fails
-    header_download.disabled = false;
-  });
+    // // Enable header download button if getUserMedia() fails
+    // header_download.disabled = false;
+  // });
 
   return;
 }
 
-// const downloadBtn = document.querySelector(".header-download")
+// An ivisible link that will be "clicked" to trigger the audio file 
+// download when the download render is done
 const downloadLink = document.querySelector(".header-download-link")
-// downloadBtn.addEventListener("click", function(){
-//   downloadLink.click()
-// })
-
 downloadLink.addEventListener("click", downloadBlob)
-
-function downloadBlob(){
-  //Create  a new unique URL that exists only on browser
-  console.log(recordingBlob);
-  const href = URL.createObjectURL(recordingBlob)
-  downloadLink.setAttribute("href", href)
-  //Clears memory
-} 
 
 // Export the recording from Recorder.js and download the .WAV file
 function downloadRecording() {
-
   rec.exportWAV(takeExportWAVBlob);
-
   rec.clear();
   return;
 }
 
-var recordingBlob;
-
 function takeExportWAVBlob(blob) {
   if (!blob) {
     console.log("export failed");
+    return;
   }
-  console.log(blob);
   recordingBlob = blob;
-  // forceDownload(blob, "test");
-
-  console.log("got exported blob");
-
   downloadLink.click();
 }
 
-// function forceDownload(blob, filename) {
-//   var url = (window.URL || window.webkitURL).createObjectURL(blob);
-//   var link = window.document.createElement('a');
-//   link.href = url;
-//   link.download = filename || 'output.wav';
-//   var click = document.createEvent("Event");
-//   click.initEvent("click", true, true);
-//   link.dispatchEvent(click);
-// }
+function downloadBlob(){
+  const href = URL.createObjectURL(recordingBlob)
+  downloadLink.setAttribute("href", href)
+} 
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

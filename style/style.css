@@ -235,7 +235,26 @@ button:hover {
     transform: translateY(1px);
 }
 
-/* Styles an instrument channel panning button */
+/* Styles an instrument channel volume popup */
+.volume-popup {
+    position: fixed;
+    background-color: #C9B7FF;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+.instrument-channel-volume-button:hover .volume-popup {
+    opacity: 1;
+}
+
+/* Styles an instrument channel panning knob */
 .instrument-channel-panning-knob {
     width: 30px;
     height: 30px;
@@ -272,6 +291,7 @@ button:hover {
     pointer-events: none;
 }
 
+/* Styles an instrument channel panning popup */
 .panning-popup {
     position: fixed;
     background-color: #C9B7FF;

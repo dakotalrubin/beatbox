@@ -362,39 +362,79 @@ function deny_instrument_channel_volume(id) {
   return;
 }
 
+// Get the volume elements
+const volumeButton = document.querySelector(".instrument-channel-volume-button");
+const volumePopup = document.querySelector(".volume-popup");
+const volumeID = document.getElementById("volume-text-1");
+
+let showVPopupTimeout;
+
+// Function to update volume popup position
+function updateVolumePopupPosition(event) {
+  const x = event.clientX + 25;
+  const y = event.clientY - 25;
+  volumePopup.style.left = `${x}px`;
+  volumePopup.style.top = `${y}px`;
+}
+
+// Function to update volume popup value
+function updateVolumePopupValue() {
+  const volumeValue = volumeID.value;
+  volumePopup.textContent = volumeValue.toString();
+}
+
+function handleMouseEnterVolume(event) {
+  showVPopupTimeout = setTimeout(() => {
+    updateVolumePopupPosition(event);
+    updateVolumePopupValue();
+    volumePopup.style.opacity = 1;
+  }, 700);
+}
+
+function handleMouseLeaveVolume() {
+  volumePopup.style.opacity = 0;
+}
+
+function handleMouseMoveVolume(event) {
+  updateVolumePopupPosition(event);
+}
+
+// Add event listeners for the volume button
+volumeButton.addEventListener("mouseenter", handleMouseEnterVolume);
+volumeButton.addEventListener("mouseleave", handleMouseLeaveVolume);
+volumeButton.addEventListener("mousemove", handleMouseMoveVolume);
+
 // ----------------------------------------------------------------------------
 // PANNING (UI) HANDLING ------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Get the panning tic element
+// Get the panning elements
 const panningKnobTic = document.querySelector(".instrument-channel-panning-tic");
-// Get the panning knob  element
 const panningKnob = document.querySelector(".instrument-channel-panning-knob");
-// Get the panning popup button element
 const panningpopup = document.querySelector(".panning-popup");
 
-let showPopupTimeout;
-
-// Variables to keep track of the rotation state
+// Variables 
 let isDragging = false;
 let startAngle = 0;
 let startMouseX = 0;
 let currentAngle = 0;
 const sensitivity = 1.2; 
+let showPPopupTimeout;
 
 // Function to handle mouse down event on the panning knob button
-function handleMouseDown(event) {
+function handleMouseDownPanning(event) {
   event.preventDefault();
   isDragging = true;
   startAngle = getCurrentRotationAngle();
   startMouseX = event.clientX;
   currentAngle = startAngle;
   panningKnob.classList.add("active"); 
-  clearTimeout(showPopupTimeout);
+  clearTimeout(showPPopupTimeout);
 }
 
 // Function to handle mouse move event
-function handleMouseMove(event) {
+function handleMouseMovePanning(event) {
+  volumePopup.style.opacity = 0;
   if (!isDragging) return;
   const mouseX = event.clientX;
   const angleChange = (mouseX - startMouseX) * sensitivity;
@@ -408,7 +448,7 @@ function handleMouseMove(event) {
 }
 
 // Function to handle mouse up event
-function handleMouseUp(event) {
+function handleMouseUpPanning(event) {
   if (!isDragging) return;
   isDragging = false;
   currentAngle = clampRotationAngle(currentAngle); 
@@ -451,16 +491,16 @@ function rotateTic(angle) {
 let doubleClickTimer = null;
 
 // Function to handle double click event
-function handleDoubleClick(event) {
+function handleDoubleClickPanning(event) {
   panningpopup.style.opacity = 1;
   event.preventDefault(); 
   clearTimeout(doubleClickTimer);
   resetTicAngle();
   const angle = getCurrentRotationAngle();
   updatePanningPopUpValue(angle);
-  showPopupTimeout = setTimeout(() => {
+  showPPopupTimeout = setTimeout(() => {
     panningpopup.style.opacity = 0;
-  }, 700);
+  }, 550);
 }
 
 // Function to reset the tic angle to 0
@@ -469,6 +509,7 @@ function resetTicAngle() {
   rotateTic(currentAngle);
 }
 
+// Function to update the position of the panning popup
 function updatePanningPopUpPosition(event) {
   const x = event.clientX + 25;
   const y = event.clientY - 25;
@@ -476,8 +517,24 @@ function updatePanningPopUpPosition(event) {
   panningpopup.style.top = `${y}px`;
 }
 
+// Function to update the value of the panning popup
 function updatePanningPopUpValue(angle) {
   panningpopup.textContent = Math.round(angle).toString();
+}
+
+function handleMouseEnterPanning() {
+  if (!isDragging) {
+    showPPopupTimeout = setTimeout(() => {
+      panningpopup.style.opacity = 1;
+      const angle = getCurrentRotationAngle();
+      updatePanningPopUpValue(angle);
+    }, 700); 
+  }
+}
+
+function handleMouseLeavePanning() {
+  clearTimeout(showPPopupTimeout);
+  panningpopup.style.opacity = 0;
 }
 
 panningKnob.addEventListener("mousemove", (event) => {
@@ -487,31 +544,16 @@ panningKnob.addEventListener("mousemove", (event) => {
 });
 
 // Add event listener for double click on the panning knob
-panningKnob.addEventListener("dblclick", handleDoubleClick);
+panningKnob.addEventListener("dblclick", handleDoubleClickPanning);
 
 // Add event listener for the panning knob button
-panningKnob.addEventListener("mousedown", handleMouseDown);
-document.addEventListener("mousemove", handleMouseMove);
-document.addEventListener("mouseup", handleMouseUp);
+panningKnob.addEventListener("mousedown", handleMouseDownPanning);
+document.addEventListener("mousemove", handleMouseMovePanning);
+document.addEventListener("mouseup", handleMouseUpPanning);
 
 // Add event listener for the panning knob button
-panningKnob.addEventListener("mouseenter", handleMouseEnter);
-panningKnob.addEventListener("mouseleave", handleMouseLeave);
-
-function handleMouseEnter() {
-  if (!isDragging) {
-    showPopupTimeout = setTimeout(() => {
-      panningpopup.style.opacity = 1;
-      const angle = getCurrentRotationAngle();
-      updatePanningPopUpValue(angle);
-    }, 700); 
-  }
-}
-
-function handleMouseLeave() {
-  clearTimeout(showPopupTimeout);
-  panningpopup.style.opacity = 0;
-}
+panningKnob.addEventListener("mouseenter", handleMouseEnterPanning);
+panningKnob.addEventListener("mouseleave", handleMouseLeavePanning);
 
 // ----------------------------------------------------------------------------
 // AUDIO PLAYBACK HANDLING ----------------------------------------------------

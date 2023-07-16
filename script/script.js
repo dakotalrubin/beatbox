@@ -769,10 +769,8 @@ muteBtn.addEventListener("click", function() {
 // AUDIO DOWNLOAD HANDLING ----------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Creates header_download event listener
+// Creates header_download event listener for click
 const header_download = document.querySelector(".header-download");
-
-// For header_download, adds event listener for "click"
 header_download.addEventListener("click", startRecording);
 
 // webkitURL is deprecated
@@ -863,6 +861,7 @@ function downloadRecording() {
 
   return;
 }
+
 */
 
 // ----------------------------------------------------------------------------

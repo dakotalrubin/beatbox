@@ -639,36 +639,56 @@ function startRecording() {
 
   return;
 }
-/*
-const downloadBtn = document.querySelector(".header-download")
+
+// const downloadBtn = document.querySelector(".header-download")
 const downloadLink = document.querySelector(".header-download-link")
-downloadBtn.addEventListener("click", function(){
-  downloadLink.click()
-})*/
-/*
-downloadLink.addEventListener("click", downloadRecording)
+// downloadBtn.addEventListener("click", function(){
+//   downloadLink.click()
+// })
 
-function createBlob(){
-  const blob = new Blob(queueBeats, {type: "audio/wav"})
+downloadLink.addEventListener("click", downloadBlob)
+
+function downloadBlob(){
   //Create  a new unique URL that exists only on browser
-  const href = URL.createObjectURL(blob)
+  console.log(recordingBlob);
+  const href = URL.createObjectURL(recordingBlob)
   downloadLink.setAttribute("href", href)
-
   //Clears memory
-} */
+} 
 
+// Export the recording from Recorder.js and download the .WAV file
 function downloadRecording() {
-  // save recording and provide user with .WAV file
-  // write code here:
-  const blob = new Blob(queueBeats, {type: "audio/wav"})
-  //Create  a new unique URL that exists only on browser
-  const href = URL.createObjectURL(blob)
-  downloadLink.setAttribute("href", href)
+
+  rec.exportWAV(takeExportWAVBlob);
+
   rec.clear();
-  input.stop();
   return;
 }
 
+var recordingBlob;
+
+function takeExportWAVBlob(blob) {
+  if (!blob) {
+    console.log("export failed");
+  }
+  console.log(blob);
+  recordingBlob = blob;
+  // forceDownload(blob, "test");
+
+  console.log("got exported blob");
+
+  downloadLink.click();
+}
+
+// function forceDownload(blob, filename) {
+//   var url = (window.URL || window.webkitURL).createObjectURL(blob);
+//   var link = window.document.createElement('a');
+//   link.href = url;
+//   link.download = filename || 'output.wav';
+//   var click = document.createEvent("Event");
+//   click.initEvent("click", true, true);
+//   link.dispatchEvent(click);
+// }
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

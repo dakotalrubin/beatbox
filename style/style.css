@@ -254,6 +254,36 @@ button:hover {
     opacity: 1;
 }
 
+/* Styles mute button */
+.instrument-channel-mute-button {
+    padding: 0;
+    background-color: #545454;
+    margin-top: 8px;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 0 1px rgb(43, 41, 41);
+    font-size: 16px;
+    font-weight: 900;
+}
+
+/* Adds animation to mute button */
+.instrument-channel-mute-button:hover {background-color: #7c7b7b;}
+.instrument-channel-mute-button:active {
+    background-color: #7c7b7b;
+    transform: translateY(1px);
+}
+
+/* Styling to make button red when muted */
+.mute-button-off {
+    background-color: #545454;
+}
+
+.mute-button-on {
+    background-color: #d7122c;
+}
+
+
 /* Styles an instrument channel panning knob */
 .instrument-channel-panning-knob {
     width: 30px;

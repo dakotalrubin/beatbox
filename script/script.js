@@ -749,6 +749,22 @@ function upload_audio(event){
     
   }
 
+// Functionality for Mute button
+const muteBtn = document.getElementById("mute-btn");
+
+muteBtn.addEventListener("click", function() {
+  // Get volume
+  let audio = document.querySelector("audio");
+
+  // Makes button red when clicked and sets volume to 0
+  if (muteBtn.classList.toggle("mute-button-on")) {
+    audio.volume = 0;
+  } else {
+    audio.volume = 1;
+  }
+});
+
+
 // ----------------------------------------------------------------------------
 // AUDIO DOWNLOAD HANDLING ----------------------------------------------------
 // ----------------------------------------------------------------------------

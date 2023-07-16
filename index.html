@@ -15,8 +15,7 @@
         <script src="./script/jQuery/jquery.js" defer></script>
         
         <!-- Link for header button icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
+        <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>    </head>
 
     <body>
         <!-- This div contains the entire menu bar at the top of the screen -->
@@ -81,6 +80,7 @@
                             <div class="instrument-channel-volume-button-container">
                                 <button class="instrument-channel-volume-button" 
                                     onclick="open_instrument_channel_popup()">V</button>
+                                <div class="volume-popup" id="volume-popup">0</div>
 
                                 <!-- This div contains all volume button pop-up elements -->
                                 <div class="popup" id="popup">
@@ -98,7 +98,22 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- This div contains all elements related to the panning (knob and tic) -->
+                            <div class="instrument-channel-volume-button-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic"></div>
+                                    <div class="panning-popup" id="panning-popup">0</div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn"><i class="fa fa-volume-xmark"></i></button>
+                        </div>
+
+
                    </div>
                 </div>
 

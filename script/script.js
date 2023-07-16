@@ -16,7 +16,6 @@ let nextNoteTime = 0.0;
 let beat = 0;
 let queueBeats = [];
 let audioContx = null;
-let audioNode = null;
 let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
@@ -627,10 +626,9 @@ function startRecording() {
     }
 
     console.log(audioContx);
-    if (audioNode == null) {
-      // TODO Generalize for 8 channels
-      audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
-    }
+    // TODO Generalize to 8 channels
+    const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
+    audioNode.connect(audioContx.destination);
     console.log(audioNode);
     rec = new Recorder(audioNode, {numChannels: 2});
 

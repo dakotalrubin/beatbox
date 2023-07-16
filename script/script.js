@@ -366,25 +366,31 @@ function deny_instrument_channel_volume(id) {
 // PANNING (UI) HANDLING ------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Get the panning knob element
+// Get the panning tic element
 const panningKnobTic = document.querySelector(".instrument-channel-panning-tic");
-// Get the panning knob button element
-const panningKnobButton = document.querySelector(".instrument-channel-panning-knob");
+// Get the panning knob  element
+const panningKnob = document.querySelector(".instrument-channel-panning-knob");
+// Get the panning popup button element
+const panningpopup = document.querySelector(".panning-popup");
+
+let showPopupTimeout;
 
 // Variables to keep track of the rotation state
 let isDragging = false;
 let startAngle = 0;
 let startMouseX = 0;
 let currentAngle = 0;
-const sensitivity = 1.2; // sensitivity for panning button rotation
+const sensitivity = 1.2; 
 
 // Function to handle mouse down event on the panning knob button
 function handleMouseDown(event) {
-  event.preventDefault(); // Prevent text selection and other default drag behavior
+  event.preventDefault();
   isDragging = true;
   startAngle = getCurrentRotationAngle();
   startMouseX = event.clientX;
   currentAngle = startAngle;
+  panningKnob.classList.add("active"); 
+  clearTimeout(showPopupTimeout);
 }
 
 // Function to handle mouse move event
@@ -393,18 +399,22 @@ function handleMouseMove(event) {
   const mouseX = event.clientX;
   const angleChange = (mouseX - startMouseX) * sensitivity;
   const newAngle = startAngle + angleChange;
-  const clampedAngle = clampRotationAngle(newAngle); // Clamp the angle within the specified range
-
+  const clampedAngle = clampRotationAngle(newAngle); 
   currentAngle = clampedAngle;
   rotateTic(currentAngle);
+  updatePanningPopUpValue(currentAngle);
+  updatePanningPopUpPosition(event);
+  panningpopup.style.opacity = 1;
 }
 
 // Function to handle mouse up event
 function handleMouseUp(event) {
   if (!isDragging) return;
   isDragging = false;
-  currentAngle = clampRotationAngle(currentAngle); // Clamp the final angle when dragging stops
+  currentAngle = clampRotationAngle(currentAngle); 
   rotateTic(currentAngle);
+  panningpopup.style.opacity = 0;
+  panningKnob.classList.remove("active");
 }
 
 // Function to get the current rotation angle of the tic
@@ -442,9 +452,15 @@ let doubleClickTimer = null;
 
 // Function to handle double click event
 function handleDoubleClick(event) {
-  event.preventDefault(); // Prevent text selection and other default behavior
+  panningpopup.style.opacity = 1;
+  event.preventDefault(); 
   clearTimeout(doubleClickTimer);
   resetTicAngle();
+  const angle = getCurrentRotationAngle();
+  updatePanningPopUpValue(angle);
+  showPopupTimeout = setTimeout(() => {
+    panningpopup.style.opacity = 0;
+  }, 700);
 }
 
 // Function to reset the tic angle to 0
@@ -453,13 +469,49 @@ function resetTicAngle() {
   rotateTic(currentAngle);
 }
 
+function updatePanningPopUpPosition(event) {
+  const x = event.clientX + 25;
+  const y = event.clientY - 25;
+  panningpopup.style.left = `${x}px`;
+  panningpopup.style.top = `${y}px`;
+}
+
+function updatePanningPopUpValue(angle) {
+  panningpopup.textContent = Math.round(angle).toString();
+}
+
+panningKnob.addEventListener("mousemove", (event) => {
+  updatePanningPopUpPosition(event);
+  const angle = getCurrentRotationAngle();
+  updatePanningPopUpValue(angle);
+});
+
 // Add event listener for double click on the panning knob
-panningKnobButton.addEventListener("dblclick", handleDoubleClick);
+panningKnob.addEventListener("dblclick", handleDoubleClick);
 
 // Add event listener for the panning knob button
-panningKnobButton.addEventListener("mousedown", handleMouseDown);
+panningKnob.addEventListener("mousedown", handleMouseDown);
 document.addEventListener("mousemove", handleMouseMove);
 document.addEventListener("mouseup", handleMouseUp);
+
+// Add event listener for the panning knob button
+panningKnob.addEventListener("mouseenter", handleMouseEnter);
+panningKnob.addEventListener("mouseleave", handleMouseLeave);
+
+function handleMouseEnter() {
+  if (!isDragging) {
+    showPopupTimeout = setTimeout(() => {
+      panningpopup.style.opacity = 1;
+      const angle = getCurrentRotationAngle();
+      updatePanningPopUpValue(angle);
+    }, 700); 
+  }
+}
+
+function handleMouseLeave() {
+  clearTimeout(showPopupTimeout);
+  panningpopup.style.opacity = 0;
+}
 
 // ----------------------------------------------------------------------------
 // AUDIO PLAYBACK HANDLING ----------------------------------------------------

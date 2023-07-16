@@ -245,8 +245,21 @@ button:hover {
     overflow: hidden;
     margin-top: 5px;
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.6);
+    background-color: #545454; 
+    transition: background-color 0.15s ease; 
 }
-  
+
+/* Styles an instrument channel panning button when hovered over*/
+.instrument-channel-panning-knob:hover {
+    background-color: #757575; 
+}
+
+/* Styles an instrument channel panning button when clicked/held */
+.instrument-channel-panning-knob.active {
+    background-color: #757575; 
+}
+
+/* Styles an instrument channel panning buutton tic */
 .instrument-channel-panning-tic {
     position: absolute;
     top: 0;
@@ -257,6 +270,24 @@ button:hover {
     height: 12px; 
     background-color: orange;
     pointer-events: none;
+}
+
+.panning-popup {
+    position: fixed;
+    background-color: #C9B7FF;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+.instrument-channel-panning-knob:hover .panning-popup {
+    opacity: 1;
 }
 
 /* Styles the instrument channel popup windows */

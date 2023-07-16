@@ -235,8 +235,6 @@ button:hover {
     transform: translateY(1px);
 }
 
-
-
 /* Styles an instrument channel panning button */
 .instrument-channel-panning-knob {
     width: 30px;
@@ -246,21 +244,20 @@ button:hover {
     position: relative;
     overflow: hidden;
     margin-top: 5px;
-    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.6); /* Adjust the spread radius and color */
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.6);
 }
   
 .instrument-channel-panning-tic {
     position: absolute;
     top: 0;
     left: 50%;
-    transform-origin: bottom;
+    transform-origin: center 15px;
     transform: translateX(-50%) rotate(0deg);
     width: 3px;
-    height: 15px; /* Adjust the length of the tic */
+    height: 12px; 
     background-color: orange;
     pointer-events: none;
 }
-
 
 /* Styles the instrument channel popup windows */
 .popup {

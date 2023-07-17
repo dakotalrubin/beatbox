@@ -28,7 +28,7 @@ let defaultSoundArry = [
 
 // Global variables for audio recording
 let audioContxRec = null;
-let startRec = false;
+let currentlyRecording = false;
 let endOfLoopRecording = false;
 
 // ----------------------------------------------------------------------------
@@ -664,13 +664,14 @@ function playNextBeat() {
   let audio = document.querySelector("audio");
 
   if (beat == beatsInLoop) {
-    if( startRec ){ // if we are currently recording and have reached end of loop -> STOP & SAVE
+    if( currentlyRecording ){ // if we are currently recording and have reached end of loop -> STOP & SAVE
       endOfLoopRecording = true;
       //stopRecording();
       stop_beat();
       rec.stop(); // stop recording 
       endOfLoopRecording = false;
       downloadRecording();  
+      currentlyRecording = false;
       return; // exit before next beat plays
     }
     beat = 1; // Beat will reset to 1
@@ -806,56 +807,25 @@ var audioContext; // audioContext helps with recording process
 
 // This function begins recording when user clicks header download button
 function startRecording() {
+  currentlyRecording = true;
+  // Disable play and download buttons until recording is finished to prevent overly long recordings
+  disableHeaderButtons(true);
 
-  // Basic constraints
-  var constraints = {audio: true, video: false };
-  startRec = true;
+  if (audioContx == null) {
+    audioContx = new AudioContext;
+  }
 
-  // Header download button disables until we get feedback from getUserMedia()
-  header_download.disabled = true;
+  // TODO Generalize to 8 channels
+  const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
+  audioNode.connect(audioContx.destination);
 
-  // stream = audioContx.createMediaStreamDestination();//.then(function(stream) {
+  // Create Recorder object to record stereo sound (2 channels)
+  rec = new Recorder(audioNode, {numChannels: 2});
 
-  //   // Sanity check
-  //   console.log("getUserMedia() success! Stream created. Initializing recorder.js...");
-
-  //   // Create audioContext after getUserMedia() called
-  //   audioContext = new AudioContext;
-
-  //   // Assign stream for later
-  //   get_user_media_stream = stream;
-
-  //   // Create a media source stream from stream above
-  //   input = audioContext.createMediaStreamSource(stream);
-
-    // Create Recorder object to record stereo sound (2 channels)
-
-    if (audioContx == null) {
-      audioContx = new AudioContext;
-    }
-
-    console.log(audioContx);
-    // TODO Generalize to 8 channels
-    const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
-    audioNode.connect(audioContx.destination);
-    console.log(audioNode);
-    rec = new Recorder(audioNode, {numChannels: 2});
-
-    // Begin recording process
-    rec.record();
-    console.log("Recording started.");
-    play_beat();
-
-  // }).catch(function(err) {
-
-    // Another sanity check
-    // console.log("getUserMedia() failed...");
-    // console.log(err);
-
-    // // Enable header download button if getUserMedia() fails
-    // header_download.disabled = false;
-  // });
-
+  // Begin recording process
+  rec.record();
+  console.log("Recording started.");
+  play_beat();
   return;
 }
 
@@ -866,12 +836,14 @@ downloadLink.addEventListener("click", downloadBlob)
 
 // Export the recording from Recorder.js and download the .WAV file
 function downloadRecording() {
-  rec.exportWAV(takeExportWAVBlob);
+  rec.exportWAV(takeExportedWAVBlob);
   rec.clear();
+  // Everything is recorded and downloaded so the user can safely start another download
+  disableHeaderButtons(false);
   return;
 }
 
-function takeExportWAVBlob(blob) {
+function takeExportedWAVBlob(blob) {
   if (!blob) {
     console.log("export failed");
     return;
@@ -881,9 +853,17 @@ function takeExportWAVBlob(blob) {
 }
 
 function downloadBlob(){
-  const href = URL.createObjectURL(recordingBlob)
-  downloadLink.setAttribute("href", href)
-} 
+  const href = URL.createObjectURL(recordingBlob);
+  downloadLink.setAttribute("href", href);
+}
+
+// Disables or enables all header buttons: used for preventing changes during audio recording
+function disableHeaderButtons(bool) {
+  header_play.disabled = bool;
+  header_download.disabled = bool;
+  header_stop.disabled = bool;
+  header_tempo.disabled = bool;
+}
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

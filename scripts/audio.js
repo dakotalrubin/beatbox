@@ -220,7 +220,7 @@ const header_download = document.querySelector(".header-download");
 header_download.addEventListener("click", startRecording);
 
 // webkitURL is deprecated
-URL = window.URL || window.webkitURL;
+URL = window.URL; // || window.webkitURL;
 
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
@@ -249,7 +249,7 @@ function startRecording() {
   disableHeaderButtons(true);
 
   if (audioContx == null) {
-    audioContx = new AudioContext;
+    audioContx = new AudioContext();
   }
   var mergeNode = connectAudioToAudioContext();
 

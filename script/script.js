@@ -28,7 +28,7 @@ let defaultSoundArry = [
 
 // Global variables for audio recording
 let audioContxRec = null;
-let startRec = false;
+let currentlyRecording = false;
 let endOfLoopRecording = false;
 
 // ----------------------------------------------------------------------------
@@ -361,6 +361,15 @@ function deny_instrument_channel_volume(id) {
   close_instrument_channel_popup();
   return;
 }
+// ----------------------------------------------------------------------------
+// AUDIO PANNING HANDLING ----------------------------------------------------
+// ----------------------------------------------------------------------------
+
+function panAudio(){
+  const panner = new audioContext.PannerNode();
+
+  return;
+}
 
 // Get the volume elements
 const volumeButton = document.querySelector(".instrument-channel-volume-button");
@@ -613,7 +622,7 @@ function play_beat() {
 
   // Add Audio Context for scheduling
   if (audioContx == null) {
-    audioContx = new (window.AudioContext || window.webkitAudioContext)();
+    audioContx = new AudioContext(); //(window.AudioContext || window.webkitAudioContext)();
   }
 
   nextNoteTime = audioContx.currentTime + 0.05;
@@ -637,6 +646,7 @@ function stop_beat() {
   lock_icon.classList.remove("show-instrument-channel-lock");
 
   beatsPlaying = false;
+  endOfLoopRecording = false;
   beat = 1;
   clearInterval(interval);
 
@@ -654,6 +664,16 @@ function playNextBeat() {
   let audio = document.querySelector("audio");
 
   if (beat == beatsInLoop) {
+    if( currentlyRecording ){ // if we are currently recording and have reached end of loop -> STOP & SAVE
+      endOfLoopRecording = true;
+      //stopRecording();
+      stop_beat();
+      rec.stop(); // stop recording 
+      endOfLoopRecording = false;
+      downloadRecording();  
+      currentlyRecording = false;
+      return; // exit before next beat plays
+    }
     beat = 1; // Beat will reset to 1
   } else {
     beat++; // Increment beat
@@ -665,7 +685,6 @@ function playNextBeat() {
 
   // Play a selected instrument note button
   if (value == 1) {
-
     // Plays audio without waiting for previous sound to finish
     audio.currentTime = 0;
     highlightElemBackground(instrument_note_button, '#9e5803');
@@ -779,9 +798,9 @@ header_download.addEventListener("click", startRecording);
 // webkitURL is deprecated
 URL = window.URL || window.webkitURL;
 
-var get_user_media_stream; // Stream from getUserMedia()
-var rec; // Recorder.js object
 var input; // MediaStreamAudioSourceNode for recording
+var rec; // Recorder.js object
+var recordingBlob; // Blob that stores the .wav file produced by the recording
 
 // Create an AudioContext
 var AudioContext = window.AudioContext;
@@ -789,82 +808,63 @@ var audioContext; // audioContext helps with recording process
 
 // This function begins recording when user clicks header download button
 function startRecording() {
+  currentlyRecording = true;
+  // Disable play and download buttons until recording is finished to prevent overly long recordings
+  disableHeaderButtons(true);
 
-  // Basic constraints
-  var constraints = {audio: true, video: false };
-
-  // Header download button disables until we get feedback from getUserMedia()
-  header_download.disabled = true;
-
-  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-
-    // Sanity check
-    console.log("getUserMedia() success! Stream created. Initializing recorder.js...");
-
-    // Create audioContext after getUserMedia() called
-    audioContext = new AudioContext;
-
-    // Assign stream for later
-    get_user_media_stream = stream;
-
-    // Create a media source stream from stream above
-    input = audioContext.createMediaStreamSource(stream);
-
-    // Create Recorder object to record stereo sound (2 channels)
-    rec = new Recorder(input, {numChannels: 2});
-
-    // Begin recording process
-    rec.record();
-    console.log("Recording started.");
-    play_beat();
-
-  }).catch(function(err) {
-
-    // Another sanity check
-    console.log("getUserMedia() failed...");
-
-    // Enable header download button if getUserMedia() fails
-    header_download.disabled = false;
-  });
-
-  return;
-}
-
-/*
-
-// Functions from audioDownload branch we can reference
-
-function startRecording() {
-  if(audioContxRec == null) {
-    audioContxRec = new AudioContext();
+  if (audioContx == null) {
+    audioContx = new AudioContext;
   }
 
-  if(endOfLoopRecording == false) {
-    rec = new Recorder(audioContxRec);
-    startRec = true;
+  // TODO Generalize to 8 channels
+  const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
+  audioNode.connect(audioContx.destination);
 
-    rec.record();
-    play_beat();
-    startRec = false;
-  }
+  // Create Recorder object to record stereo sound (2 channels)
+  rec = new Recorder(audioNode, {numChannels: 2});
 
+  // Begin recording process
+  rec.record();
+  console.log("Recording started.");
+  play_beat();
   return;
 }
 
-function stopRecording() {
-  
-  rec.stop();
-  endOfLoopRecording = false;
-  downloadRecording();
-  rec.clear();
-  return;
-}
+// An ivisible link that will be "clicked" to trigger the audio file 
+// download when the download render is done
+const downloadLink = document.querySelector(".header-download-link")
+downloadLink.addEventListener("click", downloadBlob)
 
+// Export the recording from Recorder.js and download the .WAV file
 function downloadRecording() {
-
+  rec.exportWAV(takeExportedWAVBlob);
+  rec.clear();
+  // Everything is recorded and downloaded so the user can safely start another download
+  disableHeaderButtons(false);
   return;
 }
-*/
+
+function takeExportedWAVBlob(blob) {
+  if (!blob) {
+    console.log("export failed");
+    return;
+  }
+  recordingBlob = blob;
+  downloadLink.click();
+}
+
+function downloadBlob(){
+  const href = URL.createObjectURL(recordingBlob);
+  downloadLink.setAttribute("href", href);
+}
+
+// Disables or enables all header buttons: used for preventing changes during audio recording
+function disableHeaderButtons(bool) {
+  header_play.disabled = bool;
+  header_download.disabled = bool;
+  header_stop.disabled = bool;
+  header_tempo.disabled = bool;
+}
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOW HANDLING -----------------------------------

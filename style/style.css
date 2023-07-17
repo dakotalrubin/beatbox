@@ -283,6 +283,9 @@ button:hover {
     background-color: #d7122c;
 }
 
+.mute-button-on:hover {
+    background-color: #f72e49;
+}
 
 /* Styles an instrument channel panning knob */
 .instrument-channel-panning-knob {

@@ -776,11 +776,21 @@ function mute_volume(id) {
   // Get volume
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
 
+  // Maintain original volume
+  if (!audio.ogVol) {
+    audio.ogVol = audio.volume;
+  } else if ((audio.volume != 1) && (audio.volume > 0)) {
+    audio.ogVol = audio.volume;
+  } else if (audio.volume == 1) {
+    audio.ogVol = 1;
+  } 
+
   // Makes button red when clicked and sets volume to 0
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
   } else {
-    audio.volume = 1;
+    // audio.volume = audio.ogVol;
+    audio.volume = audio.ogVol;
   }
   return;
 }

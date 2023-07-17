@@ -268,7 +268,7 @@ button:hover {
 }
 
 /* Adds animation to mute button */
-.instrument-channel-mute-button:hover {background-color: #7c7b7b;}
+.instrument-channel-mute-button:hover {background-color: #f72e49;}
 .instrument-channel-mute-button:active {
     background-color: #7c7b7b;
     transform: translateY(1px);
@@ -281,10 +281,6 @@ button:hover {
 
 .mute-button-on {
     background-color: #d7122c;
-}
-
-.mute-button-on:hover {
-    background-color: #f72e49;
 }
 
 /* Styles an instrument channel panning knob */

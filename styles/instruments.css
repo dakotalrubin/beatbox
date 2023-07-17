@@ -1,108 +1,3 @@
-/* Just importing a cool font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-/* Applies to everything as a default! */
-body {
-    display: flex; /* This command enables all Flexbox commands when you need them! */
-    flex-direction: column; /* Arranges header and instrument containers in a column */
-
-    font-family: Roboto, sans-serif; /* Imported font from above, else use safe font */
-    background-color: #242526;
-    color: #F9FAF8;
-    margin: 0px; /* Don't need space around borders by default */
-    min-height: 100vh; /* Sets the min height of the page to equal the screen size */
-}
-
-/* Default button styling (for buttons in general) */
-button, input {
-    width: 110px; /* Default button sizing */
-    height: 82px;
-    background-color: #551ABB;
-    color: #FFFFFF;
-
-    /* Removes ugly default button border */
-    /* Buttons are clickable, but no visual feedback! */
-    border: 0px;
-
-    border-radius: 16px; /* Default edge roundness */
-    font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
-    font-size: 18px;
-}
-
-/* Controls cursor appearance upon hovering over a button */
-button:hover {
-    cursor: pointer;
-}
-
-/* Styles the row of icons at the top of the screen */
-.header-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 5px;
-    margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
-}
-
-/* Styles all header control buttons */
-.header-tempo, .header-play, .header-stop, .header-download {
-    font-size: 42px;
-    vertical-align: top;
-}
-
-/* Styles header-tempo button sizing so it's consistent with other header buttons */
-.header-tempo {
-    height: 80px;
-}
-
-/* Adds animation to the header-play button */
-.header-play:hover {background-color: #7621C5;}
-.header-play:active {
-    background-color: #7621C5;
-    transform: translateY(1px);
-}
-
-/* Adds animation to the header-stop button */
-.header-stop:hover {background-color: #7621C5;}
-.header-stop:active {
-    background-color: #7621C5;
-    transform: translateY(1px);
-}
-
-/* Adds animation to the header-download button */
-.header-download:hover {background-color: #7621C5;}
-.header-download:active {
-    background-color: #7621C5;
-    transform: translateY(1px);
-}
-
-/* Styles the header tempo button text box */
-.header-tempo {
-    text-align: center;
-}
-
-/* Styles the header login button */
-.header-login {
-    border-radius: 8px;
-    background-color: #3882F6;
-    color: #FFFFFF;
-    font-size: 18px;
-    font-weight: 700;
-    height: 36px;
-    width: 110px;
-    position: relative;
-    left: -22px;
-}
-
-/* Styles the header login button on hover */
-.header-login:hover {background-color: #649DFA;}
-
-/* Styles the header login button on click */
-.header-login:active {
-    background-color: #649DFA;
-    transform: translateY(1px);
-}
-
 /* Styles the rows of instruments */
 .instrument-container {
     display: flex;
@@ -316,7 +211,7 @@ button:hover {
     transform: translateX(-50%) rotate(0deg);
     width: 3px;
     height: 12px; 
-    background-color: orange;
+    background-color: #FFFFFF;
     pointer-events: none;
 }
 

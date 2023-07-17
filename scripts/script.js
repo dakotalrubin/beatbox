@@ -66,7 +66,7 @@ function update_header_tempo() {
       let tempo_value = tempo_text.value;
 
       // Create new regex to determine if user entered valid tempo
-      var regex = /^\d*\-*\.?\d*$/;
+      var regex = /^-?(\d*\.)?\d+$/;
       var is_valid_tempo_value = regex.test(tempo_value);
 
       // Exit function if user entered invalid tempo
@@ -114,7 +114,7 @@ function update_header_tempo() {
     let tempo_value = tempo_text.value;
 
     // Create new regex to determine if user entered valid tempo
-    var regex = /^\d*\-*\.?\d*$/;
+    var regex = /^-?(\d*\.)?\d+$/;
     var is_valid_tempo_value = regex.test(tempo_value);
 
     // Exit function if user entered invalid tempo
@@ -252,7 +252,7 @@ function update_instrument_channel_volume(id) {
       let volume_value = volume_text.value;
 
       // Create new regex to determine if user entered valid volume
-      var regex = /^\d*\-*\.?\d*$/;
+      var regex = /^-?(\d*\.)?\d+$/;
       var is_valid_volume_value = regex.test(volume_value);
 
       // Exit function if user entered invalid volume
@@ -297,7 +297,7 @@ function update_instrument_channel_volume(id) {
     let volume_value = volume_text.value;
 
     // Create new regex to determine if user entered valid volume
-    var regex = /^\d*\-*\.?\d*$/;
+    var regex = /^-?(\d*\.)?\d+$/;
     var is_valid_volume_value = regex.test(volume_value);
 
     // Exit function if user entered invalid volume
@@ -361,6 +361,7 @@ function deny_instrument_channel_volume(id) {
   close_instrument_channel_popup();
   return;
 }
+
 // ----------------------------------------------------------------------------
 // AUDIO PANNING HANDLING ----------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -738,7 +739,7 @@ customUploadBtn.addEventListener("click", function(){
 //When the file is uploaded, the hiddenUploadBtn will call the upload_audio func
 hiddenUploadBtn.addEventListener("change", upload_audio, false)
 
-function upload_audio(event){
+function upload_audio(event) {
     const uploadBtn = event.target
     const files = event.target.files
     const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel")
@@ -769,20 +770,31 @@ function upload_audio(event){
   }
 
 // Functionality for Mute button
-const muteBtn = document.getElementById("mute-btn");
+function mute_volume(id) {
 
-muteBtn.addEventListener("click", function() {
+  var muteBtn = document.getElementById(id);
+
   // Get volume
-  let audio = document.querySelector("audio");
+  let audio = document.querySelector(`audio[sound="${id[9]}"]`);
+
+  // Maintain original volume
+  if (!audio.ogVol) {
+    audio.ogVol = audio.volume;
+  } else if ((audio.volume != 1) && (audio.volume > 0)) {
+    audio.ogVol = audio.volume;
+  } else if (audio.volume == 1) {
+    audio.ogVol = 1;
+  } 
 
   // Makes button red when clicked and sets volume to 0
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
   } else {
-    audio.volume = 1;
+    // audio.volume = audio.ogVol;
+    audio.volume = audio.ogVol;
   }
-});
-
+  return;
+}
 
 // ----------------------------------------------------------------------------
 // AUDIO DOWNLOAD HANDLING ----------------------------------------------------

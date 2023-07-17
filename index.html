@@ -8,23 +8,30 @@
 
         <title>BeatBox</title>
 
-        <!-- Our CSS style page and JavaScript pages will be linked here -->
-        <link rel="stylesheet" href="./style/style.css">
+        <!-- Our CSS styles pages will be linked here -->
+        <link rel="stylesheet" href="./styles/headers.css">
+        <link rel="stylesheet" href="./styles/instruments.css">
+
+        <!-- Our JavaScript pages will be linked here -->
+        <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.js"></script>
-        <script src="./script/script.js" defer></script>
-        <script src="./script/jQuery/jquery.js" defer></script>
+        <script src="./scripts/jQuery/jquery.js" defer></script>
+        <script src="./scripts/script.js" defer></script>
+        <!-- <script type="module" src="./scripts/menu_bar.js" defer></script> -->
+        <!-- <script type="module" src="./scripts/instrument_channels.js" defer></script> -->
+        <!-- <script type="module" src="./scripts/audio.js" defer></script> -->
         
-        <!-- Link for header button icons -->
-        <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>    </head>
+        <!-- Links for header button icons -->
+        <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
 
     <body>
         <!-- This div contains the entire menu bar at the top of the screen -->
         <div class="header-container">
 
-            <!-- This div contains the site logo (if time allows!) -->
-            <div class="header-logo">
-                <!-- Image here! -->
-            </div>
+            <!-- This div contains a dummy header class for proper menu bar spacing  -->
+            <div class="header-dummy"></div>
 
             <!-- This div contains all the controls in the menu bar -->
             <!-- These controls are located in the top-middle of the screen -->
@@ -79,7 +86,7 @@
                             <!-- This div contains all elements related to the volume buttom -->
                             <div class="instrument-channel-volume-button-container">
                                 <button class="instrument-channel-volume-button" 
-                                    onclick="open_instrument_channel_popup()">V</button>
+                                    onclick="open_instrument_channel_popup()"><i class="fas fa-volume-up"></i></button>
                                 <div class="volume-popup" id="volume-popup">0</div>
 
                                 <!-- This div contains all volume button pop-up elements -->
@@ -110,10 +117,9 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn"><i class="fa fa-volume-xmark"></i></button>
+                            <button class="instrument-channel-mute-button" id="mute-btn-1"
+                                onclick="mute_volume(this.id)"><i class="fa fa-volume-xmark"></i></button>
                         </div>
-
-
                    </div>
                 </div>
 
@@ -164,6 +170,5 @@
         <audio id="sound-6" sound="6" src="./sounds/ride.wav"></audio>
         <audio id="sound-7" sound="7" src="./sounds/snare.wav"></audio>
         <audio id="sound-8" sound="8" src="./sounds/tom.wav"></audio>
-        <audio id="sound-9" sound="9" src="./sounds/tink.wav"></audio>
     </body>
 </html>

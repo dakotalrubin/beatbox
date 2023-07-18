@@ -1,11 +1,10 @@
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
-import {  } from './menu_bar.js';
-import {  } from './audio.js';
 
 let popup = document.getElementById("popup"); // Toggles popup window
 let volume_value_original; // Recovers original volume value
+let showVPopupTimeout; // Controls timing of volume mouseover popup
 
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
@@ -13,27 +12,62 @@ let defaultSoundArry = [
 ]
 
 // ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------
+// EVENT LISTENERS FOR ALL INSTRUMENT CHANNELS --------------------------------
 // ----------------------------------------------------------------------------
 
-// This function opens an instrument channel popup window
-function open_instrument_channel_popup() {
-  popup.classList.add("open-popup");
-  return;
-}
+// Channel names
+const channel_names = document.querySelectorAll(".instrument-channel-name");
+channel_names.forEach((input) => {
+  input.addEventListener("click", update_instrument_channel_name);
+});
 
-// This function closes an instrument channel popup window
-function close_instrument_channel_popup() {
-  popup.classList.remove("open-popup");
-  return;
-}
+// Channel play buttons
+const icpbs = document.querySelectorAll(".instrument-channel-play-button");
+icpbs.forEach((button) => {
+  button.addEventListener("click", play_icpb_sound);
+});
+
+// Channel volume buttons
+const icvbs = document.querySelectorAll(".instrument-channel-volume-button");
+icvbs.forEach((button) => {
+  button.addEventListener("click", open_instrument_channel_popup);
+  button.addEventListener("mouseenter", handleMouseEnterVolume);
+  button.addEventListener("mouseleave", handleMouseLeaveVolume);
+  button.addEventListener("mousemove", handleMouseMoveVolume);
+});
+
+// Channel volume text boxes
+const icvt = document.querySelectorAll(".volume-popup-text");
+icvt.forEach((input) => {
+  input.addEventListener("click", update_instrument_channel_volume);
+});
+
+// Channel volume popup OK buttons
+const pobs = document.querySelectorAll(".ok");
+pobs.forEach((button) => {
+  button.addEventListener("click", accept_instrument_channel_volume);
+});
+
+// Channel volume popup cancel buttons
+const pcbs = document.querySelectorAll(".cancel");
+pcbs.forEach((button) => {
+  button.addEventListener("click", deny_instrument_channel_volume);
+});
+
+// Channel mute buttons
+const icmbs = document.querySelectorAll(".instrument-channel-mute-button");
+icmbs.forEach((button) => {
+  button.addEventListener("click", mute_volume);
+});
 
 // ----------------------------------------------------------------------------
-// CHANNEL NAMING -------------------------------------------------------------
+// CHANNEL NAME ---------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// This function updates an instrument channel's name value
-function update_instrument_channel_name(id) {
+function update_instrument_channel_name(e) {
+
+  // Initializes id variable with the clicked channel name's id
+  const id = e.target.getAttribute('id');
 
   // Keep track of instrument channel text box cursor style
   const name_text = document.getElementById(id);
@@ -41,8 +75,7 @@ function update_instrument_channel_name(id) {
   // Make the cursor appear for visual feedback
   name_text.style.caretColor = "white";
 
-  // Pressing enter after typing a new value updates the instrument
-  // channel's name
+  // Pressing enter after typing new value updates name
   name_text.addEventListener("keypress", ({key}) => {
     if (key == "Enter") {
 
@@ -58,8 +91,7 @@ function update_instrument_channel_name(id) {
     }
   });
 
-  // Clicking outside the text after typing a new value also updates
-  // the instrument channel's name
+  // Clicking outside text after typing new value updates name
   name_text.addEventListener("blur", function() {
 
     // Make the cursor disappear after clicking away from the text
@@ -72,31 +104,17 @@ function update_instrument_channel_name(id) {
     name_text.value = name_value.substring(0, 10);
     return;
   });
-
-  return;
 }
 
 // ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL PLAY BUTTON  --------------------------------------------
+// INSTRUMENT CHANNEL PLAY BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Creates node list (icpbs) of instrument-channel-play-buttons
-const icpbs = document.querySelectorAll(".instrument-channel-play-button");
-
-// For each instrument-channel-play-button, adds event listener for "click"
-icpbs.forEach((button) => {
-  button.addEventListener("click", play_icpb_sound);
-});
-
-// This function plays the audio of the clicked
-// instrument-channel-play-button (ICPB)
+// This function plays audio for clicked instrument channel play button
 function play_icpb_sound(e) {
 
-  // Initializes icpb variable with the clicked ICPB
-  const icpb = e.target;
-
   // Initializes audio variable with the clicked ICPB's associated sound
-  const sound = icpb.getAttribute('sound');
+  const sound = e.target.getAttribute('sound');
   const audio = document.querySelector(`audio[sound="${sound}"]`);
 
   // Exits function if clicked ICPB has no audio (unnecessary right now)
@@ -107,12 +125,11 @@ function play_icpb_sound(e) {
   // Plays audio without waiting for previous sound to finish
   audio.currentTime = 0;
   audio.play();
-
   return;
 }
 
 // ----------------------------------------------------------------------------
-// UPLOAD AUDIO BUTTON --------------------------------------------------------
+// INSTRUMENT CHANNEL UPLOAD BUTTON -------------------------------------------
 // ----------------------------------------------------------------------------
 
 //Grab hidden-upload-button and instument-channel-upload-button from HTML
@@ -160,8 +177,10 @@ function upload_audio(event) {
 // INSTRUMENT CHANNEL VOLUME BUTTON -------------------------------------------
 // ----------------------------------------------------------------------------
 
-// This function updates an instrument channel's volume
-function update_instrument_channel_volume(id) {
+function update_instrument_channel_volume(e) {
+
+  // Initializes id variable with the clicked channel name's id
+  const id = e.target.getAttribute('id');
 
   // Keep track of volume text box cursor style
   const volume_text = document.getElementById(id);
@@ -195,7 +214,6 @@ function update_instrument_channel_volume(id) {
         return;
       }
 
-      // Convert valid volume string into a number
       volume_value = Number(volume_value);
 
       // Set volume value lower bound, update volume button display
@@ -213,7 +231,6 @@ function update_instrument_channel_volume(id) {
       // Set new volume value from volume_value rounded to the nearest int
       volume_value = Math.round(volume_value);
 
-      // Update instrument volume value
       volume_text.value = volume_value;
       return;
     }
@@ -240,7 +257,6 @@ function update_instrument_channel_volume(id) {
       return;
     }
 
-    // Convert valid volume string into a number
     volume_value = Number(volume_value);
 
     // Set volume value lower bound, update volume button display
@@ -258,59 +274,90 @@ function update_instrument_channel_volume(id) {
     // Set new volume value from volume_value rounded to the nearest int
     volume_value = Math.round(volume_value);
 
-    // Update instrument volume value
     volume_text.value = volume_value;
     return;
   });
-
-  return;
 }
 
-// This function accepts an instrument channel's updated volume
-function accept_instrument_channel_volume(id) {
+function accept_instrument_channel_volume(e) {
+
+  // Initializes id variable with the clicked volume OK button's id
+  const id = e.target.getAttribute('id');
 
   // Get the volume text id using this OK button's id
-  volume_text_id = "volume-text-" + id[3];
+  let volume_text_id = "volume-popup-text-" + id[3];
 
   // Update the instrument channel's volume as a percent
   let new_volume = document.getElementById(volume_text_id).value * 0.01;
   const audio = document.querySelector(`audio[sound="${id[3]}"]`);
   audio.volume = new_volume;
-
-  // Close the instrument channel popup window
   close_instrument_channel_popup();
-  return;
 }
 
-// This function denies an instrument channel's updated volume
-function deny_instrument_channel_volume(id) {
+function deny_instrument_channel_volume(e) {
+
+  // Initializes id variable with the clicked volume Cancel button's id
+  const id = e.target.getAttribute('id');
 
   // Get the volume text id using this Cancel button's id
-  volume_text_id = "volume-text-" + id[7];
+  let volume_text_id = "volume-popup-text-" + id[7];
+
+  // If original volume value is undefined, make it default to 100
+  if(volume_value_original == null) {
+    volume_value_original = 100;
+  }
 
   // Revert volume value back to original value
   document.getElementById(volume_text_id).value = volume_value_original;
-
-  // Close the instrument channel popup window
   close_instrument_channel_popup();
-  return;
+}
+
+function updateVolumePopupPosition(e) {
+  const x = e.clientX + 20;
+  const y = e.clientY - 20;
+  let id = e.target.id[26];
+  let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
+  volumePopup.style.left = `${x}px`;
+  volumePopup.style.top = `${y}px`;
+}
+
+function updateVolumePopupValue(e) {
+  let id = e.target.id[26];
+  let volumeID = document.getElementById("volume-popup-text-" + id);
+  let volumeValue = volumeID.value;
+  let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
+  volumePopup.textContent = volumeValue.toString();
+}
+
+function handleMouseEnterVolume(e) {
+  showVPopupTimeout = setTimeout(() => {
+    let id = e.target.id[26];
+    let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
+    updateVolumePopupPosition(e);
+    updateVolumePopupValue(e);
+    volumePopup.style.opacity = 1;
+  }, 700);
+}
+
+function handleMouseLeaveVolume(e) {
+  let id = e.target.id[26];
+  let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
+  volumePopup.style.opacity = 0;
+}
+
+function handleMouseMoveVolume(e) {
+  updateVolumePopupPosition(e);
 }
 
 // ----------------------------------------------------------------------------
-// PANNING KNOB ---------------------------------------------------------------
+// INSTRUMENT CHANNEL PANNING KNOB --------------------------------------------
 // ----------------------------------------------------------------------------
-
-// Add event listeners for the volume button
-volumeButton.addEventListener("mouseenter", handleMouseEnterVolume);
-volumeButton.addEventListener("mouseleave", handleMouseLeaveVolume);
-volumeButton.addEventListener("mousemove", handleMouseMoveVolume);
 
 // Get the panning elements
 const panningKnobTic = document.querySelector(".instrument-channel-panning-tic");
 const panningKnob = document.querySelector(".instrument-channel-panning-knob");
 const panningpopup = document.querySelector(".panning-popup");
 
-// Variables 
 let isDragging = false;
 let startAngle = 0;
 let startMouseX = 0;
@@ -331,7 +378,7 @@ function handleMouseDownPanning(event) {
 
 // Function to handle mouse move event
 function handleMouseMovePanning(event) {
-  volumePopup.style.opacity = 0;
+  panningpopup.style.opacity = 0;
   if (!isDragging) return;
   const mouseX = event.clientX;
   const angleChange = (mouseX - startMouseX) * sensitivity;
@@ -385,7 +432,7 @@ function rotateTic(angle) {
   panningKnobTic.style.transform = `translateX(-50%) rotate(${angle}deg)`;
 }
 
-// Variables to keep track of double click
+// Variable to keep track of double click
 let doubleClickTimer = null;
 
 // Function to handle double click event
@@ -407,15 +454,13 @@ function resetTicAngle() {
   rotateTic(currentAngle);
 }
 
-// Function to update the position of the panning popup
 function updatePanningPopUpPosition(event) {
-  const x = event.clientX + 25;
-  const y = event.clientY - 25;
+  const x = event.clientX + 20;
+  const y = event.clientY - 20;
   panningpopup.style.left = `${x}px`;
   panningpopup.style.top = `${y}px`;
 }
 
-// Function to update the value of the panning popup
 function updatePanningPopUpValue(angle) {
   panningpopup.textContent = Math.round(angle).toString();
 }
@@ -453,16 +498,21 @@ document.addEventListener("mouseup", handleMouseUpPanning);
 panningKnob.addEventListener("mouseenter", handleMouseEnterPanning);
 panningKnob.addEventListener("mouseleave", handleMouseLeavePanning);
 
+// IN-PROGRESS
+function panAudio() {
+  const panner = new audioContext.PannerNode();
+  return;
+}
+
 // ----------------------------------------------------------------------------
-// MUTE BUTTON ----------------------------------------------------------------
+// INSTRUMENT CHANNEL MUTE BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Functionality for Mute button
-function mute_volume(id) {
+function mute_volume(e) {
 
-  var muteBtn = document.getElementById(id);
-
-  // Get volume
+  // Initializes id variable with the clicked volume mute button's id
+  let id = e.target.getAttribute('id');
+  let muteBtn = document.getElementById(id);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
 
   // Maintain original volume
@@ -478,13 +528,24 @@ function mute_volume(id) {
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
   } else {
-    // audio.volume = audio.ogVol;
     audio.volume = audio.ogVol;
   }
-  return;
 }
 
 // ----------------------------------------------------------------------------
-// SOLO BUTTON ----------------------------------------------------------------
+// INSTRUMENT CHANNEL SOLO BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
 
+
+
+// ----------------------------------------------------------------------------
+// INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------
+// ----------------------------------------------------------------------------
+
+function open_instrument_channel_popup() {
+  popup.classList.add("open-popup");
+}
+
+function close_instrument_channel_popup() {
+  popup.classList.remove("open-popup");
+}

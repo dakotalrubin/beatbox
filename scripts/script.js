@@ -806,7 +806,9 @@ const header_download = document.querySelector(".header-download");
 // For header_download, adds event listener for "click"
 header_download.addEventListener("click", startRecording);
 
-URL = window.URL;
+// webkitURL is deprecated
+URL = window.URL; // || window.webkitURL;
+
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
 
@@ -843,10 +845,12 @@ function startRecording() {
 
   // Begin recording process
   rec.record();
+  console.log("Recording started.");
   play_beat();
+  return;
 }
 
-// An invisible link that will be "clicked" to trigger the audio file 
+// An ivisible link that will be "clicked" to trigger the audio file 
 // download when the download render is done
 const downloadLink = document.querySelector(".header-download-link")
 downloadLink.addEventListener("click", downloadBlob)
@@ -857,6 +861,7 @@ function downloadRecording() {
   rec.clear();
   // Everything is recorded and downloaded so the user can safely start another download
   disableHeaderButtons(false);
+  return;
 }
 
 function takeExportedWAVBlob(blob) {

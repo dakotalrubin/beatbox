@@ -44,6 +44,11 @@ header_stop.addEventListener("click", stop_beat);
 const header_download = document.querySelector(".header-download");
 header_download.addEventListener("click", startRecording);
 
+// An invisible link that will be "clicked" to trigger the audio file 
+// download when the download render is done
+const downloadLink = document.querySelector(".header-download-link");
+downloadLink.addEventListener("click", downloadBlob);
+
 // Note buttons
 const notes = document.querySelectorAll(".instrument-note-button");
 notes.forEach((button) => {
@@ -298,7 +303,6 @@ URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
 var AudioContext = window.AudioContext;
-var audioContext; // audioContext helps with recording process
 const numInstruments = 1;
 
 function connectAudioToAudioContext() {
@@ -313,7 +317,6 @@ function connectAudioToAudioContext() {
   return audioNodeMerger;
 }
 
-// This function begins recording when user clicks header download button
 function startRecording() {
   currentlyRecording = true;
   // Disable play and download buttons until recording is finished to prevent overly long recordings
@@ -327,16 +330,9 @@ function startRecording() {
   // Create Recorder object to record stereo sound (2 channels)
   rec = new Recorder(mergeNode, {numChannels: 2});
 
-  // Begin recording process
   rec.record();
-  console.log("Recording started.");
   play_beat();
 }
-
-// An invisible link that will be "clicked" to trigger the audio file 
-// download when the download render is done
-const downloadLink = document.querySelector(".header-download-link")
-downloadLink.addEventListener("click", downloadBlob)
 
 // Export the recording from Recorder.js and download the .WAV file
 function downloadRecording() {

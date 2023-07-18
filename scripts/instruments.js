@@ -4,7 +4,6 @@
 
 let popup = document.getElementById("popup"); // Toggles popup window
 let volume_value_original; // Recovers original volume value
-let showVPopupTimeout; // Controls timing of volume mouseover popup
 
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
@@ -326,17 +325,15 @@ function updateVolumePopupValue(e) {
   let volumeID = document.getElementById("volume-popup-text-" + id);
   let volumeValue = volumeID.value;
   let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
-  volumePopup.textContent = volumeValue.toString();
+  volumePopup.textContent = "Volume: " + volumeValue.toString();
 }
 
 function handleMouseEnterVolume(e) {
-  showVPopupTimeout = setTimeout(() => {
-    let id = e.target.id[26];
-    let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
-    updateVolumePopupPosition(e);
-    updateVolumePopupValue(e);
-    volumePopup.style.opacity = 1;
-  }, 700);
+  let id = e.target.id[26];
+  let volumePopup = document.getElementById("instrument-channel-volume-popup-" + id);
+  updateVolumePopupPosition(e);
+  updateVolumePopupValue(e);
+  volumePopup.style.opacity = 1;
 }
 
 function handleMouseLeaveVolume(e) {
@@ -462,7 +459,7 @@ function updatePanningPopUpPosition(event) {
 }
 
 function updatePanningPopUpValue(angle) {
-  panningpopup.textContent = Math.round(angle).toString();
+  panningpopup.textContent = "Panning: " + Math.round(angle).toString();
 }
 
 function handleMouseEnterPanning() {

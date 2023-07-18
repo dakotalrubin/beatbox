@@ -806,16 +806,26 @@ const header_download = document.querySelector(".header-download");
 // For header_download, adds event listener for "click"
 header_download.addEventListener("click", startRecording);
 
-// webkitURL is deprecated
-URL = window.URL || window.webkitURL;
-
-var input; // MediaStreamAudioSourceNode for recording
+URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
 
 // Create an AudioContext
 var AudioContext = window.AudioContext;
 var audioContext; // audioContext helps with recording process
+const numInstruments = 1;
+
+function connectAudioToAudioContext() {
+  audioContx.destination = BaseAudioContext.destination;
+  const audioNodeMerger = audioContx.createChannelMerger(numInstruments);
+  for (var instrumentChannelIndex = 1; instrumentChannelIndex < numInstruments + 1; instrumentChannelIndex++) {
+    const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${instrumentChannelIndex}"]`));
+    audioNode.connect(audioNodeMerger);
+    audioNode.connect(audioContx.destination);
+  }
+  // audioNodeMerger.connect(audioContext.destination);
+  return audioNodeMerger;
+}
 
 // This function begins recording when user clicks header download button
 function startRecording() {
@@ -824,24 +834,19 @@ function startRecording() {
   disableHeaderButtons(true);
 
   if (audioContx == null) {
-    audioContx = new AudioContext;
+    audioContx = new AudioContext();
   }
-
-  // TODO Generalize to 8 channels
-  const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio`));
-  audioNode.connect(audioContx.destination);
+  var mergeNode = connectAudioToAudioContext();
 
   // Create Recorder object to record stereo sound (2 channels)
-  rec = new Recorder(audioNode, {numChannels: 2});
+  rec = new Recorder(mergeNode, {numChannels: 2});
 
   // Begin recording process
   rec.record();
-  console.log("Recording started.");
   play_beat();
-  return;
 }
 
-// An ivisible link that will be "clicked" to trigger the audio file 
+// An invisible link that will be "clicked" to trigger the audio file 
 // download when the download render is done
 const downloadLink = document.querySelector(".header-download-link")
 downloadLink.addEventListener("click", downloadBlob)
@@ -852,7 +857,6 @@ function downloadRecording() {
   rec.clear();
   // Everything is recorded and downloaded so the user can safely start another download
   disableHeaderButtons(false);
-  return;
 }
 
 function takeExportedWAVBlob(blob) {

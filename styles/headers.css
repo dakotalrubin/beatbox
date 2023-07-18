@@ -80,25 +80,3 @@ button:hover {
 .header-tempo {
     text-align: center;
 }
-
-/* Styles the header login button */
-.header-login {
-    border-radius: 8px;
-    background-color: #3882F6;
-    color: #FFFFFF;
-    font-size: 18px;
-    font-weight: 700;
-    height: 36px;
-    width: 110px;
-    position: relative;
-    left: -22px;
-}
-
-/* Styles the header login button on hover */
-.header-login:hover {background-color: #649DFA;}
-
-/* Styles the header login button on click */
-.header-login:active {
-    background-color: #649DFA;
-    transform: translateY(1px);
-}

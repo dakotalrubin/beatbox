@@ -216,7 +216,10 @@ function playNextBeat() {
   var secondsPerBeat = 60.0 / bpm; // Get length of beat
   nextNoteTime += secondsPerBeat; // Add beat length to last beat time
 
-  let audio = document.querySelector("audio");
+  // ***Needs to be updated for different audios***
+  let audio = document.querySelectorAll('audio');
+  // console.log(audio[1]);
+
 
   if (beat == beatsInLoop) {
     if(currentlyRecording) { // if we are currently recording and reached end of loop, STOP & SAVE
@@ -234,19 +237,25 @@ function playNextBeat() {
     beat++; // Increment beat
   } 
 
-  const id = 'note' + beat;
-  const instrument_note_button = document.getElementById(id);
-  const value = instrument_note_button.value;
-
-  // Play a selected instrument note button
-  if (value == 1) {
-    // Plays audio without waiting for previous sound to finish
-    audio.currentTime = 0;
-    highlightElemBackground(instrument_note_button, '#9e5803');
-    audio.play();
-  } else {
-    highlightElemBackground(instrument_note_button, '#303030');
+  // Store all 8 channel note ids into an array
+  const ids = [];
+  for (let i = 1; i <= 8; i += 1) {
+    ids.push(`note${beat}-${i}`);
   }
+
+  const inb = ids.map(id => document.getElementById(id));
+  const values = inb.map(inb => inb.value);
+
+  for (let i = 0; i < 8; i += 1) {
+    if (values[i] == 1) {
+      audio.currentTime = 0;
+      highlightElemBackground(inb[i], '#9e5803');
+      audio[i].play();
+    } else {
+      highlightElemBackground(inb[i], '#303030');
+    }
+  }
+
 }
 
 // Schedule beat at time now for immediate playback 

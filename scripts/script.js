@@ -914,6 +914,7 @@ function note_toggle(id) {
     return;
   }
 
+  
   // Get background color of an instrument note button
   // The 'background' variable has no value when you click a specific
   // note button for the first time, because that 'id' has no styling.

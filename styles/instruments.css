@@ -1,4 +1,9 @@
 /* Styles the rows of instruments */
+/* .instrument-container {
+    display: flex;
+    flex-direction: column;
+} */
+
 .instrument-container {
     display: flex;
     flex-direction: column;
@@ -9,7 +14,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 0 auto;
+    margin: 8px auto;
 }
 
 /* Styles the purple instrument channel buttons */

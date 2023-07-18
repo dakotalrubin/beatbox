@@ -52,7 +52,7 @@
         <div class="instrument-container">
 
             <!-- This div contains a single instrument row across the screen -->
-            <div class="instrument-row">
+            <div class="instrument-row" id="instrument-row-1">
 
                 <!-- This div contains a single instrument button on the left -->
                 <div class="instrument-channel">
@@ -120,30 +120,714 @@
                 <!-- There are eight notes in sequence across the screen -->
                 <!-- The 'value' attribute for each note determines playback -->
                 <div class="instrument-note">
-                    <button id="note1" value=0 class="instrument-note-button"></button>
+                    <button id="note1-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note2" value=0 class="instrument-note-button"></button>
+                    <button id="note2-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note3" value=0 class="instrument-note-button"></button>
+                    <button id="note3-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note4" value=0 class="instrument-note-button"></button>
+                    <button id="note4-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note5" value=0 class="instrument-note-button"></button>
+                    <button id="note5-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note6" value=0 class="instrument-note-button"></button>
+                    <button id="note6-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note7" value=0 class="instrument-note-button"></button>
+                    <button id="note7-1" value=0 class="instrument-note-button"></button>
                 </div>
                 <div class="instrument-note">
-                    <button id="note8" value=0 class="instrument-note-button"></button>
+                    <button id="note8-1" value=0 class="instrument-note-button"></button>
                 </div>
             </div>
+
+            <!--Row 2-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-2">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-2" type="text" 
+                            spellcheck="false" value="Hi-hat">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=2 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="2"
+                                class="hidden-upload-button" hidden="hidden" sound="2" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-2" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-2">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-2" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-2">OK</button>
+                                        <button class="cancel" id="cancel-2">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-2"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-2">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-2" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-2" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+            <!--Row 3-->
+
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-3">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-3" type="text" 
+                            spellcheck="false" value="Clap">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=3 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="3"
+                                class="hidden-upload-button" hidden="hidden" sound="3" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-3" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-3">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-3" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-3">OK</button>
+                                        <button class="cancel" id="cancel-3">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-3"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-3">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-3">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-3" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-3" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+            <!--Row 4-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-4">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-4" type="text" 
+                            spellcheck="false" value="Open-hat">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=4 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="4"
+                                class="hidden-upload-button" hidden="hidden" sound="4" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-4" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-4">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-4" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-4">OK</button>
+                                        <button class="cancel" id="cancel-4">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-4"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-4">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-4">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-4" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-4" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+            <!--Row 5-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-5">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-5" type="text" 
+                            spellcheck="false" value="Boom">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=5 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="5"
+                                class="hidden-upload-button" hidden="hidden" sound="5" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-5" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-5">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-5" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-5">OK</button>
+                                        <button class="cancel" id="cancel-5">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-5"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-5">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-5">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-5" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-5" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+
+            <!--Row 6-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-6">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-6" type="text" 
+                            spellcheck="false" value="Ride">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=6 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="6"
+                                class="hidden-upload-button" hidden="hidden" sound="6" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-6" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-6">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-6" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-6">OK</button>
+                                        <button class="cancel" id="cancel-6">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-6"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-6">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-6">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-6" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-6" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+            <!--Row 7-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-7">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-7" type="text" 
+                            spellcheck="false" value="Snare">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=7 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="7"
+                                class="hidden-upload-button" hidden="hidden" sound="7" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-7" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-7">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-7" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-7">OK</button>
+                                        <button class="cancel" id="cancel-7">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-7"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-7">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-7">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-7" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-7" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+
+            <!--Row 8-->
+
+            <!-- This div contains a single instrument row across the screen -->
+            <div class="instrument-row" id="instrument-row-8">
+
+                <!-- This div contains a single instrument button on the left -->
+                <div class="instrument-channel">
+
+                    <!-- This div contains the name of an instrument channel -->
+                    <!-- and a lock icon during playback -->
+                    <div class="instrument-channel-left">
+                        <input class="instrument-channel-name" id="instrument-channel-name-8" type="text" 
+                            spellcheck="false" value="Tom">
+                        <i class="fa fa-lock" id="lock-icon"></i>
+                    </div>
+
+                    <!-- This div contains the buttons on the right side of a channel -->
+                   <div class="instrument-channel-right">
+                        <div class="instrument-channel-play-button-container">
+                            <button sound=8 class="instrument-channel-play-button">&#9658</button>
+                            <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
+                            <input accept=".wav, .mp3" type="file" instrument-channel="8"
+                                class="hidden-upload-button" hidden="hidden" sound="8" />
+                            <button title="Upload Audio" class="instrument-channel-upload-button">&#43</button>
+                        </div>
+
+                        <!-- This div contains the volume and panning buttons -->
+                        <div class="instrument-channel-volume-panning-button-container">
+
+                            <!-- This div contains all elements related to the volume buttom -->
+                            <div class="instrument-channel-volume-button-container">
+                                <button class="instrument-channel-volume-button" id="instrument-channel-volume-8" >
+                                    <i class="fas fa-volume-up"></i></button>
+                                <div class="volume-popup" id="instrument-channel-volume-popup-8">0</div>
+
+                                <!-- This div contains all volume button pop-up elements -->
+                                <div class="popup" id="popup">
+                                    <h2>Volume</h2>
+                                    <input class="popup-text volume-popup-text" id="volume-popup-text-8" 
+                                        type="text" value=100 spellcheck="false">
+
+                                    <!-- This div contains the OK and Cancel buttons in a pop-up window -->
+                                    <div class="ok-cancel-buttons">
+                                        <button class="ok" id="ok-8">OK</button>
+                                        <button class="cancel" id="cancel-8">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- This div contains all elements related to panning (knob and tic) -->
+                            <div class="instrument-channel-panning-knob-container">
+                                <div class="instrument-channel-panning-knob">
+                                    <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-8"></div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-8">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This div contains all elements related to the Mute button -->
+                        <div class="instrument-channel-mute-button-container">
+                            <button class="instrument-channel-mute-button" id="mute-btn-8">
+                                <i class="fa fa-volume-xmark"></i>
+                            </button>
+                        </div>
+                   </div>
+                </div>
+
+                <!-- These divs contain an instrument row's notes to the right -->
+                <!-- There are eight notes in sequence across the screen -->
+                <!-- The 'value' attribute for each note determines playback -->
+                <div class="instrument-note">
+                    <button id="note1-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note2-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note3-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note4-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note5-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note6-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note7-8" value=0 class="instrument-note-button"></button>
+                </div>
+                <div class="instrument-note">
+                    <button id="note8-8" value=0 class="instrument-note-button"></button>
+                </div>
+            </div>
+
+
+
         </div>
 
         <!-- Default sounds -->

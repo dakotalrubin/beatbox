@@ -9,8 +9,8 @@
         <title>BeatBox</title>
 
         <!-- Our CSS styles pages will be linked here -->
-        <link rel="stylesheet" href="./styles/headers.css">
-        <link rel="stylesheet" href="./styles/instruments.css">
+        <link rel="stylesheet" href="./styles/header_bar.css">
+        <link rel="stylesheet" href="./styles/instrument_channels.css">
         <link rel="stylesheet" href="./styles/popups.css">
 
         <!-- Our JavaScript pages will be linked here -->
@@ -18,8 +18,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.js"></script>
         <script src="./scripts/jQuery/jquery.js"></script>
         <!-- <script src="./scripts/script.js" defer></script> -->
-        <script src="./scripts/headers.js" defer></script>
-        <script src="./scripts/instruments.js" defer></script>
+        <script src="./scripts/header_bar.js" defer></script>
+        <script src="./scripts/instrument_channels.js" defer></script>
 
         <!-- Links for header button icons -->
         <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>
@@ -157,7 +157,7 @@
                     <!-- and a lock icon during playback -->
                     <div class="instrument-channel-left">
                         <input class="instrument-channel-name" id="instrument-channel-name-2" type="text" 
-                            spellcheck="false" value="Hi-hat">
+                            spellcheck="false" value="Closed Hat">
                         <i class="fa fa-lock" id="lock-icon"></i>
                     </div>
 
@@ -352,7 +352,7 @@
                     <!-- and a lock icon during playback -->
                     <div class="instrument-channel-left">
                         <input class="instrument-channel-name" id="instrument-channel-name-4" type="text" 
-                            spellcheck="false" value="Open-hat">
+                            spellcheck="false" value="Open Hat">
                         <i class="fa fa-lock" id="lock-icon"></i>
                     </div>
 
@@ -825,19 +825,16 @@
                     <button id="note8-8" value=0 class="instrument-note-button"></button>
                 </div>
             </div>
-
-
-
         </div>
 
         <!-- Default sounds -->
-        <audio id="sound-1" sound="1" src="./sounds/kick.wav"></audio>
-        <audio id="sound-2" sound="2" src="./sounds/hihat.wav"></audio>
+        <audio id="sound-1" sound="1" src="./sounds/kick-bl.wav"></audio>
+        <audio id="sound-2" sound="2" src="./sounds/hihat-bl.wav"></audio>
         <audio id="sound-3" sound="3" src="./sounds/clap.wav"></audio>
         <audio id="sound-4" sound="4" src="./sounds/openhat.wav"></audio>
         <audio id="sound-5" sound="5" src="./sounds/boom.wav"></audio>
         <audio id="sound-6" sound="6" src="./sounds/ride.wav"></audio>
-        <audio id="sound-7" sound="7" src="./sounds/snare.wav"></audio>
+        <audio id="sound-7" sound="7" src="./sounds/snare-bl.wav"></audio>
         <audio id="sound-8" sound="8" src="./sounds/tom.wav"></audio>
     </body>
 </html>

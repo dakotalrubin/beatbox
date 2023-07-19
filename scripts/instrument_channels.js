@@ -60,7 +60,7 @@ icmbs.forEach((button) => {
 });
 
 // ----------------------------------------------------------------------------
-// CHANNEL NAME ---------------------------------------------------------------
+// CHANNEL NAMING -------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 function update_instrument_channel_name(e) {
@@ -116,7 +116,7 @@ function play_icpb_sound(e) {
   const sound = e.target.getAttribute('sound');
   const audio = document.querySelector(`audio[sound="${sound}"]`);
 
-  // Exits function if clicked ICPB has no audio (unnecessary right now)
+  // Exits function if clicked ICPB has no audio
   if (!audio) {
     return;
   }
@@ -124,7 +124,6 @@ function play_icpb_sound(e) {
   // Plays audio without waiting for previous sound to finish
   audio.currentTime = 0;
   audio.play();
-  return;
 }
 
 // ----------------------------------------------------------------------------

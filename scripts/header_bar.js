@@ -248,14 +248,13 @@ function playNextBeat() {
 
   for (let i = 0; i < 8; i += 1) {
     if (values[i] == 1) {
-      audio.currentTime = 0;
+      audio[i].currentTime = 0;
       highlightElemBackground(inb[i], '#9e5803');
       audio[i].play();
     } else {
       highlightElemBackground(inb[i], '#303030');
     }
   }
-
 }
 
 // Schedule beat at time now for immediate playback 

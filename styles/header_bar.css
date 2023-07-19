@@ -5,7 +5,6 @@
 body {
     display: flex; /* This command enables all Flexbox commands when you need them! */
     flex-direction: column; /* Arranges header and instrument containers in a column */
-
     font-family: Roboto, sans-serif; /* Imported font from above, else use safe font */
     background-color: #242526;
     color: #F9FAF8;
@@ -40,8 +39,8 @@ button:hover {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 5px;
-    margin-bottom: 40px; /* Creates vertical space between menu bar and instruments */
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 /* Styles all header control buttons */
@@ -79,4 +78,9 @@ button:hover {
 /* Styles the header tempo button text box */
 .header-tempo {
     text-align: center;
+}
+
+/* Removes outline highlighting on text boxes */
+input:focus, select:focus, textarea:focus, button:focus {
+    outline: none;
 }

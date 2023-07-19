@@ -4,7 +4,7 @@
 
 let bpm = 120; // Default 120 bpm
 let lock_grid = false; // Locks note grid during playback
-let lock_icon = document.getElementById("lock-icon"); // Toggles lock icon
+let lock_icons = document.querySelectorAll(".fa-lock");
 let interval; // Interval for playing the beat
 let playing_beat = false; // Only allow header play button once
 
@@ -184,7 +184,9 @@ function play_beat() {
   lock_grid = true;
 
   // Shows the instrument channel lock icon during playback
-  lock_icon.classList.add("show-instrument-channel-lock");
+  for (var i = 0; i < lock_icons.length; ++i) {
+    lock_icons[i].classList.add("show-instrument-channel-lock");
+  }
 
   // Prevents errors from spamming header-play button
   // (multiple intervals at a time)
@@ -249,7 +251,7 @@ function playNextBeat() {
   for (let i = 0; i < 8; i += 1) {
     if (values[i] == 1) {
       audio[i].currentTime = 0;
-      highlightElemBackground(inb[i], '#9e5803');
+      highlightElemBackground(inb[i], '#D60049');
       audio[i].play();
     } else {
       highlightElemBackground(inb[i], '#303030');
@@ -294,8 +296,10 @@ function stop_beat() {
   // Unlock the note grid after playback
   lock_grid = false;
 
-  // Removes the instrument channel lock icon after playback
-  lock_icon.classList.remove("show-instrument-channel-lock");
+  // Removes the instrument channel lock icons after playback
+  for (var i = 0; i < lock_icons.length; ++i) {
+    lock_icons[i].classList.remove("show-instrument-channel-lock");
+  }
 
   beatsPlaying = false;
   endOfLoopRecording = false;

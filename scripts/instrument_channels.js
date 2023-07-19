@@ -2,7 +2,6 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-let popup = document.getElementById("popup"); // Toggles popup window
 let volume_value_original; // Recovers original volume value
 
 let defaultSoundArry = [
@@ -289,7 +288,7 @@ function accept_instrument_channel_volume(e) {
   let new_volume = document.getElementById(volume_text_id).value * 0.01;
   const audio = document.querySelector(`audio[sound="${id[3]}"]`);
   audio.volume = new_volume;
-  close_instrument_channel_popup();
+  close_instrument_channel_popup(e);
 }
 
 function deny_instrument_channel_volume(e) {
@@ -307,7 +306,7 @@ function deny_instrument_channel_volume(e) {
 
   // Revert volume value back to original value
   document.getElementById(volume_text_id).value = volume_value_original;
-  close_instrument_channel_popup();
+  close_instrument_channel_popup(e);
 }
 
 function updateVolumePopupPosition(e) {
@@ -538,10 +537,19 @@ function mute_volume(e) {
 // INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------
 // ----------------------------------------------------------------------------
 
-function open_instrument_channel_popup() {
+// Open the specific instrument channel volume popup window requested
+function open_instrument_channel_popup(e) {
+  let popup = document.getElementById("popup-" + e.target.id[26]);
   popup.classList.add("open-popup");
 }
 
-function close_instrument_channel_popup() {
+// Close the specific instrument channel volume popup window requested
+function close_instrument_channel_popup(e) {
+  let popup;
+  if (e.target.id[0] == "c") {
+    popup = document.getElementById("popup-" + e.target.id[7]);
+  } else {
+    popup = document.getElementById("popup-" + e.target.id[3]);
+  }
   popup.classList.remove("open-popup");
 }

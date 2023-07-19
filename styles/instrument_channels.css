@@ -112,6 +112,9 @@
 
 /* Styles an instrument channel volume button */
 .instrument-channel-volume-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     background-color: #545454;
     border-radius: 8px;
@@ -150,6 +153,9 @@
 
 /* Styles mute button */
 .instrument-channel-mute-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     background-color: #545454;
     margin-top: 8px;
@@ -161,25 +167,21 @@
     font-weight: 900;
 }
 
+/* Disable Font Awesome icons from creating dead zone on icon */
 .fa, .fas {
     pointer-events: none;
 }
 
 /* Adds animation to mute button */
-.instrument-channel-mute-button:hover {background-color: #f72e49;}
+.instrument-channel-mute-button:hover {background-color: #7c7b7b;}
 .instrument-channel-mute-button:active {
-    background-color: #7c7b7b;
+    background-color: #d7122c;
     transform: translateY(1px);
 }
 
-/* Styling to make button red when muted */
-.mute-button-off {
-    background-color: #545454;
-}
-
-.mute-button-on {
-    background-color: #d7122c;
-}
+.mute-button-off {background-color: #545454;}
+.mute-button-on {background-color: #d7122c;}
+.mute-button-on:hover {background-color: #f72e49;}
 
 /* Styles an instrument channel panning knob */
 .instrument-channel-panning-knob {

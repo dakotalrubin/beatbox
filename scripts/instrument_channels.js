@@ -493,11 +493,6 @@ document.addEventListener("mouseup", handleMouseUpPanning);
 panningKnob.addEventListener("mouseenter", handleMouseEnterPanning);
 panningKnob.addEventListener("mouseleave", handleMouseLeavePanning);
 
-// IN-PROGRESS
-function panAudio() {
-  const panner = new audioContext.PannerNode();
-  return;
-}
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL MUTE BUTTON ---------------------------------------------

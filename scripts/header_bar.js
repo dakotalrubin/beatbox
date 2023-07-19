@@ -1,3 +1,4 @@
+//import {currentAngle} from './instrument_channels.js';
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -18,6 +19,10 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+let source; 
+let panner;
+let track;
+let pannerOption = {pan: 0};
 
 // Global variables for audio recording
 let audioContxRec = null;
@@ -54,6 +59,7 @@ const notes = document.querySelectorAll(".instrument-note-button");
 notes.forEach((button) => {
   button.addEventListener("click", note_toggle);
 });
+
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON --------------------------------------------------------
@@ -164,6 +170,18 @@ function update_header_tempo() {
     stop_beat();
   });
 }
+// ----------------------------------------------------------------------------
+// PAN AUDIO  ---------------------------------------------------------
+// ----------------------------------------------------------------------------
+function panAudio(){
+  const angle = Number(0.01*currentAngle);
+  console.log("angle val: " , angle);
+  panner.pan.value = angle;
+  console.log("pan value: " , panner.pan.value);
+
+  return;
+ }
+ 
 
 // ----------------------------------------------------------------------------
 // HEADER PLAY BUTTON ---------------------------------------------------------
@@ -201,9 +219,10 @@ function play_beat() {
             // (except when being initialized)
 
   // Add Audio Context for scheduling
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-  }
+  //if (audioContx == null) {
+    //audioContx = new AudioContext();
+  // }
+  createAudioContx(); 
 
   nextNoteTime = audioContx.currentTime + 0.05;
 
@@ -221,7 +240,7 @@ function playNextBeat() {
   // ***Needs to be updated for different audios***
   let audio = document.querySelectorAll('audio');
   // console.log(audio[1]);
-
+  panAudio();
 
   if (beat == beatsInLoop) {
     if(currentlyRecording) { // if we are currently recording and reached end of loop, STOP & SAVE
@@ -264,20 +283,14 @@ function scheduleBeat(beatNumber, time) {
 
   // Push beat onto queue, even if played or not
   queueBeats.push({ note: beatNumber, time: time });
-  const source = audioContx.createGain();
-        
-  source.gain.value = trackVolume;  
-  source.gain.exponentialRampToValueAtTime(1, time + 0.001);
-  source.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
-
-  source.connect(audioContx.destination);
+  
 }
 
 // This function schedules beats for minimal latency, calls for beat to play
 function runSchedulerAndBeat() {
 
   // While there are notes that will need to play before the next interval,
-  // schedule those notes and advance pointer
+  // schedule those notes and advance pointer  
   while (nextNoteTime < audioContx.currentTime + scheduleTimeBuf ) {
     scheduleBeat(beat, nextNoteTime); // Schedule beat for immediate playback 
     playNextBeat(); // Play beat at scheduled time (now)
@@ -315,18 +328,33 @@ URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
 var AudioContext = window.AudioContext;
-const numInstruments = 1;
+const numInstruments = 8;
+
+function createAudioContx(){
+  if (audioContx == null) {
+    audioContx = new AudioContext();
+    connectAudioToAudioContext();
+  }
+  return;
+}
 
 function connectAudioToAudioContext() {
   audioContx.destination = BaseAudioContext.destination;
   const audioNodeMerger = audioContx.createChannelMerger(numInstruments);
   for (var instrumentChannelIndex = 1; instrumentChannelIndex < numInstruments + 1; instrumentChannelIndex++) {
     const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${instrumentChannelIndex}"]`));
-    audioNode.connect(audioNodeMerger);
-    audioNode.connect(audioContx.destination);
+    source = audioContx.createGain();
+    panner = new StereoPannerNode(audioContx, {pan: 0});
+    source.gain.value = 1;
+
+    audioNode.connect(source);
+    source.connect(panner);
+    // panner.connect(audioNode);
+    panner.connect(audioContx.destination);
   }
   // audioNodeMerger.connect(audioContext.destination);
-  return audioNodeMerger;
+  audioNodeMerger.connect(audioContx.destination);
+  // return audioNodeMerger;
 }
 
 function startRecording() {
@@ -334,9 +362,8 @@ function startRecording() {
   // Disable play and download buttons until recording is finished to prevent overly long recordings
   disableHeaderButtons(true);
 
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-  }
+  createAudioContx();
+
   var mergeNode = connectAudioToAudioContext();
 
   // Create Recorder object to record stereo sound (2 channels)

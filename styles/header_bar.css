@@ -103,9 +103,9 @@ button:hover {
 .header-save-snapshot {margin-right: 4px;}
 .header-load-snapshot {margin-left: 4px;}
 
-.header-save-snapshot:hover, .header-load-snapshot:hover {background-color: #FF5280;}
+.header-save-snapshot:hover, .header-load-snapshot:hover {background-color: #FC517F;}
 .header-save-snapshot:active, .header-load-snapshot:active {
-    background-color: #FF5280;
+    background-color: #FC517F;
     transform: translateY(1px);
 }
 

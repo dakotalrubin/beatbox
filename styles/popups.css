@@ -5,9 +5,10 @@
     border-radius: 8px;
     position: absolute;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%) scale(0.1);
     text-align: center;
-    padding: 0 10px 10px;
+    padding: 0 16px 8px;
     color: #333333;
     visibility: hidden;
     transition: transform 0.15s, center 0.15s;
@@ -42,7 +43,6 @@
     margin-bottom: 20px;
     margin-right: 12px;
     margin-left: 12px;
-    padding: 10px 0;
     color: #FFFFFF;
     border: 0px;
     font-size: 30px;

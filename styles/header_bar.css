@@ -43,8 +43,12 @@ button:hover {
     margin-bottom: 4px;
 }
 
+/* Styles the dummy header div */
+.header-dummy {width: 244px;}
+
 /* Styles all header control buttons */
 .header-tempo, .header-play, .header-stop, .header-download {
+    position: relative;
     font-size: 42px;
     vertical-align: top;
 }
@@ -78,6 +82,33 @@ button:hover {
 /* Styles the header tempo button text box */
 .header-tempo {
     text-align: center;
+}
+
+/* Styles the header snapshot section */
+.header-snapshots {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-save-snapshot, .header-load-snapshot {
+    border-radius: 8px;
+    background-color: #EC168D;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    height: 36px;
+    width: 120px;
+    position: relative;
+    left: -20px;
+}
+.header-save-snapshot {margin-right: 2px;}
+.header-load-snapshot {margin-left: 2px;}
+
+.header-save-snapshot:hover, .header-load-snapshot:hover {background-color: #FF5280;}
+.header-save-snapshot:active, .header-load-snapshot:active {
+    background-color: #FF5280;
+    transform: translateY(1px);
 }
 
 /* Removes outline highlighting on text boxes */

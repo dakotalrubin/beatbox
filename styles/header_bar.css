@@ -48,6 +48,8 @@ button:hover {
 
 /* Styles all header control buttons */
 .header-tempo, .header-play, .header-stop, .header-download {
+    margin-left: 2px;
+    margin-right: 2px;
     position: relative;
     font-size: 42px;
     vertical-align: top;
@@ -56,6 +58,7 @@ button:hover {
 /* Styles header-tempo button sizing so it's consistent with other header buttons */
 .header-tempo {
     height: 80px;
+    text-align: center;
 }
 
 /* Adds animation to the header-play button */
@@ -79,11 +82,6 @@ button:hover {
     transform: translateY(1px);
 }
 
-/* Styles the header tempo button text box */
-.header-tempo {
-    text-align: center;
-}
-
 /* Styles the header snapshot section */
 .header-snapshots {
     display: flex;
@@ -102,8 +100,8 @@ button:hover {
     position: relative;
     left: -20px;
 }
-.header-save-snapshot {margin-right: 2px;}
-.header-load-snapshot {margin-left: 2px;}
+.header-save-snapshot {margin-right: 4px;}
+.header-load-snapshot {margin-left: 4px;}
 
 .header-save-snapshot:hover, .header-load-snapshot:hover {background-color: #FF5280;}
 .header-save-snapshot:active, .header-load-snapshot:active {

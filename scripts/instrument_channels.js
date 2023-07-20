@@ -25,6 +25,20 @@ icpbs.forEach((button) => {
   button.addEventListener("click", play_icpb_sound);
 });
 
+// Channel hidden upload buttons
+const hubs = document.querySelectorAll(".hidden-upload-button");
+hubs.forEach((button) => {
+  button.addEventListener("change", upload_audio, false);
+});
+
+// Channel custom upload buttons
+const cubs = document.querySelectorAll(".instrument-channel-upload-button");
+cubs.forEach((button) => {
+  button.addEventListener("click", function(e) {
+    hubs[e.target.id[5] - 1].click(); // Clicks proper hidden upload button
+  });
+});
+
 // Channel volume buttons
 const icvbs = document.querySelectorAll(".instrument-channel-volume-button");
 icvbs.forEach((button) => {
@@ -129,45 +143,36 @@ function play_icpb_sound(e) {
 // INSTRUMENT CHANNEL UPLOAD BUTTON -------------------------------------------
 // ----------------------------------------------------------------------------
 
-//Grab hidden-upload-button and instument-channel-upload-button from HTML
-const hiddenUploadBtn = document.querySelector(".hidden-upload-button")
-const customUploadBtn = document.querySelector(".instrument-channel-upload-button")
-//Our custom upload button "listens" for a click
-//When it does, it "clicks" the hidden upload button
-customUploadBtn.addEventListener("click", function(){
-  hiddenUploadBtn.click()
-})
-
-//When the file is uploaded, the hiddenUploadBtn will call the upload_audio func
-hiddenUploadBtn.addEventListener("change", upload_audio, false)
-
 function upload_audio(event) {
-    const uploadBtn = event.target
-    const files = event.target.files
-    const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel")
 
-    //Check if file is smaller than 1MB
-    if (this.files[0].size > 1048576){
-      alert("Max File size is 1MB. Try Again!")
-      return
-    }
+  const uploadBtn = event.target;
+  const files = event.target.files;
+  const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel");
+
+  // Check if file is smaller than 1 MB
+  if (this.files[0].size > 1048576) {
+    alert("Max File size is 1MB. Try Again!");
+    return;
+  }
     
-    //Load new uploaded sound into Instrument Channel
-    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]))
-    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load()
+  // Load new uploaded sound into Instrument Channel
+  $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
+  document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 
-    //Check if file is 2 seconds MAX
-    const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`)
-    audioElem.addEventListener("loadedmetadata", function() {
-      //If the audio duration > 2 seconds, default to kick drum
-      if (audioElem.duration > 2) {
-        alert("Max Duration size is 2 seconds. Try Again!");
-        // Reset the audio element
-        audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
-        audioElem.load();
-        return;
-      }
-    });    
+  // Check if audio file is less than 2 seconds
+  const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`);
+
+  audioElem.addEventListener("loadedmetadata", function() {
+
+    // If audio file is greater than 2 seconds, default to kick drum
+    if (audioElem.duration > 2) {
+      alert("Max file duration is 2 seconds. Try again!");
+
+      // Reset audio element
+      audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
+      audioElem.load();
+    }
+  });    
 }
 
 // ----------------------------------------------------------------------------

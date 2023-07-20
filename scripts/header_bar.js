@@ -191,7 +191,6 @@ function play_beat() {
   // Prevents errors from spamming header-play button
   // (multiple intervals at a time)
   clearInterval(interval);
-  if (beatsPlaying) return; // May need to remove this once adding more tracks
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
@@ -315,7 +314,7 @@ URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
 var AudioContext = window.AudioContext;
-const numInstruments = 1;
+const numInstruments = 8;
 
 function connectAudioToAudioContext() {
   audioContx.destination = BaseAudioContext.destination;
@@ -339,8 +338,8 @@ function startRecording() {
   }
   var mergeNode = connectAudioToAudioContext();
 
-  // Create Recorder object to record stereo sound (2 channels)
-  rec = new Recorder(mergeNode, {numChannels: 2});
+  // Create Recorder object to record mono sound (1 channel)
+  rec = new Recorder(mergeNode, {numChannels: 1});
 
   rec.record();
   play_beat();

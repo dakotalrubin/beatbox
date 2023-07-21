@@ -544,13 +544,29 @@ function solo_instrument(e) {
   let id = e.target.getAttribute('id');
   let soloBtn = document.getElementById(id);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
+  let channelVolumes = [];
   
 
   if (soloBtn.classList.toggle("solo-button-on")) {
     console.log("button is on")
+    store_volume_for_solo(channelVolumes);
+    console.log(channelVolumes)
+    
   } else {
     console.log("button is off")
   }
+}
+
+//Supplementary Function to keep track of Instrument Channel Volumes
+function store_volume_for_solo(array){
+  const numOfChannels = 8;
+  
+  for (let i = 0; i < numOfChannels; i++){
+    let audio = document.querySelector(`audio[sound="${i+1}"]`);
+    array[i] = audio.volume;
+  }
+
+  return array;
 }
 
 

@@ -17,8 +17,9 @@
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.js"></script>
         <script src="./scripts/jQuery/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
         <script src="./scripts/header_bar.js" defer></script>
         <script src="./scripts/instrument_channels.js" defer></script>
         <script src="./scripts/snapshots.js" defer></script>
@@ -46,9 +47,8 @@
 
             <!-- This div contains everything related to saving and loading snapshots -->
             <div class="header-snapshots">
-                <a id="save-snapshot">
-                    <button class="header-save-snapshot" title="Save Settings">Save Snapshot</button>
-                </a>
+                <button class="header-save-snapshot" title="Save Settings" 
+                    onclick="snapshot_download()">Save Snapshot</button>
                 <a id="load-snapshot">
                     <button class="header-load-snapshot" title="Load Settings">Load Snapshot</button>
                 </a>

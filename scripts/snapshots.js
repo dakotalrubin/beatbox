@@ -1,84 +1,36 @@
-// ----------------------------------------------------------------------------
-// GLOBAL VARIABLES -----------------------------------------------------------
-// ----------------------------------------------------------------------------
+// Retrieves all current sound files and project settings for download
+async function snapshot_download() {
+    var zip = new JSZip();
+    var count = 1;
+    var zip_filename = "snapshot.zip";
+    var sounds = [
+        document.getElementById("sound-1").src,
+        document.getElementById("sound-2").src,
+        document.getElementById("sound-3").src,
+        document.getElementById("sound-4").src,
+        document.getElementById("sound-5").src,
+        document.getElementById("sound-6").src,
+        document.getElementById("sound-7").src,
+        document.getElementById("sound-8").src,
+    ];
 
-var filepath_array = [];
-var filename_array = [];
+    sounds.forEach(async function(sound) {
+        var filename = sound.split('\\').pop().split('/').pop();
+        var file = await fetch(sound);
 
-// ----------------------------------------------------------------------------
-// EVENT LISTENERS FOR SNAPSHOT BUTTONS ---------------------------------------
-// ----------------------------------------------------------------------------
+        // This file has been uploaded by the user
+        if (filename.slice(-3) != "wav") {
+            file = new File([file.blob()], filename, {base64: true, binary: true});
+        }
 
-const save_snapshot = document.querySelector(".header-save-snapshot");
-save_snapshot.addEventListener("click", save_snapshot_data, false);
-
-const load_snapshot = document.querySelector(".header-load-snapshot");
-load_snapshot.addEventListener("click", load_snapshot_data, false);
-
-// ----------------------------------------------------------------------------
-// SAVE SNAPSHOT BUTTON -------------------------------------------------------
-// ----------------------------------------------------------------------------
-
-// Handles on-click functionality for the "Save Snapshot" button
-function save_snapshot_data() {
-    filepath_array = [];
-    filename_array = [];
-    get_filepaths();
-    get_filenames(filepath_array);
-    zip_files("save-snapshot", filepath_array);
-}
-
-// Populates filepath_array with the filepaths of all audio files
-function get_filepaths() {
-    for (var i = 0; i < 8; i++) {
-        filepath = document.getElementById("sound-" + `${i+1}`).src;
-        filepath_array.push(filepath);
-    }
-}
-
-// Populates filename_array with the filenames of all audio files
-function get_filenames(filepath_array) {
-    for (var i = 0; i < 8; i++) {
-        filename_array.push(parse_filename(filepath_array[i]));
-    }
-}
-
-// Retrieves filename from filepath string
-function parse_filename(string) {
-    return string.split('\\').pop().split('/').pop();
-}
-
-function zip_files(id, filepath_array) {
-
-    // Create new zip file
-    zip = new JSZip();
-
-    // Zip first audio file for download
-    JSZipUtils.getBinaryContent(filepath_array[0], function (err, data) {
-        if (!err) {
-            // Lossless file encoding
-            var dictionary = {base64:true, binary:true};
-            zip.file(filename_array[0], data, dictionary);
+        var sound_blob = await file.blob();
+        var zip_sound = zip.folder("sounds");
+        zip_sound.file(filename, sound_blob, {base64: true, binary: true});
+        count++;
+        if (count == sounds.length + 1) {
+            zip.generateAsync({type: "blob"}).then(function(content) {
+                saveAs(content, zip_filename);
+            });
         }
     });
-    download_zip(id);
-}
-
-function download_zip(id) {
-
-    zip.generateAsync({type:"blob"}).then(function(content) {
-        var a = document.querySelector("#" + id);
-        a.download = "snapshot";
-        a.href = URL.createObjectURL(content);
-        a.click();
-    });
-}
-
-// ----------------------------------------------------------------------------
-// LOAD SNAPSHOT BUTTON -------------------------------------------------------
-// ----------------------------------------------------------------------------
-
-// Handles on-click functionality for the "Load Snapshot" button
-function load_snapshot_data() {
-    return;
 }

@@ -160,7 +160,7 @@ function upload_audio(event) {
   document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 
   // Check if audio file is less than 2 seconds
-  const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`);
+  var audioElem = document.getElementById(`sound-${instrumentChannelIndex}`);
 
   audioElem.addEventListener("loadedmetadata", function() {
 
@@ -170,9 +170,12 @@ function upload_audio(event) {
 
       // Reset audio element
       audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
-      audioElem.load();
+      audioElem.load();      
     }
-  });    
+  });
+
+  // Attach filename to audioElem as data attribute
+  audioElem.setAttribute('data', `${this.files[0].name}`);
 }
 
 // ----------------------------------------------------------------------------

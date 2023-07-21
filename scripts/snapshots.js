@@ -15,17 +15,24 @@ async function snapshot_download() {
     ];
 
     sounds.forEach(async function(sound) {
+        // Gets the index of the sound being processed asynchronously
+        // to preserve the channel ordering for re-upload
+        let index = `${sounds.indexOf(sound) + 1}`;
+
+        // Split filepath from filename
         var filename = sound.split('\\').pop().split('/').pop();
         var file = await fetch(sound);
 
-        // This file has been uploaded by the user
+        // This file was uploaded by the user, so convert blob to usable format
+        // and rename file
         if (filename.slice(-3) != "wav") {
-            file = new File([file.blob()], filename, {base64: true, binary: true});
+            filename = document.getElementById(`sound-${index}`).getAttribute("data");
         }
 
+        // Add sound blobs to zip file
         var sound_blob = await file.blob();
         var zip_sound = zip.folder("sounds");
-        zip_sound.file(filename, sound_blob, {base64: true, binary: true});
+        zip_sound.file(index + " - " + filename, sound_blob, {base64: true, binary: true});
         count++;
         if (count == sounds.length + 1) {
             zip.generateAsync({type: "blob"}).then(function(content) {

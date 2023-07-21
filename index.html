@@ -35,17 +35,17 @@
 
             <!-- This div contains all the controls in the menu bar at the top of the screen -->
             <div class="header-controls">
-                <input class="header-tempo" type="text" value=120 spellcheck="false">
-                <button class="header-play"><i class="fa fa-play"></i></button>
-                <button class="header-stop"><i class="fa fa-pause"></i></button>
-                <button class="header-download"><i class="fa fa-download"></i></button>
+                <input class="header-tempo" title="Tempo" type="text" value=120 spellcheck="false">
+                <button class="header-play" title="Play"><i class="fa fa-play"></i></button>
+                <button class="header-stop" title="Stop"><i class="fa fa-pause"></i></button>
+                <button class="header-download" title="Download"><i class="fa fa-download"></i></button>
                 <a class="header-download-link" href="#" style="display: none;" download="myAudio.wav"></a>
             </div>
 
             <!-- This div contains everything related to saving and loading snapshots -->
             <div class="header-snapshots">
-                <button class="header-save-snapshot">Save Snapshot</button>
-                <button class="header-load-snapshot">Load Snapshot</button>
+                <button class="header-save-snapshot" title="Save Settings">Save Snapshot</button>
+                <button class="header-load-snapshot" title="Load Settings">Load Snapshot</button>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=1 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=1 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="1"
                                 class="hidden-upload-button" hidden="hidden" sound="1" />
@@ -111,7 +111,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-1">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-1">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         
@@ -170,7 +170,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=2 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=2 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="2"
                                 class="hidden-upload-button" hidden="hidden" sound="2" />
@@ -212,7 +212,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-2">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-2">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -269,7 +269,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=3 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=3 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="3"
                                 class="hidden-upload-button" hidden="hidden" sound="3" />
@@ -311,7 +311,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-3">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-3">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -367,7 +367,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=4 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=4 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="4"
                                 class="hidden-upload-button" hidden="hidden" sound="4" />
@@ -409,7 +409,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-4">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-4">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -465,7 +465,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=5 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=5 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="5"
                                 class="hidden-upload-button" hidden="hidden" sound="5" />
@@ -507,7 +507,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-5">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-5">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -564,7 +564,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=6 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=6 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="6"
                                 class="hidden-upload-button" hidden="hidden" sound="6" />
@@ -606,7 +606,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-6">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-6">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -662,7 +662,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=7 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=7 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="7"
                                 class="hidden-upload-button" hidden="hidden" sound="7" />
@@ -704,7 +704,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-7">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-7">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>
@@ -761,7 +761,7 @@
                     <!-- This div contains the buttons on the right side of a channel -->
                    <div class="instrument-channel-right">
                         <div class="instrument-channel-play-button-container">
-                            <button sound=8 class="instrument-channel-play-button">&#9658</button>
+                            <button title="Play Audio" sound=8 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="8"
                                 class="hidden-upload-button" hidden="hidden" sound="8" />
@@ -803,7 +803,7 @@
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button class="instrument-channel-mute-button" id="mute-btn-8">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-8">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         </div>

@@ -65,8 +65,8 @@
 
 /* Styles the instrument channel popup window's Cancel button */
 .cancel {background-color: #EA3B52;}
-.cancel:hover {background-color: #FA4961;}
-.cancel:active {background-color: #FA4961; transform: translateY(1px);}
+.cancel:hover {background-color: #FB4D64;}
+.cancel:active {background-color: #FB4D64; transform: translateY(1px);}
 
 /* Plays an instrument channel popup window animation */
 .open-popup {

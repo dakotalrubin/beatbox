@@ -72,6 +72,11 @@ icmbs.forEach((button) => {
   button.addEventListener("click", mute_volume);
 });
 
+// Channel solo buttons
+const icsbs = document.querySelectorAll(".instrument-channel-solo-button");
+icsbs.forEach((button) => {
+  button.addEventListener("click", solo_instrument);
+});
 // ----------------------------------------------------------------------------
 // CHANNEL NAMING -------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -535,7 +540,18 @@ function mute_volume(e) {
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL SOLO BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
+function solo_instrument(e) {
+  let id = e.target.getAttribute('id');
+  let soloBtn = document.getElementById(id);
+  let audio = document.querySelector(`audio[sound="${id[9]}"]`);
+  
 
+  if (soloBtn.classList.toggle("solo-button-on")) {
+    console.log("button is on")
+  } else {
+    console.log("button is off")
+  }
+}
 
 
 // ----------------------------------------------------------------------------

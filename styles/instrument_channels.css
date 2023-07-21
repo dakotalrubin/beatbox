@@ -191,22 +191,26 @@
 }
 
 /* Adds animation to mute button */
-.instrument-channel-mute-button:hover,
-.instrument-channel-solo-button:hover {background-color: #7c7b7b;}
-
+.instrument-channel-mute-button:hover {background-color: #7c7b7b;}
 .instrument-channel-mute-button:active {
     background-color: #d7122c;
     transform: translateY(1px);
 }
 
+.mute-button-off {background-color: #545454;}
+.mute-button-on {background-color: #d7122c;}
+.mute-button-on:hover {background-color: #f72e49;}
+
+/* Adds animation to Solo button */
+.instrument-channel-solo-button:hover {background-color: #7c7b7b;}
 .instrument-channel-solo-button:active {
     background-color: green;
     transform: translateY(1px); 
 }
 
-.mute-button-off {background-color: #545454;}
-.mute-button-on {background-color: #d7122c;}
-.mute-button-on:hover {background-color: #f72e49;}
+.solo-button-off {background-color: #545454;}
+.solo-button-on {background-color: green;}
+.solo-button-on:hover {background-color: rgb(0, 168, 0);}
 
 /* Styles an instrument channel panning knob */
 .instrument-channel-panning-knob {

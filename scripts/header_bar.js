@@ -19,9 +19,9 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
-let source; 
-let panner;
-let track;
+let source = [];
+let panner = [];
+let audioNodeMerger;
 let pannerOption = {pan: 0};
 
 // Global variables for audio recording
@@ -59,6 +59,47 @@ const notes = document.querySelectorAll(".instrument-note-button");
 notes.forEach((button) => {
   button.addEventListener("click", note_toggle);
 });
+
+// ----------------------------------------------------------------------------
+// SETUP FOR AUDIO CONTEXT AND NODES ------------------------------------------
+// ----------------------------------------------------------------------------
+
+var AudioContext = window.AudioContext;
+const numInstruments = 8;
+
+function createAudioContx(){
+  if (audioContx == null) {
+    audioContx = new AudioContext();
+    connectAudioToAudioContext();
+  }
+  return;
+}
+
+function connectAudioToAudioContext() {
+  audioContx.destination = BaseAudioContext.destination;
+  if (audioNodeMerger == null) {
+    audioNodeMerger = audioContx.createChannelMerger(numInstruments);
+    for (var iChannelIndex = 1; iChannelIndex < numInstruments + 1; iChannelIndex++) {
+      const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${iChannelIndex}"]`));
+      const nodePanner = new StereoPannerNode(audioContx, {pan: 0});
+      const stereoSplitter = audioContx.createChannelSplitter(2);
+
+      // Connect directly to the panner node because we manage volume in the HTML elements
+      audioNode.connect(nodePanner);
+      nodePanner.connect(stereoSplitter);
+      stereoSplitter.connect(audioNodeMerger, 0, 0);
+      stereoSplitter.connect(audioNodeMerger, 1, 1);
+
+      panner[iChannelIndex] = nodePanner;
+      console.log(audioNode);
+      console.log(nodePanner);
+      console.log(audioContx);
+    } 
+    
+    audioNodeMerger.connect(audioContx.destination);
+  }
+  return audioNodeMerger;
+}
 
 
 // ----------------------------------------------------------------------------
@@ -176,9 +217,8 @@ function update_header_tempo() {
 function panAudio(){
   const angle = Number(0.01*currentAngle);
   console.log("angle val: " , angle);
-  panner.pan.value = angle;
-  console.log("pan value: " , panner.pan.value);
-
+  panner[1].pan.value = angle;
+  console.log("pan value: " , panner[1].pan.value);
   return;
  }
  
@@ -327,35 +367,6 @@ function stop_beat() {
 URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
-var AudioContext = window.AudioContext;
-const numInstruments = 8;
-
-function createAudioContx(){
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-    connectAudioToAudioContext();
-  }
-  return;
-}
-
-function connectAudioToAudioContext() {
-  audioContx.destination = BaseAudioContext.destination;
-  const audioNodeMerger = audioContx.createChannelMerger(numInstruments);
-  for (var instrumentChannelIndex = 1; instrumentChannelIndex < numInstruments + 1; instrumentChannelIndex++) {
-    const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${instrumentChannelIndex}"]`));
-    source = audioContx.createGain();
-    panner = new StereoPannerNode(audioContx, {pan: 0});
-    source.gain.value = 1;
-
-    audioNode.connect(source);
-    source.connect(panner);
-    // panner.connect(audioNode);
-    panner.connect(audioContx.destination);
-  }
-  // audioNodeMerger.connect(audioContext.destination);
-  audioNodeMerger.connect(audioContx.destination);
-  // return audioNodeMerger;
-}
 
 function startRecording() {
   currentlyRecording = true;

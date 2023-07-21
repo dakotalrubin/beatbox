@@ -24,8 +24,8 @@ button, input {
     border: 0px;
 
     border-radius: 16px; /* Default edge roundness */
-    font-weight: 700; /* On the spectrum of font thickness, 700 == bold */
-    font-size: 18px;
+    font-weight: 900;
+    font-size: 16px;
 }
 
 /* Controls cursor appearance upon hovering over a button */
@@ -39,8 +39,8 @@ button:hover {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 /* Styles the dummy header div */

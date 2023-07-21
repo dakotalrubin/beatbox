@@ -250,10 +250,10 @@ function playNextBeat() {
   for (let i = 0; i < 8; i += 1) {
     if (values[i] == 1) {
       audio[i].currentTime = 0;
-      highlightElemBackground(inb[i], '#D60049');
       audio[i].play();
+      highlightElemBackground(inb[i], "#D60049");
     } else {
-      highlightElemBackground(inb[i], '#303030');
+      highlightElemBackground(inb[i], "#474747");
     }
   }
 }

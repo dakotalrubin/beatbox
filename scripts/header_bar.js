@@ -382,8 +382,13 @@ function disableHeaderButtons(bool) {
 // This function toggles an instrument note button on (orange) or off (gray)
 function note_toggle(e) {
 
-  // Initializes id variable with the clicked note button's id
-  const id = e.target.getAttribute('id');
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked note button's id
+  } else {
+    id = e; // Note was toggled by snapshot load
+  }
 
   // Don't allow notes to be toggled during beat playback
   if (lock_grid == true) {
@@ -423,3 +428,5 @@ function highlightElemBackground(obj, color) {
     obj.style.backgroundColor = flash;
   }, tbb);
 }
+
+export {note_toggle, stop_beat}

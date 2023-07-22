@@ -540,35 +540,76 @@ function mute_volume(e) {
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL SOLO BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
+let channelVolumes = null;
+
 function solo_instrument(e) {
   let id = e.target.getAttribute('id');
   let soloBtn = document.getElementById(id);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
-  let channelVolumes = [];
-  
+  let channelID = id[9];
+  let channelVolumes;
+  let soloStates;
 
   if (soloBtn.classList.toggle("solo-button-on")) {
-    console.log("button is on")
-    store_volume_for_solo(channelVolumes);
-    console.log(channelVolumes)
-    
+    if (channelVolumes == null) {
+      channelVolumes = store_volumes_for_solo();
+    }
+    soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
-    console.log("button is off")
+      if (channelVolumes) {
+        console.log("Inside the else statement")
+        restore_volumes_to_channels(channelVolumes, soloStates); 
+      }else{
+        for (let i = 0; i < 8; i++) {
+          let revertAudio = document.querySelector(`audio[sound="${i + 1}"]`);
+          revertAudio.volume = 1;
+        }
+      }
   }
 }
 
-//Supplementary Function to keep track of Instrument Channel Volumes
-function store_volume_for_solo(array){
+//Supplementary Functions to keep track of Instrument Channel Volumes
+//Returns an array of the current volumes for the ICs
+function store_volumes_for_solo() {
   const numOfChannels = 8;
-  
-  for (let i = 0; i < numOfChannels; i++){
-    let audio = document.querySelector(`audio[sound="${i+1}"]`);
-    array[i] = audio.volume;
+  const array = [];
+
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    array[i] = { volume: audio.volume, soloed: false };
   }
 
   return array;
 }
 
+function mute_all_other_channels(array, channelID) {
+  const numOfChannels = 8;
+  const activeSoloChannel = channelID;
+  const soloStates = [];
+  
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    soloStates[i] = audio.volume;
+    if (i + 1 == activeSoloChannel) {
+      array[i].soloed = true;
+    } else {
+      array[i].soloed = false; // Set the soloed flag to false for non-soloed channels
+      audio.volume = 0; // Mute non-soloed channels
+    }
+  }
+  return soloStates;
+}
+
+function restore_volumes_to_channels(channelVolumes, soloStates) {
+  const numOfChannels = 8;
+
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    if (channelVolumes[i].soloed === false) {
+      audio.volume = soloStates[i];
+    }
+  }
+}
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------

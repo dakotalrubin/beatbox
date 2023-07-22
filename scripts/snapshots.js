@@ -1,7 +1,16 @@
+import {note_toggle, stop_beat, get_tempo_value, set_tempo_value} from './header_bar.js';
+import {get_instrument_channel_names, set_instrument_channel_name,
+get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons} from './instrument_channels.js';
+
 // ----------------------------------------------------------------------------
-// EVENT LISTENERS FOR SNAPSHOT BUTTONS ---------------------------------------
+// GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
-import {note_toggle, stop_beat} from './header_bar.js';
+
+ let audio_file_array = []; // These values will be added to user data file
+
+// ----------------------------------------------------------------------------
+// EVENT LISTENERS ------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 const save_snapshot = document.querySelector(".header-save-snapshot");
 save_snapshot.addEventListener("click", snapshot_download);
@@ -17,7 +26,7 @@ load_snapshot.addEventListener("click", snapshot_upload);
 async function snapshot_download() {
     var zip = new JSZip();
     var count = 1;
-    var zip_filename = "snapshot.zip";
+    var zip_filename = "snapshot-" + get_formatted_time() + ".zip";
     var sounds = [
         document.getElementById("sound-1").src,
         document.getElementById("sound-2").src,
@@ -28,6 +37,7 @@ async function snapshot_download() {
         document.getElementById("sound-7").src,
         document.getElementById("sound-8").src,
     ];
+    audio_file_array = [];
 
     sounds.forEach(async function(sound) {
         // Gets the index of the sound being processed asynchronously
@@ -38,7 +48,7 @@ async function snapshot_download() {
         var filename = sound.split('\\').pop().split('/').pop();
         var file = await fetch(sound);
 
-        // This file was uploaded by the user, so convert blob so rename file
+        // This file was uploaded by user, so get data attribute to rename blob
         if (filename.slice(-3) != "wav") {
             filename = document.getElementById(`sound-${index}`).getAttribute("data");
         }
@@ -47,6 +57,7 @@ async function snapshot_download() {
         var sound_blob = await file.blob();
         var zip_sound = zip.folder("beatbox_files");
         zip_sound.file(index + " - " + filename, sound_blob, {base64: true, binary: true});
+        audio_file_array.push(index + " - " + filename);
         count++;
 
         // Save files and generate zip folder
@@ -67,7 +78,6 @@ async function snapshot_download() {
 // This function gathers all settings on the site and compiles them into a string
 function generate_user_data() {
     let user_data = "";
-    //user_data += `Tempo: ${document.querySelector(".header-tempo").getAttribute("value")}\n`;
 
     // Copy note grid values
     for (let i = 1; i < 9; i++) {
@@ -77,6 +87,30 @@ function generate_user_data() {
             user_data += `${note.getAttribute("value")}`;
         }
     }
+    user_data += "\n";
+
+    // Copy header tempo value
+    user_data += get_tempo_value() + "\n";
+
+    // Copy instrument channel names
+    let instrument_channel_names = get_instrument_channel_names();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_names[i] + "\n";
+    }
+
+    // Copy audio filepaths
+    audio_file_array.sort();
+    for (let i = 0; i < 8; i++) {
+        user_data += audio_file_array[i] + "\n";
+    }
+
+    // Copy instrument channel mute values
+    let instrument_channel_mute_values = get_instrument_channel_mute_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_mute_values[i];
+    }
+    user_data += "\n";
+
     return user_data;
 }
 
@@ -123,7 +157,24 @@ async function snapshot_upload() {
 
             let user_data = zip.files["beatbox_files/user_data.txt"].name;
             zip.file(user_data).async("string").then(function(data) {
-                load_note_grid(data);
+                let lines = data.split("\n");
+
+                // Checking "user_data.txt" for corrupted values
+                let success = check_user_data_file(lines);
+                if (success == 1) {
+                    return;
+                }
+
+                // Upload snapshot values
+                load_note_grid(lines[0]);
+                set_tempo_value(Math.round(Number(lines[1])));
+                for (let i = 1; i < 9; i++) {
+                    set_instrument_channel_name(`instrument-channel-name-${i}`, lines[i+1]);
+                }
+                for (let i = 10; i < 18; i++) { // Pass index (i-9) of sound being replaced
+                    upload_audio_file(zip.files[`beatbox_files/${lines[i]}`], i-9);
+                }
+                set_instrument_channel_mute_buttons(lines[18]);
             });
         });
     };
@@ -134,7 +185,6 @@ async function snapshot_upload() {
 // HELPER FUNCTIONS -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// Load note grid from snapshot
 function load_note_grid(data) {
 
     // Reset note grid values by toggling all active notes off
@@ -161,4 +211,51 @@ function load_note_grid(data) {
             index++;
         }
     }
+}
+
+// Used for generating unique snapshot filename
+function get_formatted_time() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var hour = today.getHours();
+    var minute = today.getMinutes();
+    var second = today.getSeconds();
+    return month + "-" + day + "-" + year + "-" + hour + "-" + minute + "-" + second;
+}
+
+function check_user_data_file(lines) {
+
+    // Checks to make sure notes grid formatted correctly
+    if (lines[0].length != 64) {
+        alert("User data file is corrupted! Pick a different snapshot!");
+        return 1;
+    }
+
+    // Checks to make sure tempo is valid
+    if (isNaN(Number(lines[1])) || Math.round(Number(lines[1])) < 10 || Math.round(Number(lines[1])) > 400) {
+        alert("User data file is corrupted! Pick a different snapshot!");
+        return 1;
+    }
+
+    // Checks to make sure instrument channel names formatted correctly
+    for (let i = 2; i < 10; i++) {
+        if (lines[i].length > 10) {
+            alert("User data file is corrupted! Pick a different snapshot!");
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+function upload_audio_file(file, index) {
+
+    var audio_element = document.getElementById(`sound-${index}`);
+    audio_element.setAttribute('data', `${file.name}`);
+
+    const user_data_file = new File([JSON.stringify(file)], "./" + file.name, {type: "audio/wav"});
+    $(`audio[sound="${index}"]`).attr("src", URL.createObjectURL(user_data_file));
+    document.querySelector(`audio[sound="${index}"]`).load();
 }

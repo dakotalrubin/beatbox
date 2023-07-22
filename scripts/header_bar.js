@@ -165,6 +165,19 @@ function update_header_tempo() {
   });
 }
 
+// Gets current tempo value for snapshot download
+function get_tempo_value() {
+  return document.querySelector(".header-tempo").value;
+}
+
+// Sets new tempo value for snapshot upload
+function set_tempo_value(value) {
+  stop_beat();
+  // Tempo value already within accepted range
+  document.querySelector(".header-tempo").value = value;
+  bpm = value;
+}
+
 // ----------------------------------------------------------------------------
 // HEADER PLAY BUTTON ---------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -429,4 +442,4 @@ function highlightElemBackground(obj, color) {
   }, tbb);
 }
 
-export {note_toggle, stop_beat}
+export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}

@@ -118,6 +118,21 @@ function update_instrument_channel_name(e) {
   });
 }
 
+// Gets current instrument channel names for snapshot download
+function get_instrument_channel_names() {
+  let instrument_channel_names = [];
+  let names = document.querySelectorAll(".instrument-channel-name");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_names.push(names[i].value);
+  }
+  return instrument_channel_names;
+}
+
+// Sets new instrument channel names for snapshot upload
+function set_instrument_channel_name(id, value) {
+  document.getElementById(id).value = value;
+}
+
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL PLAY BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
@@ -151,7 +166,7 @@ function upload_audio(event) {
 
   // Check if file is smaller than 1 MB
   if (this.files[0].size > 1048576) {
-    alert("Max File size is 1MB. Try Again!");
+    alert("Max File size is 1MB. Try again!");
     return;
   }
     
@@ -513,9 +528,17 @@ function panAudio() {
 
 function mute_volume(e) {
 
-  // Initializes id variable with the clicked volume mute button's id
-  let id = e.target.getAttribute('id');
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked mute button's id
+  } else {
+    id = e; // Mute button was toggled by snapshot load
+  }
+
+  // Initializes id variable with the clicked mute button's id
   let muteBtn = document.getElementById(id);
+  console.log(muteBtn);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
 
   // Maintain original volume
@@ -530,8 +553,43 @@ function mute_volume(e) {
   // Makes button red when clicked and sets volume to 0
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
+    document.getElementById(id).setAttribute("value", 1);
   } else {
+    document.getElementById(id).setAttribute("value", 0);
     audio.volume = audio.ogVol;
+  }
+}
+
+// Get current instrument channel mute values for snapshot download
+function get_instrument_channel_mute_buttons() {
+  let instrument_channel_mute_values = [];
+  let mute_values = document.querySelectorAll(".instrument-channel-mute-button");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_mute_values.push(mute_values[i].value);
+  }
+  return instrument_channel_mute_values;
+}
+
+// Sets new instrument channel  mute values for snapshot upload
+function set_instrument_channel_mute_buttons(line) {
+
+  // Reset mute values by toggling all active mute buttons off
+  let index = 0;
+  for (let i = 1; i < 9; i++) {
+    let checking_button = document.getElementById(`mute-btn-${i}`).getAttribute("value");
+    if (checking_button == 1) {
+      mute_volume(`mute-btn-${i}`);
+    }
+    index++;
+  }
+
+  // Apply mute button values from "user_data.txt"
+  index = 0;
+  for (let i = 0; i < 8; i++) {
+    if (line[i] == 1) {
+      mute_volume(`mute-btn-${i+1}`);
+    }
+    index++;
   }
 }
 
@@ -568,3 +626,6 @@ function close_instrument_channel_popup(e) {
   }
   popup.classList.remove("open-popup");
 }
+
+export {get_instrument_channel_names, set_instrument_channel_name,
+get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons}

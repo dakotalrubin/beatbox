@@ -544,6 +544,7 @@ function mute_volume(e) {
 // INSTRUMENT CHANNEL SOLO BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
 let channelVolumes = null;
+let activeSoloButton = null;
 
 function solo_instrument(e) {
   let id = e.target.getAttribute('id');
@@ -552,6 +553,14 @@ function solo_instrument(e) {
   let channelID = id[9];
   let channelVolumes;
   let soloStates;
+
+  if (activeSoloButton !== soloBtn){
+    if (activeSoloButton) {
+      activeSoloButton.classList.remove("solo-button-on");
+      //restore_volumes_to_channels(channelVolumes, soloStates);
+    }
+    activeSoloButton = soloBtn;
+  }
 
   if (soloBtn.classList.toggle("solo-button-on")) {
     if (channelVolumes == null) {
@@ -597,7 +606,7 @@ function mute_all_other_channels(array, channelID) {
       array[i].soloed = true;
     } else {
       array[i].soloed = false; // Set the soloed flag to false for non-soloed channels
-      audio.volume = 0; // Mute non-soloed channels
+      audio.volume = 0; // Mute non-soloed channels'
     }
   }
   return soloStates;

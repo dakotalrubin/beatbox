@@ -1,4 +1,4 @@
-//import {currentAngle} from './instrument_channels.js';
+// import {currentAngle} from './instrument_channels.js';
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -215,10 +215,12 @@ function update_header_tempo() {
 // PAN AUDIO  ---------------------------------------------------------
 // ----------------------------------------------------------------------------
 function panAudio(){
-  const angle = Number(0.01*currentAngle);
-  console.log("angle val: " , angle);
-  panner[1].pan.value = angle;
-  console.log("pan value: " , panner[1].pan.value);
+  for(let i = 1; i < numInstruments+1; i++) {
+    const angle = Number(0.01*currentAngle[i]);
+    // console.log("angle val: " , angle);
+    panner[i].pan.value = angle;
+    // console.log("pan value: " , panner[1].pan.value);
+  }
   return;
  }
  

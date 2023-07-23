@@ -1,5 +1,24 @@
 // ----------------------------------------------------------------------------
-// EVENT LISTENERS FOR PANNING KNOB -------------------------------------------
+// VARIABLES  -----------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+// Index in the knob ID string that has the instrument ID
+const knobsIndexOfId = 32;
+
+// Arrays for the states of all the panning knobs
+// Index 0 is null because instrument numbering starts at 1
+let isDragging = [null, false, false, false, false, false, false, false, false];
+let startAngle = [null, 0, 0, 0, 0, 0, 0, 0, 0];
+let startMouseX = [null, 0, 0, 0, 0, 0, 0, 0, 0];
+let currentAngle = [null, 0, 0, 0, 0, 0, 0, 0, 0];
+
+// How fast the knob turns
+const sensitivity = 1.2;
+
+let showPPopupTimeout;
+
+// ----------------------------------------------------------------------------
+// EVENT LISTENERS  -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 const pkbs = document.querySelectorAll(".instrument-channel-panning-knob")
@@ -18,24 +37,10 @@ document.addEventListener("mousemove", handleMouseMovePanning);
 document.addEventListener("mouseup", handleMouseUpPanning);
 
 // ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL PANNING KNOB --------------------------------------------
+// EVENT HANDLERS  ------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const knobsIndexOfId = 32;
-
-
-// Get the panning elements
-const panningKnobTic = document.querySelector(".instrument-channel-panning-tic");
-const panningpopup = document.querySelector(".panning-popup");
-
-let isDragging = [null, false, false, false, false, false, false, false, false];
-let startAngle = [null, 0, 0, 0, 0, 0, 0, 0, 0];
-let startMouseX = [null, 0, 0, 0, 0, 0, 0, 0, 0];
-let currentAngle = [null, 0, 0, 0, 0, 0, 0, 0, 0];
-const sensitivity = 1.2; 
-let showPPopupTimeout;
-
-// Function to handle mouse down event on the panning knob button
+// Handles when the user clicks on a panning knob, initializing necessary values so it can be turned
 function handleMouseDownPanning(event) {
     let id = event.target.id[knobsIndexOfId];
     let panningKnob = document.getElementById("instrument-channel-panning-knob-" + id);
@@ -48,16 +53,16 @@ function handleMouseDownPanning(event) {
     clearTimeout(showPPopupTimeout);
   }
 
-// Function to handle mouse move event
+// Handles checking if the user is dragging the panning knob when the mouse is moved, and updates the knob accordingly
 function handleMouseMovePanning(event) {
     // let id = event.target.id[knobsIndexofId];;
     if (event.target.className != "instrument-channel-panning-knob"){
-      id = clickedPanningKnob();
-      if (id == null) return;
+        id = clickedPanningKnob();
+        if (id == null) return;
     }
     else { 
-      id = event.target.id[knobsIndexOfId];
-      if (!isDragging[id]) return;
+        id = event.target.id[knobsIndexOfId];
+        if (!isDragging[id]) return;
     }
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
     panningPopup.style.opacity = 0;
@@ -70,9 +75,10 @@ function handleMouseMovePanning(event) {
     updatePanningPopUpValue(id, currentAngle[id]);
     updatePanningPopUpPosition(event);
     panningPopup.style.opacity = 1;
-  }
+    }
 
-// Function to handle mouse up event
+// Runs when the user stops holding the mouse button, and if the user had been dragging a knob, 
+// resetting the knob to not move anymore until clicked again
 function handleMouseUpPanning(event) {
     let id = clickedPanningKnob();
     if (id == null) return;
@@ -80,7 +86,6 @@ function handleMouseUpPanning(event) {
     let panningKnob = document.getElementById("instrument-channel-panning-knob-" + id);
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
     isDragging[id] = false;
-    console.log(isDragging);
     currentAngle[id] = clampRotationAngle(currentAngle)[id]; 
     rotateTic(id, currentAngle[id]);
     panningPopup.style.opacity = 0;
@@ -120,16 +125,12 @@ function rotateTic(id, angle) {
     panningKnobTic.style.transform = `translateX(-50%) rotate(${angle}deg)`;
   }
 
-// Variable to keep track of double click
-let doubleClickTimer = null;
-
-// Function to handle double click event
+// Resets the knob's value to zero when the user double clicks it
 function handleDoubleClickPanning(event) {
     let id = event.target.id[knobsIndexOfId];
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
     panningPopup.style.opacity = 1;
     event.preventDefault(); 
-    clearTimeout(doubleClickTimer);
     resetTicAngle(id);
     const angle = getCurrentRotationAngle(id);
     updatePanningPopUpValue(id, angle);
@@ -144,8 +145,9 @@ function resetTicAngle(id) {
   rotateTic(id, currentAngle[id]);
 }
 
+// Places the pannning popup to be in the correct position relative to the user's cursor
+// (helper of handleMouseMovePanning)
 function updatePanningPopUpPosition(event) {
-//   let id = event.target.id[knobsIndexOfId];
     let id = clickedPanningKnob();
     if (id == null) return;
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
@@ -155,11 +157,7 @@ function updatePanningPopUpPosition(event) {
     panningPopup.style.top = `${y}px`;
 }
 
-function updatePanningPopUpValue(id, angle) {
-  let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
-  panningPopup.textContent = "Panning: " + Math.round(angle).toString();
-}
-
+// Manages the popup displaying the panning knob's value when the user starts hovering over the knob
 function handleMouseEnterPanning(event) {
   let id = event.target.id[knobsIndexOfId];
   let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
@@ -172,12 +170,19 @@ function handleMouseEnterPanning(event) {
   }
 }
 
+// Manages the popup displaying the panning knob's value when the user stops hovering over the knob
 function handleMouseLeavePanning(event) {
   let id = event.target.id[knobsIndexOfId];
   let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
   clearTimeout(showPPopupTimeout);
   panningPopup.style.opacity = 0;
 }
+
+// Applies the text describing the panning value to the panning button's popup 
+function updatePanningPopUpValue(id, angle) {
+    let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
+    panningPopup.textContent = "Panning: " + Math.round(angle).toString();
+  }
 
 // Returns which panning knob is currently clicked / dragged by the user to adjust panning. 
 // Returns null if the user is not interacting with a panning knob
@@ -187,10 +192,3 @@ function clickedPanningKnob() {
     }
     return null;
 }
-
-// panningKnob.addEventListener("mousemove", (event) => {
-//   let id = event.target.id[knobsIndexOfId];
-//   updatePanningPopUpPosition(event);
-//   const angle = getCurrentRotationAngle(id);
-//   updatePanningPopUpValue(id, angle);
-// });

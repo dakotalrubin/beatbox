@@ -469,6 +469,11 @@ let soloStates = null;
 
 function solo_instrument(e) {
 
+  // Turn all solo buttons off
+  for (let i = 1; i < 9; i++) {
+    document.getElementById(`solo-btn-${i}`).value = 0;
+  }
+
   var id;
 
   if (e.type == "click") {
@@ -478,7 +483,14 @@ function solo_instrument(e) {
   }
 
   let soloBtn = document.getElementById(id);
-  soloBtn.value = 1;
+
+  // Toggle solo button value on/off
+  if (soloBtn.value == 1) {
+    soloBtn.value = 0;
+  } else {
+    soloBtn.value = 1;
+  }
+
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
   let channelID = id[9];
   let channelVolumes;

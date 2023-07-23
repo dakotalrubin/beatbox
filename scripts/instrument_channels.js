@@ -554,24 +554,33 @@ function solo_instrument(e) {
   let channelVolumes;
   let soloStates;
 
+  if (channelVolumes == null) {
+    console.log("Channel Volumes stored")
+    channelVolumes = store_volumes_for_solo();
+  }
+
+  //Check if there is already and active soloBtn
   if (activeSoloButton !== soloBtn){
+    //If there is, then untoggle it and restore volume to channels
     if (activeSoloButton) {
       activeSoloButton.classList.remove("solo-button-on");
+      activeSoloButton = null;
+      console.log("SoloBtn reset")
       //restore_volumes_to_channels(channelVolumes, soloStates);
     }
+    console.log("SoloBtn stored")
     activeSoloButton = soloBtn;
   }
 
   if (soloBtn.classList.toggle("solo-button-on")) {
-    if (channelVolumes == null) {
-      channelVolumes = store_volumes_for_solo();
-    }
+    console.log("soloStates stored")
     soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
-      if (channelVolumes) {
-        console.log("Inside the else statement")
+      if (!channelVolumes) {
+        console.log("Restored volume")
         restore_volumes_to_channels(channelVolumes, soloStates); 
       }else{
+        console.log("Default Volume")
         for (let i = 0; i < 8; i++) {
           let revertAudio = document.querySelector(`audio[sound="${i + 1}"]`);
           revertAudio.volume = 1;

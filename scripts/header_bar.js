@@ -223,6 +223,7 @@ function set_tempo_value(value) {
 // ----------------------------------------------------------------------------
 // PAN AUDIO  -----------------------------------------------------------------
 // ----------------------------------------------------------------------------
+
 function panAudio() {
   for(let i = 1; i < numInstruments+1; i++) {
     const angle = Number(0.01*currentAngle[i]);
@@ -271,7 +272,7 @@ function play_beat() {
   //if (audioContx == null) {
     //audioContx = new AudioContext();
   // }
-  createAudioContx(); 
+ 
 
   nextNoteTime = audioContx.currentTime + 0.05;
 

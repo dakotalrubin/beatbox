@@ -72,6 +72,11 @@ icmbs.forEach((button) => {
   button.addEventListener("click", mute_volume);
 });
 
+// Channel solo buttons
+const icsbs = document.querySelectorAll(".instrument-channel-solo-button");
+icsbs.forEach((button) => {
+  button.addEventListener("click", solo_instrument);
+});
 // ----------------------------------------------------------------------------
 // CHANNEL NAMING -------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -458,8 +463,101 @@ function set_instrument_channel_mute_buttons(line) {
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL SOLO BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
+let channelVolumes = null;
+let activeSoloButton = null;
+let soloStates = null;
 
+function solo_instrument(e) {
+  let id = e.target.getAttribute('id');
+  let soloBtn = document.getElementById(id);
+  let audio = document.querySelector(`audio[sound="${id[9]}"]`);
+  let channelID = id[9];
+  let channelVolumes;
+  
 
+  if (channelVolumes == null) {
+    channelVolumes = store_volumes_for_solo();
+  }
+
+  //Check if there is already an active soloBtn
+  if (activeSoloButton !== soloBtn){
+    //If there is, then untoggle it and restore volume to channels
+    if (activeSoloButton) {
+      activeSoloButton.classList.remove("solo-button-on");
+      activeSoloButton = null;
+      restore_volumes_to_channels(channelVolumes, soloStates);
+    }
+    activeSoloButton = soloBtn;
+  }
+
+  //If the soloBtn is on, then mute all other channels
+  if (soloBtn.classList.toggle("solo-button-on")) {
+    soloStates = mute_all_other_channels(channelVolumes, channelID);
+  } else {
+      //If the soloBtn is turned off, then restore volume to other channels
+      if (channelVolumes) {
+        restore_volumes_to_channels(channelVolumes, soloStates); 
+      }else{
+        for (let i = 0; i < 8; i++) {
+          let revertAudio = document.querySelector(`audio[sound="${i + 1}"]`);
+          revertAudio.volume = 1;
+        } 
+      }
+  }
+}
+
+//Supplementary Functions to keep track of Instrument Channel Volumes
+
+//Returns an array of the current volumes for the ICs
+function store_volumes_for_solo() {
+  const numOfChannels = 8;
+  const array = [];
+
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    array[i] = { volume: audio.volume, soloed: false };
+  }
+
+  return array;
+}
+
+//Parameters:
+//First: Takes in an array of current volumes for ICs
+//Second: Takes the currentID of the soloBtn that was pressed
+//Return: An array that stores the current solo state of an IC
+//It's either soloed or not
+function mute_all_other_channels(channelVolumes, channelID) {
+  const numOfChannels = 8;
+  const activeSoloChannel = channelID;
+  const soloStates = [];
+  
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    soloStates[i] = audio.volume;
+    if (i + 1 == activeSoloChannel) {
+      channelVolumes[i].soloed = true;
+    } else {
+      channelVolumes[i].soloed = false; // Set the soloed flag to false for non-soloed channels
+      audio.volume = 0; // Mute non-soloed channels'
+    }
+  }
+  return soloStates;
+}
+
+//Parameters:
+//First: Takes in an array of current volumes for ICs
+//Second: Takes the array of the current solo states
+//Return: Restores the original volume back to the ICs
+function restore_volumes_to_channels(channelVolumes, soloStates) {
+  const numOfChannels = 8;
+
+  for (let i = 0; i < numOfChannels; i++) {
+    let audio = document.querySelector(`audio[sound="${i + 1}"]`);
+    if (channelVolumes[i].soloed === false) {
+      audio.volume = soloStates[i];
+    }
+  }
+}
 
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------

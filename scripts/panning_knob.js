@@ -62,17 +62,12 @@ function handleMouseMovePanning(event) {
     }
     else { 
         id = event.target.id[knobsIndexOfId];
-        if (!isDragging[id]) return;
+    }
+    if (isDragging[id]) {
+        updateKnobTicPosition(event, id);
     }
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
     panningPopup.style.opacity = 0;
-    const mouseX = event.clientX;
-    const angleChange = (mouseX - startMouseX[id]) * sensitivity;
-    const newAngle = startAngle[id] + angleChange;
-    const clampedAngle = clampRotationAngle(newAngle); 
-    currentAngle[id] = clampedAngle;
-    rotateTic(id, currentAngle[id]);
-    updatePanningPopUpValue(id, currentAngle[id]);
     updatePanningPopUpPosition(event);
     panningPopup.style.opacity = 1;
     }
@@ -155,6 +150,19 @@ function updatePanningPopUpPosition(event) {
     const y = event.clientY - 20;
     panningPopup.style.left = `${x}px`;
     panningPopup.style.top = `${y}px`;
+}
+
+// Updates the knob's rotation as the user drags it
+// (helper of handleMouseMovePanning)
+function updateKnobTicPosition(event, id) {
+    const mouseX = event.clientX;
+    const angleChange = (mouseX - startMouseX[id]) * sensitivity;
+    const newAngle = startAngle[id] + angleChange;
+    const clampedAngle = clampRotationAngle(newAngle); 
+    currentAngle[id] = clampedAngle;
+    rotateTic(id, currentAngle[id]);
+    updatePanningPopUpValue(id, currentAngle[id]);
+    updatePanningPopUpPosition(event);
 }
 
 // Manages the popup displaying the panning knob's value when the user starts hovering over the knob

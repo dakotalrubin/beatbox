@@ -462,6 +462,7 @@ function set_instrument_channel_mute_buttons(line) {
 // ----------------------------------------------------------------------------
 let channelVolumes = null;
 let activeSoloButton = null;
+let soloStates = null;
 
 function solo_instrument(e) {
   let id = e.target.getAttribute('id');
@@ -469,14 +470,14 @@ function solo_instrument(e) {
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
   let channelID = id[9];
   let channelVolumes;
-  let soloStates;
+  
 
   if (channelVolumes == null) {
     console.log("Channel Volumes stored")
     channelVolumes = store_volumes_for_solo();
   }
 
-  //Check if there is already and active soloBtn
+  //Check if there is already an active soloBtn
   if (activeSoloButton !== soloBtn){
     //If there is, then untoggle it and restore volume to channels
     if (activeSoloButton) {
@@ -493,7 +494,7 @@ function solo_instrument(e) {
     console.log("soloStates stored")
     soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
-      if (!channelVolumes) {
+      if (channelVolumes) {
         console.log("Restored volume")
         restore_volumes_to_channels(channelVolumes, soloStates); 
       }else{

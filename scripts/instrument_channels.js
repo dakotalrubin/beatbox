@@ -484,7 +484,7 @@ function solo_instrument(e) {
       activeSoloButton.classList.remove("solo-button-on");
       activeSoloButton = null;
       console.log("SoloBtn reset")
-      //restore_volumes_to_channels(channelVolumes, soloStates);
+      restore_volumes_to_channels(channelVolumes, soloStates);
     }
     console.log("SoloBtn stored")
     activeSoloButton = soloBtn;

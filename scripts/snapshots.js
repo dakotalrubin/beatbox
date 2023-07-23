@@ -120,6 +120,10 @@ function generate_user_data() {
     }
 
     // Copy instrument channel solo button values
+    let instrument_channel_solo_values = get_instrument_channel_solo_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_solo_values[i];
+    }
 
     return user_data;
 }
@@ -199,7 +203,7 @@ async function snapshot_upload() {
                     set_instrument_channel_panning_knob(i, lines[i+26]);
                 }
 
-                // Set solo buttons here!
+                set_instrument_channel_solo_buttons(lines[35]);
             });
         });
     };

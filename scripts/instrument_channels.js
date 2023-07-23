@@ -437,7 +437,7 @@ function get_instrument_channel_mute_buttons() {
   return instrument_channel_mute_values;
 }
 
-// Sets new instrument channel  mute values for snapshot upload
+// Sets new instrument channel mute values for snapshot upload
 function set_instrument_channel_mute_buttons(line) {
 
   // Reset mute values by toggling all active mute buttons off
@@ -468,8 +468,17 @@ let activeSoloButton = null;
 let soloStates = null;
 
 function solo_instrument(e) {
-  let id = e.target.getAttribute('id');
+
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked solo button's id
+  } else {
+    id = e; // Solo button was toggled by snapshot load
+  }
+
   let soloBtn = document.getElementById(id);
+  soloBtn.value = 1;
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
   let channelID = id[9];
   let channelVolumes;
@@ -556,6 +565,39 @@ function restore_volumes_to_channels(channelVolumes, soloStates) {
     if (channelVolumes[i].soloed === false) {
       audio.volume = soloStates[i];
     }
+  }
+}
+
+// Get current instrument channel solo values for snapshot download
+function get_instrument_channel_solo_buttons() {
+  let instrument_channel_solo_values = [];
+  let solo_values = document.querySelectorAll(".instrument-channel-solo-button");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_solo_values.push(solo_values[i].value);
+  }
+  return instrument_channel_solo_values;
+}
+
+// Sets new instrument channel solo values for snapshot upload
+function set_instrument_channel_solo_buttons(line) {
+
+  // Reset solo values by toggling all active solo buttons off
+  let index = 0;
+  for (let i = 1; i < 9; i++) {
+    let checking_button = document.getElementById(`solo-btn-${i}`).getAttribute("value");
+    if (checking_button == 1) {
+      solo_instrument(`solo-btn-${i}`);
+    }
+    index++;
+  }
+
+  // Apply solo button values from "user_data.txt"
+  index = 0;
+  for (let i = 0; i < 8; i++) {
+    if (line[i] == 1) {
+      solo_instrument(`solo-btn-${i+1}`);
+    }
+    index++;
   }
 }
 

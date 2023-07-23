@@ -268,11 +268,7 @@ function play_beat() {
   beat = 0; // Restart at beginning of loop. Beat variable will always be 1-8
             // (except when being initialized)
 
-  // Add Audio Context for scheduling
-  //if (audioContx == null) {
-    //audioContx = new AudioContext();
-  // }
- 
+  createAudioContx(); 
 
   nextNoteTime = audioContx.currentTime + 0.05;
 

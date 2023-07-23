@@ -2,7 +2,7 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
- let audio_file_array = []; // These values will be added to user data file
+let audio_file_array = []; // These values will be added to user data file
 
 // ----------------------------------------------------------------------------
 // EVENT LISTENERS ------------------------------------------------------------
@@ -100,24 +100,26 @@ function generate_user_data() {
         user_data += audio_file_array[i] + "\n";
     }
 
-    // Copy instrument channel mute values
+    // Copy instrument channel mute button values
     let instrument_channel_mute_values = get_instrument_channel_mute_buttons();
     for (let i = 0; i < 8; i++) {
         user_data += instrument_channel_mute_values[i];
     }
     user_data += "\n";
 
-    // Copy instrument channel volume values
+    // Copy instrument channel volume button values
     let instrument_channel_volume_values = get_instrument_channel_volume_buttons();
     for (let i = 0; i < 8; i++) {
         user_data += instrument_channel_volume_values[i] + "\n";
     }
 
-    // Copy instrument channel panning values
+    // Copy instrument channel panning knob values
     let instrument_channel_panning_values = get_instrument_channel_panning_knobs();
     for (let i = 0; i < 8; i++) {
         user_data += instrument_channel_panning_values[i] + "\n";
     }
+
+    // Copy instrument channel solo button values
 
     return user_data;
 }
@@ -196,6 +198,8 @@ async function snapshot_upload() {
                 for (let i = 1; i < 9; i++) {
                     set_instrument_channel_panning_knob(i, lines[i+26]);
                 }
+
+                // Set solo buttons here!
             });
         });
     };

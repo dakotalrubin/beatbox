@@ -55,7 +55,6 @@ function handleMouseDownPanning(event) {
 
 // Handles checking if the user is dragging the panning knob when the mouse is moved, and updates the knob accordingly
 function handleMouseMovePanning(event) {
-    // let id = event.target.id[knobsIndexofId];;
     if (event.target.className != "instrument-channel-panning-knob"){
         id = clickedPanningKnob();
         if (id == null) return;

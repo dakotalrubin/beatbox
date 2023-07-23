@@ -91,9 +91,6 @@ function connectAudioToAudioContext() {
       stereoSplitter.connect(audioNodeMerger, 1, 1);
 
       panner[iChannelIndex] = nodePanner;
-      console.log(audioNode);
-      console.log(nodePanner);
-      console.log(audioContx);
     } 
     
     audioNodeMerger.connect(audioContx.destination);
@@ -481,4 +478,4 @@ function highlightElemBackground(obj, color) {
   }, tbb);
 }
 
-export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}
+// export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}

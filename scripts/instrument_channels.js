@@ -471,5 +471,5 @@ function close_instrument_channel_popup(e) {
   popup.classList.remove("open-popup");
 }
 
-export {get_instrument_channel_names, set_instrument_channel_name,
-get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons}
+// export {get_instrument_channel_names, set_instrument_channel_name,
+// get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons}

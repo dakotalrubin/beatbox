@@ -1,6 +1,6 @@
-import {note_toggle, stop_beat, get_tempo_value, set_tempo_value} from './header_bar.js';
-import {get_instrument_channel_names, set_instrument_channel_name,
-get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons} from './instrument_channels.js';
+// import {note_toggle, stop_beat, get_tempo_value, set_tempo_value} from './header_bar.js';
+// import {get_instrument_channel_names, set_instrument_channel_name,
+// get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons} from './instrument_channels.js';
 
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------

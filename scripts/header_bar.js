@@ -232,8 +232,6 @@ function playNextBeat() {
 
   // ***Needs to be updated for different audios***
   let audio = document.querySelectorAll('audio');
-  // console.log(audio[1]);
-
 
   if (beat == beatsInLoop) {
     if(currentlyRecording) { // if we are currently recording and reached end of loop, STOP & SAVE

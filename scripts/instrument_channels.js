@@ -172,6 +172,7 @@ function upload_audio(event) {
     
   // Load new uploaded sound into Instrument Channel
   $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
+  console.log(files[0]);
   document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 
   // Check if audio file is less than 2 seconds

@@ -56,8 +56,8 @@ async function snapshot_download() {
         // Add sound blobs to zip file
         var sound_blob = await file.blob();
         var zip_sound = zip.folder("beatbox_files");
-        zip_sound.file(index + " - " + filename, sound_blob, {base64: true, binary: true});
-        audio_file_array.push(index + " - " + filename);
+        zip_sound.file(index + "_" + filename, sound_blob, {base64: true, binary: true});
+        audio_file_array.push(index + "_" + filename);
         count++;
 
         // Save files and generate zip folder
@@ -168,12 +168,17 @@ async function snapshot_upload() {
                 // Upload snapshot values
                 load_note_grid(lines[0]);
                 set_tempo_value(Math.round(Number(lines[1])));
+
                 for (let i = 1; i < 9; i++) {
                     set_instrument_channel_name(`instrument-channel-name-${i}`, lines[i+1]);
                 }
-                for (let i = 10; i < 18; i++) { // Pass index (i-9) of sound being replaced
-                    upload_audio_file(zip.files[`beatbox_files/${lines[i]}`], i-9);
+
+                /* 
+                for (let i = 1; i < 9; i++) {
+                    upload_audio_file(zip.files[`beatbox_files/${lines[i+9]}`], i);
                 }
+                */
+
                 set_instrument_channel_mute_buttons(lines[18]);
             });
         });
@@ -251,11 +256,9 @@ function check_user_data_file(lines) {
 }
 
 function upload_audio_file(file, index) {
-
     var audio_element = document.getElementById(`sound-${index}`);
-    audio_element.setAttribute('data', `${file.name}`);
-
-    const user_data_file = new File([JSON.stringify(file)], "./" + file.name, {type: "audio/wav"});
-    $(`audio[sound="${index}"]`).attr("src", URL.createObjectURL(user_data_file));
-    document.querySelector(`audio[sound="${index}"]`).load();
+    var bytes = new TextEncoder("utf-8").encode(JSON.stringify(file)).buffer;
+    var blob = new Blob([bytes], {"type": "application/json"});
+    audio_element.src = URL.createObjectURL(blob);
+    audio_element.load();
 }

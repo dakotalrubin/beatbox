@@ -20,9 +20,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
-        <script type="module" src="./scripts/header_bar.js" defer></script>
-        <script type="module" src="./scripts/instrument_channels.js" defer></script>
-        <script type="module" src="./scripts/snapshots.js" defer></script>
+        
+        <script src="./scripts/header_bar.js" defer></script>
+        <script src="./scripts/instrument_channels.js" defer></script>
+        <script src="./scripts/panning_knob.js" defer></script>
+        <script src="./scripts/snapshots.js" defer></script>
 
         <!-- Links for header button icons -->
         <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>
@@ -77,7 +79,7 @@
                             <button title="Play Audio" sound=1 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="1"
-                                class="hidden-upload-button" hidden="hidden" sound="1" />
+                                class="hidden-upload-button" id="upload-1" hidden="hidden" sound="1" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-1">&#43</button>
                         </div>
 
@@ -107,16 +109,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-1">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-1"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-1">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-1">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-1">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-1">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                         
@@ -178,7 +180,7 @@
                             <button title="Play Audio" sound=2 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="2"
-                                class="hidden-upload-button" hidden="hidden" sound="2" />
+                                class="hidden-upload-button" id="upload-2" hidden="hidden" sound="2" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-2">&#43</button>
                         </div>
 
@@ -208,16 +210,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-2">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-2"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-2">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-2">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-2">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-2">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-2">
@@ -280,7 +282,7 @@
                             <button title="Play Audio" sound=3 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="3"
-                                class="hidden-upload-button" hidden="hidden" sound="3" />
+                                class="hidden-upload-button" id="upload-3" hidden="hidden" sound="3" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-3">&#43</button>
                         </div>
 
@@ -310,16 +312,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-3">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-3"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-3">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-3">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-3">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-3">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-3">
@@ -381,7 +383,7 @@
                             <button title="Play Audio" sound=4 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="4"
-                                class="hidden-upload-button" hidden="hidden" sound="4" />
+                                class="hidden-upload-button" id="upload-4" hidden="hidden" sound="4" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-4">&#43</button>
                         </div>
 
@@ -411,16 +413,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-4">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-4"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-4">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-4">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-4">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-4">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-4">
@@ -482,7 +484,7 @@
                             <button title="Play Audio" sound=5 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="5"
-                                class="hidden-upload-button" hidden="hidden" sound="5" />
+                                class="hidden-upload-button" id="upload-5" hidden="hidden" sound="5" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-5">&#43</button>
                         </div>
 
@@ -512,16 +514,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-5">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-5"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-5">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-5">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-5">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-5">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-5">
@@ -584,7 +586,7 @@
                             <button title="Play Audio" sound=6 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="6"
-                                class="hidden-upload-button" hidden="hidden" sound="6" />
+                                class="hidden-upload-button" id="upload-6" hidden="hidden" sound="6" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-6">&#43</button>
                         </div>
 
@@ -614,16 +616,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-6">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-6"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-6">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-6">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-6">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-6">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-6">
@@ -685,7 +687,7 @@
                             <button title="Play Audio" sound=7 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="7"
-                                class="hidden-upload-button" hidden="hidden" sound="7" />
+                                class="hidden-upload-button" id="upload-7" hidden="hidden" sound="7" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-7">&#43</button>
                         </div>
 
@@ -715,16 +717,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-7">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-7"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-7">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-7">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-7">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-7">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-7">
@@ -787,7 +789,7 @@
                             <button title="Play Audio" sound=8 class="instrument-channel-play-button">&#9658</button>
                             <!-- Hides the actual upload button and connects our custom button to the actual upload button in JavaScript -->
                             <input accept=".wav, .mp3" type="file" instrument-channel="8"
-                                class="hidden-upload-button" hidden="hidden" sound="8" />
+                                class="hidden-upload-button" id="upload-8" hidden="hidden" sound="8" />
                             <button title="Upload Audio" class="instrument-channel-upload-button" id="icub-8">&#43</button>
                         </div>
 
@@ -817,16 +819,16 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-8">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-8"></div>
-                                    <div class="panning-popup" id="instrument-channel-panning-popup-8">0</div>
+                                    <div class="panning-popup" id="instrument-channel-panning-popup-8">Panning: 0</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- This div contains all elements related to the Mute button -->
                         <div class="instrument-channel-mute-button-container">
-                            <button title="Mute Audio" class="instrument-channel-mute-button" id="mute-btn-8">
+                            <button title="Mute Audio" class="instrument-channel-mute-button" value=0 id="mute-btn-8">
                                 <i class="fa fa-volume-xmark"></i>
                             </button>
                             <button title="Solo Button" class="instrument-channel-solo-button" id="solo-btn-8">

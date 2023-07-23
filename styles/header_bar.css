@@ -24,8 +24,8 @@ button, input {
     border: 0px;
 
     border-radius: 16px; /* Default edge roundness */
-    font-weight: 900;
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 /* Controls cursor appearance upon hovering over a button */

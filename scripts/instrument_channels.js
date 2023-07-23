@@ -2,7 +2,7 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-let volume_value_original; // Recovers original volume value
+let volume_value_original; // Recovers original volume for popup Cancel button
 
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
@@ -123,6 +123,21 @@ function update_instrument_channel_name(e) {
   });
 }
 
+// Gets current instrument channel names for snapshot download
+function get_instrument_channel_names() {
+  let instrument_channel_names = [];
+  let names = document.querySelectorAll(".instrument-channel-name");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_names.push(names[i].value);
+  }
+  return instrument_channel_names;
+}
+
+// Sets new instrument channel names for snapshot upload
+function set_instrument_channel_name(id, value) {
+  document.getElementById(id).value = value;
+}
+
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL PLAY BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
@@ -156,7 +171,7 @@ function upload_audio(event) {
 
   // Check if file is smaller than 1 MB
   if (this.files[0].size > 1048576) {
-    alert("Max File size is 1MB. Try Again!");
+    alert("Max File size is 1MB. Try again!");
     return;
   }
     
@@ -357,159 +372,19 @@ function handleMouseMoveVolume(e) {
   updateVolumePopupPosition(e);
 }
 
-// ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL PANNING KNOB --------------------------------------------
-// ----------------------------------------------------------------------------
-
-// Get the panning elements
-const panningKnobTic = document.querySelector(".instrument-channel-panning-tic");
-const panningKnob = document.querySelector(".instrument-channel-panning-knob");
-const panningpopup = document.querySelector(".panning-popup");
-
-let isDragging = false;
-let startAngle = 0;
-let startMouseX = 0;
-let currentAngle = 0;
-const sensitivity = 1.2; 
-let showPPopupTimeout;
-
-// Function to handle mouse down event on the panning knob button
-function handleMouseDownPanning(event) {
-  event.preventDefault();
-  isDragging = true;
-  startAngle = getCurrentRotationAngle();
-  startMouseX = event.clientX;
-  currentAngle = startAngle;
-  panningKnob.classList.add("active"); 
-  clearTimeout(showPPopupTimeout);
-}
-
-// Function to handle mouse move event
-function handleMouseMovePanning(event) {
-  panningpopup.style.opacity = 0;
-  if (!isDragging) return;
-  const mouseX = event.clientX;
-  const angleChange = (mouseX - startMouseX) * sensitivity;
-  const newAngle = startAngle + angleChange;
-  const clampedAngle = clampRotationAngle(newAngle); 
-  currentAngle = clampedAngle;
-  rotateTic(currentAngle);
-  updatePanningPopUpValue(currentAngle);
-  updatePanningPopUpPosition(event);
-  panningpopup.style.opacity = 1;
-}
-
-// Function to handle mouse up event
-function handleMouseUpPanning(event) {
-  if (!isDragging) return;
-  isDragging = false;
-  currentAngle = clampRotationAngle(currentAngle); 
-  rotateTic(currentAngle);
-  panningpopup.style.opacity = 0;
-  panningKnob.classList.remove("active");
-}
-
-// Function to get the current rotation angle of the tic
-function getCurrentRotationAngle() {
-  const transformStyle = window.getComputedStyle(panningKnobTic).getPropertyValue("transform");
-  const matrix = transformStyle.match(/^matrix\((.+)\)$/);
-  if (matrix) {
-    const matrixValues = matrix[1].split(",");
-    if (matrixValues.length === 6) {
-      return Math.atan2(parseFloat(matrixValues[1]), parseFloat(matrixValues[0])) * (180 / Math.PI);
-    }
+// Gets current instrument channel volume values for snapshot download
+function get_instrument_channel_volume_buttons() {
+  let instrument_channel_volume_values = [];
+  let volumes = document.querySelectorAll(".volume-popup-text");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_volume_values.push(volumes[i].value);
   }
-  return 0;
+  return instrument_channel_volume_values;
 }
 
-// Function to clamp the rotation angle within the specified range
-// (makes no sense for a panning knob to fully rotate 360 deg)
-function clampRotationAngle(angle) {
-  const minAngle = -100;
-  const maxAngle = 100;
-  if (angle < minAngle) {
-    return minAngle;
-  } else if (angle > maxAngle) {
-    return maxAngle;
-  }
-  return angle;
-}
-
-// Function to rotate the tic to a specific angle
-function rotateTic(angle) {
-  panningKnobTic.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-}
-
-// Variable to keep track of double click
-let doubleClickTimer = null;
-
-// Function to handle double click event
-function handleDoubleClickPanning(event) {
-  panningpopup.style.opacity = 1;
-  event.preventDefault(); 
-  clearTimeout(doubleClickTimer);
-  resetTicAngle();
-  const angle = getCurrentRotationAngle();
-  updatePanningPopUpValue(angle);
-  showPPopupTimeout = setTimeout(() => {
-    panningpopup.style.opacity = 0;
-  }, 550);
-}
-
-// Function to reset the tic angle to 0
-function resetTicAngle() {
-  currentAngle = 0;
-  rotateTic(currentAngle);
-}
-
-function updatePanningPopUpPosition(event) {
-  const x = event.clientX + 20;
-  const y = event.clientY - 20;
-  panningpopup.style.left = `${x}px`;
-  panningpopup.style.top = `${y}px`;
-}
-
-function updatePanningPopUpValue(angle) {
-  panningpopup.textContent = "Panning: " + Math.round(angle).toString();
-}
-
-function handleMouseEnterPanning() {
-  if (!isDragging) {
-    showPPopupTimeout = setTimeout(() => {
-      panningpopup.style.opacity = 1;
-      const angle = getCurrentRotationAngle();
-      updatePanningPopUpValue(angle);
-    }, 700); 
-  }
-}
-
-function handleMouseLeavePanning() {
-  clearTimeout(showPPopupTimeout);
-  panningpopup.style.opacity = 0;
-}
-
-panningKnob.addEventListener("mousemove", (event) => {
-  updatePanningPopUpPosition(event);
-  const angle = getCurrentRotationAngle();
-  updatePanningPopUpValue(angle);
-});
-
-// Add event listener for double click on the panning knob
-panningKnob.addEventListener("dblclick", handleDoubleClickPanning);
-
-// Add event listener for the panning knob button
-panningKnob.addEventListener("mousedown", handleMouseDownPanning);
-document.addEventListener("mousemove", handleMouseMovePanning);
-document.addEventListener("mouseup", handleMouseUpPanning);
-
-// Add event listener for the panning knob button
-panningKnob.addEventListener("mouseenter", handleMouseEnterPanning);
-panningKnob.addEventListener("mouseleave", handleMouseLeavePanning);
-
-// IN-PROGRESS
-function panAudio() {
-  const panner = new audioContext.PannerNode();
-  return;
+// Sets new instrument channel volume values for snapshot upload
+function set_instrument_channel_volume_button(id, value) {
+  document.getElementById(id).value = value;
 }
 
 // ----------------------------------------------------------------------------
@@ -518,8 +393,15 @@ function panAudio() {
 
 function mute_volume(e) {
 
-  // Initializes id variable with the clicked volume mute button's id
-  let id = e.target.getAttribute('id');
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked mute button's id
+  } else {
+    id = e; // Mute button was toggled by snapshot load
+  }
+
+  // Initializes id variable with the clicked mute button's id
   let muteBtn = document.getElementById(id);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
 
@@ -535,8 +417,43 @@ function mute_volume(e) {
   // Makes button red when clicked and sets volume to 0
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
+    document.getElementById(id).setAttribute("value", 1);
   } else {
+    document.getElementById(id).setAttribute("value", 0);
     audio.volume = audio.ogVol;
+  }
+}
+
+// Get current instrument channel mute values for snapshot download
+function get_instrument_channel_mute_buttons() {
+  let instrument_channel_mute_values = [];
+  let mute_values = document.querySelectorAll(".instrument-channel-mute-button");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_mute_values.push(mute_values[i].value);
+  }
+  return instrument_channel_mute_values;
+}
+
+// Sets new instrument channel  mute values for snapshot upload
+function set_instrument_channel_mute_buttons(line) {
+
+  // Reset mute values by toggling all active mute buttons off
+  let index = 0;
+  for (let i = 1; i < 9; i++) {
+    let checking_button = document.getElementById(`mute-btn-${i}`).getAttribute("value");
+    if (checking_button == 1) {
+      mute_volume(`mute-btn-${i}`);
+    }
+    index++;
+  }
+
+  // Apply mute button values from "user_data.txt"
+  index = 0;
+  for (let i = 0; i < 8; i++) {
+    if (line[i] == 1) {
+      mute_volume(`mute-btn-${i+1}`);
+    }
+    index++;
   }
 }
 

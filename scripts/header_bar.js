@@ -1,3 +1,4 @@
+// import {currentAngle} from './instrument_channels.js';
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -18,6 +19,10 @@ let scheduleTimeBuf = 0.001;
 let beatsPlaying = false;
 let scheduleFreq = 25;
 let trackVolume = 1; // To be modified when changing volume
+let source = [];
+let panner = [];
+let audioNodeMerger;
+let pannerOption = {pan: 0};
 
 // Global variables for audio recording
 let audioContxRec = null;
@@ -54,6 +59,45 @@ const notes = document.querySelectorAll(".instrument-note-button");
 notes.forEach((button) => {
   button.addEventListener("click", note_toggle);
 });
+
+// ----------------------------------------------------------------------------
+// SETUP FOR AUDIO CONTEXT AND NODES ------------------------------------------
+// ----------------------------------------------------------------------------
+
+var AudioContext = window.AudioContext;
+const numInstruments = 8;
+
+function createAudioContx(){
+  if (audioContx == null) {
+    audioContx = new AudioContext();
+    connectAudioToAudioContext();
+  }
+  return;
+}
+
+function connectAudioToAudioContext() {
+  audioContx.destination = BaseAudioContext.destination;
+  if (audioNodeMerger == null) {
+    audioNodeMerger = audioContx.createChannelMerger(numInstruments);
+    for (var iChannelIndex = 1; iChannelIndex < numInstruments + 1; iChannelIndex++) {
+      const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${iChannelIndex}"]`));
+      const nodePanner = new StereoPannerNode(audioContx, {pan: 0});
+      const stereoSplitter = audioContx.createChannelSplitter(2);
+
+      // Connect directly to the panner node because we manage volume in the HTML elements
+      audioNode.connect(nodePanner);
+      nodePanner.connect(stereoSplitter);
+      stereoSplitter.connect(audioNodeMerger, 0, 0);
+      stereoSplitter.connect(audioNodeMerger, 1, 1);
+
+      panner[iChannelIndex] = nodePanner;
+    } 
+    
+    audioNodeMerger.connect(audioContx.destination);
+  }
+  return audioNodeMerger;
+}
+
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON --------------------------------------------------------
@@ -164,6 +208,19 @@ function update_header_tempo() {
     stop_beat();
   });
 }
+// ----------------------------------------------------------------------------
+// PAN AUDIO  ---------------------------------------------------------
+// ----------------------------------------------------------------------------
+function panAudio(){
+  for(let i = 1; i < numInstruments+1; i++) {
+    const angle = Number(0.01*currentAngle[i]);
+    // console.log("angle val: " , angle);
+    panner[i].pan.value = angle;
+    // console.log("pan value: " , panner[1].pan.value);
+  }
+  return;
+ }
+ 
 
 // Gets current tempo value for snapshot download
 function get_tempo_value() {
@@ -213,9 +270,10 @@ function play_beat() {
             // (except when being initialized)
 
   // Add Audio Context for scheduling
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-  }
+  //if (audioContx == null) {
+    //audioContx = new AudioContext();
+  // }
+  createAudioContx(); 
 
   nextNoteTime = audioContx.currentTime + 0.05;
 
@@ -232,6 +290,7 @@ function playNextBeat() {
 
   // ***Needs to be updated for different audios***
   let audio = document.querySelectorAll('audio');
+  panAudio();
 
   if (beat == beatsInLoop) {
     if(currentlyRecording) { // if we are currently recording and reached end of loop, STOP & SAVE
@@ -274,20 +333,14 @@ function scheduleBeat(beatNumber, time) {
 
   // Push beat onto queue, even if played or not
   queueBeats.push({ note: beatNumber, time: time });
-  const source = audioContx.createGain();
-        
-  source.gain.value = trackVolume;  
-  source.gain.exponentialRampToValueAtTime(1, time + 0.001);
-  source.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
-
-  source.connect(audioContx.destination);
+  
 }
 
 // This function schedules beats for minimal latency, calls for beat to play
 function runSchedulerAndBeat() {
 
   // While there are notes that will need to play before the next interval,
-  // schedule those notes and advance pointer
+  // schedule those notes and advance pointer  
   while (nextNoteTime < audioContx.currentTime + scheduleTimeBuf ) {
     scheduleBeat(beat, nextNoteTime); // Schedule beat for immediate playback 
     playNextBeat(); // Play beat at scheduled time (now)
@@ -324,29 +377,14 @@ function stop_beat() {
 URL = window.URL;
 var rec; // Recorder.js object
 var recordingBlob; // Blob that stores the .wav file produced by the recording
-var AudioContext = window.AudioContext;
-const numInstruments = 8;
-
-function connectAudioToAudioContext() {
-  audioContx.destination = BaseAudioContext.destination;
-  const audioNodeMerger = audioContx.createChannelMerger(numInstruments);
-  for (var instrumentChannelIndex = 1; instrumentChannelIndex < numInstruments + 1; instrumentChannelIndex++) {
-    const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${instrumentChannelIndex}"]`));
-    audioNode.connect(audioNodeMerger);
-    audioNode.connect(audioContx.destination);
-  }
-  // audioNodeMerger.connect(audioContext.destination);
-  return audioNodeMerger;
-}
 
 function startRecording() {
   currentlyRecording = true;
   // Disable play and download buttons until recording is finished to prevent overly long recordings
   disableHeaderButtons(true);
 
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-  }
+  createAudioContx();
+
   var mergeNode = connectAudioToAudioContext();
 
   // Create Recorder object to record mono sound (1 channel)
@@ -440,4 +478,4 @@ function highlightElemBackground(obj, color) {
   }, tbb);
 }
 
-export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}
+// export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}

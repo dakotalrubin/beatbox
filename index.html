@@ -20,9 +20,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
-        <script type="module" src="./scripts/header_bar.js" defer></script>
-        <script type="module" src="./scripts/instrument_channels.js" defer></script>
-        <script type="module" src="./scripts/snapshots.js" defer></script>
+        
+        <script src="./scripts/header_bar.js" defer></script>
+        <script src="./scripts/instrument_channels.js" defer></script>
+        <script src="./scripts/panning_knob.js" defer></script>
+        <script src="./scripts/snapshots.js" defer></script>
 
         <!-- Links for header button icons -->
         <script src="https://kit.fontawesome.com/53806cae27.js" crossorigin="anonymous"></script>
@@ -107,7 +109,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-1">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-1"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-1">0</div>
                                 </div>
@@ -204,7 +206,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-2">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-2"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-2">0</div>
                                 </div>
@@ -303,7 +305,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-3">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-3"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-3">0</div>
                                 </div>
@@ -401,7 +403,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-4">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-4"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-4">0</div>
                                 </div>
@@ -499,7 +501,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-5">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-5"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-5">0</div>
                                 </div>
@@ -598,7 +600,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-6">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-6"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-6">0</div>
                                 </div>
@@ -696,7 +698,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-7">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-7"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-7">0</div>
                                 </div>
@@ -795,7 +797,7 @@
 
                             <!-- This div contains all elements related to panning (knob and tic) -->
                             <div class="instrument-channel-panning-knob-container">
-                                <div class="instrument-channel-panning-knob">
+                                <div class="instrument-channel-panning-knob" id="instrument-channel-panning-knob-8">
                                     <div class="instrument-channel-panning-tic" id="instrument-channel-panning-tic-8"></div>
                                     <div class="panning-popup" id="instrument-channel-panning-popup-8">0</div>
                                 </div>

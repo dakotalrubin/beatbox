@@ -473,7 +473,6 @@ function solo_instrument(e) {
   
 
   if (channelVolumes == null) {
-    console.log("Channel Volumes stored")
     channelVolumes = store_volumes_for_solo();
   }
 
@@ -483,31 +482,29 @@ function solo_instrument(e) {
     if (activeSoloButton) {
       activeSoloButton.classList.remove("solo-button-on");
       activeSoloButton = null;
-      console.log("SoloBtn reset")
       restore_volumes_to_channels(channelVolumes, soloStates);
     }
-    console.log("SoloBtn stored")
     activeSoloButton = soloBtn;
   }
 
+  //If the soloBtn is on, then mute all other channels
   if (soloBtn.classList.toggle("solo-button-on")) {
-    console.log("soloStates stored")
     soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
+      //If the soloBtn is turned off, then restore volume to other channels
       if (channelVolumes) {
-        console.log("Restored volume")
         restore_volumes_to_channels(channelVolumes, soloStates); 
       }else{
-        console.log("Default Volume")
         for (let i = 0; i < 8; i++) {
           let revertAudio = document.querySelector(`audio[sound="${i + 1}"]`);
           revertAudio.volume = 1;
-        }
+        } 
       }
   }
 }
 
 //Supplementary Functions to keep track of Instrument Channel Volumes
+
 //Returns an array of the current volumes for the ICs
 function store_volumes_for_solo() {
   const numOfChannels = 8;
@@ -521,7 +518,12 @@ function store_volumes_for_solo() {
   return array;
 }
 
-function mute_all_other_channels(array, channelID) {
+//Parameters:
+//First: Takes in an array of current volumes for ICs
+//Second: Takes the currentID of the soloBtn that was pressed
+//Return: An array that stores the current solo state of an IC
+//It's either soloed or not
+function mute_all_other_channels(channelVolumes, channelID) {
   const numOfChannels = 8;
   const activeSoloChannel = channelID;
   const soloStates = [];
@@ -530,15 +532,19 @@ function mute_all_other_channels(array, channelID) {
     let audio = document.querySelector(`audio[sound="${i + 1}"]`);
     soloStates[i] = audio.volume;
     if (i + 1 == activeSoloChannel) {
-      array[i].soloed = true;
+      channelVolumes[i].soloed = true;
     } else {
-      array[i].soloed = false; // Set the soloed flag to false for non-soloed channels
+      channelVolumes[i].soloed = false; // Set the soloed flag to false for non-soloed channels
       audio.volume = 0; // Mute non-soloed channels'
     }
   }
   return soloStates;
 }
 
+//Parameters:
+//First: Takes in an array of current volumes for ICs
+//Second: Takes the array of the current solo states
+//Return: Restores the original volume back to the ICs
 function restore_volumes_to_channels(channelVolumes, soloStates) {
   const numOfChannels = 8;
 

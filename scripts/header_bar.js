@@ -225,6 +225,19 @@ function panAudio(){
  }
  
 
+// Gets current tempo value for snapshot download
+function get_tempo_value() {
+  return document.querySelector(".header-tempo").value;
+}
+
+// Sets new tempo value for snapshot upload
+function set_tempo_value(value) {
+  stop_beat();
+  // Tempo value already within accepted range
+  document.querySelector(".header-tempo").value = value;
+  bpm = value;
+}
+
 // ----------------------------------------------------------------------------
 // HEADER PLAY BUTTON ---------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -251,7 +264,6 @@ function play_beat() {
   // Prevents errors from spamming header-play button
   // (multiple intervals at a time)
   clearInterval(interval);
-  if (beatsPlaying) return; // May need to remove this once adding more tracks
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
@@ -281,7 +293,6 @@ function playNextBeat() {
 
   // ***Needs to be updated for different audios***
   let audio = document.querySelectorAll('audio');
-  // console.log(audio[1]);
   panAudio();
 
   if (beat == beatsInLoop) {
@@ -312,10 +323,10 @@ function playNextBeat() {
   for (let i = 0; i < 8; i += 1) {
     if (values[i] == 1) {
       audio[i].currentTime = 0;
-      highlightElemBackground(inb[i], '#D60049');
       audio[i].play();
+      highlightElemBackground(inb[i], "#D60049");
     } else {
-      highlightElemBackground(inb[i], '#303030');
+      highlightElemBackground(inb[i], "#474747");
     }
   }
 }
@@ -379,8 +390,8 @@ function startRecording() {
 
   var mergeNode = connectAudioToAudioContext();
 
-  // Create Recorder object to record stereo sound (2 channels)
-  rec = new Recorder(mergeNode, {numChannels: 2});
+  // Create Recorder object to record mono sound (1 channel)
+  rec = new Recorder(mergeNode, {numChannels: 1});
 
   rec.record();
   play_beat();
@@ -423,8 +434,13 @@ function disableHeaderButtons(bool) {
 // This function toggles an instrument note button on (orange) or off (gray)
 function note_toggle(e) {
 
-  // Initializes id variable with the clicked note button's id
-  const id = e.target.getAttribute('id');
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked note button's id
+  } else {
+    id = e; // Note was toggled by snapshot load
+  }
 
   // Don't allow notes to be toggled during beat playback
   if (lock_grid == true) {
@@ -464,3 +480,5 @@ function highlightElemBackground(obj, color) {
     obj.style.backgroundColor = flash;
   }, tbb);
 }
+
+export {note_toggle, stop_beat, get_tempo_value, set_tempo_value}

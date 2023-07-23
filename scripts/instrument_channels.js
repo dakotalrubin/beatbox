@@ -25,6 +25,20 @@ icpbs.forEach((button) => {
   button.addEventListener("click", play_icpb_sound);
 });
 
+// Channel hidden upload buttons
+const hubs = document.querySelectorAll(".hidden-upload-button");
+hubs.forEach((button) => {
+  button.addEventListener("change", upload_audio, false);
+});
+
+// Channel custom upload buttons
+const cubs = document.querySelectorAll(".instrument-channel-upload-button");
+cubs.forEach((button) => {
+  button.addEventListener("click", function(e) {
+    hubs[e.target.id[5] - 1].click(); // Clicks proper hidden upload button
+  });
+});
+
 // Channel volume buttons
 const icvbs = document.querySelectorAll(".instrument-channel-volume-button");
 icvbs.forEach((button) => {
@@ -104,6 +118,21 @@ function update_instrument_channel_name(e) {
   });
 }
 
+// Gets current instrument channel names for snapshot download
+function get_instrument_channel_names() {
+  let instrument_channel_names = [];
+  let names = document.querySelectorAll(".instrument-channel-name");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_names.push(names[i].value);
+  }
+  return instrument_channel_names;
+}
+
+// Sets new instrument channel names for snapshot upload
+function set_instrument_channel_name(id, value) {
+  document.getElementById(id).value = value;
+}
+
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL PLAY BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
@@ -129,45 +158,39 @@ function play_icpb_sound(e) {
 // INSTRUMENT CHANNEL UPLOAD BUTTON -------------------------------------------
 // ----------------------------------------------------------------------------
 
-//Grab hidden-upload-button and instument-channel-upload-button from HTML
-const hiddenUploadBtn = document.querySelector(".hidden-upload-button")
-const customUploadBtn = document.querySelector(".instrument-channel-upload-button")
-//Our custom upload button "listens" for a click
-//When it does, it "clicks" the hidden upload button
-customUploadBtn.addEventListener("click", function(){
-  hiddenUploadBtn.click()
-})
-
-//When the file is uploaded, the hiddenUploadBtn will call the upload_audio func
-hiddenUploadBtn.addEventListener("change", upload_audio, false)
-
 function upload_audio(event) {
-    const uploadBtn = event.target
-    const files = event.target.files
-    const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel")
 
-    //Check if file is smaller than 1MB
-    if (this.files[0].size > 1048576){
-      alert("Max File size is 1MB. Try Again!")
-      return
-    }
+  const uploadBtn = event.target;
+  const files = event.target.files;
+  const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel");
+
+  // Check if file is smaller than 1 MB
+  if (this.files[0].size > 1048576) {
+    alert("Max File size is 1MB. Try again!");
+    return;
+  }
     
-    //Load new uploaded sound into Instrument Channel
-    $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]))
-    document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load()
+  // Load new uploaded sound into Instrument Channel
+  $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
+  document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 
-    //Check if file is 2 seconds MAX
-    const audioElem = document.getElementById(`sound-${instrumentChannelIndex}`)
-    audioElem.addEventListener("loadedmetadata", function() {
-      //If the audio duration > 2 seconds, default to kick drum
-      if (audioElem.duration > 2) {
-        alert("Max Duration size is 2 seconds. Try Again!");
-        // Reset the audio element
-        audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
-        audioElem.load();
-        return;
-      }
-    });    
+  // Check if audio file is less than 2 seconds
+  var audioElem = document.getElementById(`sound-${instrumentChannelIndex}`);
+
+  audioElem.addEventListener("loadedmetadata", function() {
+
+    // If audio file is greater than 2 seconds, default to kick drum
+    if (audioElem.duration > 2) {
+      alert("Max file duration is 2 seconds. Try again!");
+
+      // Reset audio element
+      audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
+      audioElem.load();      
+    }
+  });
+
+  // Attach filename to audioElem as data attribute
+  audioElem.setAttribute('data', `${this.files[0].name}`);
 }
 
 // ----------------------------------------------------------------------------
@@ -350,8 +373,15 @@ function handleMouseMoveVolume(e) {
 
 function mute_volume(e) {
 
-  // Initializes id variable with the clicked volume mute button's id
-  let id = e.target.getAttribute('id');
+  var id;
+
+  if (e.type == "click") {
+    id = e.target.getAttribute('id'); // Apply clicked mute button's id
+  } else {
+    id = e; // Mute button was toggled by snapshot load
+  }
+
+  // Initializes id variable with the clicked mute button's id
   let muteBtn = document.getElementById(id);
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
 
@@ -367,8 +397,43 @@ function mute_volume(e) {
   // Makes button red when clicked and sets volume to 0
   if (muteBtn.classList.toggle("mute-button-on")) {
     audio.volume = 0;
+    document.getElementById(id).setAttribute("value", 1);
   } else {
+    document.getElementById(id).setAttribute("value", 0);
     audio.volume = audio.ogVol;
+  }
+}
+
+// Get current instrument channel mute values for snapshot download
+function get_instrument_channel_mute_buttons() {
+  let instrument_channel_mute_values = [];
+  let mute_values = document.querySelectorAll(".instrument-channel-mute-button");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_mute_values.push(mute_values[i].value);
+  }
+  return instrument_channel_mute_values;
+}
+
+// Sets new instrument channel  mute values for snapshot upload
+function set_instrument_channel_mute_buttons(line) {
+
+  // Reset mute values by toggling all active mute buttons off
+  let index = 0;
+  for (let i = 1; i < 9; i++) {
+    let checking_button = document.getElementById(`mute-btn-${i}`).getAttribute("value");
+    if (checking_button == 1) {
+      mute_volume(`mute-btn-${i}`);
+    }
+    index++;
+  }
+
+  // Apply mute button values from "user_data.txt"
+  index = 0;
+  for (let i = 0; i < 8; i++) {
+    if (line[i] == 1) {
+      mute_volume(`mute-btn-${i+1}`);
+    }
+    index++;
   }
 }
 
@@ -385,12 +450,19 @@ function mute_volume(e) {
 // Open the specific instrument channel volume popup window requested
 function open_instrument_channel_popup(e) {
   let popup = document.getElementById("popup-" + e.target.id[26]);
+  let popup_header_text = document.getElementById("popup-header-" + e.target.id[26]);
+
+  // Add instrument channel name to volume popup window
+  popup_header_text.innerHTML = "Instrument Channel: " + 
+    document.getElementById("instrument-channel-name-" + e.target.id[26]).value;
   popup.classList.add("open-popup");
 }
 
 // Close the specific instrument channel volume popup window requested
 function close_instrument_channel_popup(e) {
   let popup;
+
+  // If hitting Cancel button...
   if (e.target.id[0] == "c") {
     popup = document.getElementById("popup-" + e.target.id[7]);
   } else {
@@ -398,3 +470,6 @@ function close_instrument_channel_popup(e) {
   }
   popup.classList.remove("open-popup");
 }
+
+export {get_instrument_channel_names, set_instrument_channel_name,
+get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons}

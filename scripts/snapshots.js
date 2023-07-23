@@ -113,6 +113,12 @@ function generate_user_data() {
         user_data += instrument_channel_volume_values[i] + "\n";
     }
 
+    // Copy instrument channel panning values
+    let instrument_channel_panning_values = get_instrument_channel_panning_knobs();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_panning_values[i] + "\n";
+    }
+
     return user_data;
 }
 
@@ -185,6 +191,10 @@ async function snapshot_upload() {
 
                 for (let i = 1; i < 9; i++) {
                     set_instrument_channel_volume_button(`volume-popup-text-${i}`, lines[i+18]);
+                }
+
+                for (let i = 1; i < 9; i++) {
+                    set_instrument_channel_panning_knob(i, lines[i+26]);
                 }
             });
         });

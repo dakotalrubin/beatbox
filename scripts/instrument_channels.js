@@ -370,7 +370,7 @@ function handleMouseMoveVolume(e) {
 // Gets current instrument channel volume values for snapshot download
 function get_instrument_channel_volume_buttons() {
   let instrument_channel_volume_values = [];
-  let volumes= document.querySelectorAll(".volume-popup-text");
+  let volumes = document.querySelectorAll(".volume-popup-text");
   for (let i = 0; i < 8; i++) {
     instrument_channel_volume_values.push(volumes[i].value);
   }

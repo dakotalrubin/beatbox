@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// VARIABLES  -----------------------------------------------------------
+// GLOBAL VARIABLES  ----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 // Index in the knob ID string that has the instrument ID
@@ -21,7 +21,7 @@ let showPPopupTimeout;
 // EVENT LISTENERS  -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-const pkbs = document.querySelectorAll(".instrument-channel-panning-knob")
+const pkbs = document.querySelectorAll(".instrument-channel-panning-knob");
 
 pkbs.forEach((panningKnob) => {
   // Add event listener for double click on the panning knob
@@ -198,4 +198,21 @@ function clickedPanningKnob() {
         if (isDragging[id]) return id; 
     }
     return null;
+}
+
+// Gets current instrument channel panning values for snapshot download
+function get_instrument_channel_panning_knobs() {
+  let instrument_channel_panning_values = [];
+  let pannings = document.querySelectorAll(".panning-popup");
+  for (let i = 0; i < 8; i++) {
+    let panning_value = pannings[i].innerText.split(" "); // Split value
+    instrument_channel_panning_values.push(panning_value[1]);
+  }
+  return instrument_channel_panning_values;
+}
+
+// Sets new instrument channel panning values for snapshot upload
+function set_instrument_channel_panning_knob(index, value) {
+  document.getElementById(`instrument-channel-panning-popup-${index}`).innerText = "Panning: " + value;
+  rotateTic(index, value);
 }

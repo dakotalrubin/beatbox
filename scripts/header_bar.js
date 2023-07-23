@@ -66,7 +66,7 @@ notes.forEach((button) => {
 var AudioContext = window.AudioContext;
 const numInstruments = 8;
 
-function createAudioContx(){
+function createAudioContx() {
   if (audioContx == null) {
     audioContx = new AudioContext();
     connectAudioToAudioContext();
@@ -96,7 +96,6 @@ function connectAudioToAudioContext() {
   }
   return audioNodeMerger;
 }
-
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON --------------------------------------------------------
@@ -207,19 +206,6 @@ function update_header_tempo() {
     stop_beat();
   });
 }
-// ----------------------------------------------------------------------------
-// PAN AUDIO  -----------------------------------------------------------------
-// ----------------------------------------------------------------------------
-function panAudio(){
-  for(let i = 1; i < numInstruments+1; i++) {
-    const angle = Number(0.01*currentAngle[i]);
-    // console.log("angle val: " , angle);
-    panner[i].pan.value = angle;
-    // console.log("pan value: " , panner[1].pan.value);
-  }
-  return;
- }
- 
 
 // Gets current tempo value for snapshot download
 function get_tempo_value() {
@@ -232,6 +218,19 @@ function set_tempo_value(value) {
   // Tempo value already within accepted range
   document.querySelector(".header-tempo").value = value;
   bpm = value;
+}
+
+// ----------------------------------------------------------------------------
+// PAN AUDIO  -----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+function panAudio() {
+  for(let i = 1; i < numInstruments+1; i++) {
+    const angle = Number(0.01*currentAngle[i]);
+    // console.log("angle val: " , angle);
+    panner[i].pan.value = angle;
+    // console.log("pan value: " , panner[1].pan.value);
+  }
+  return;
 }
 
 // ----------------------------------------------------------------------------

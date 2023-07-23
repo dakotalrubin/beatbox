@@ -205,7 +205,7 @@ function get_instrument_channel_panning_knobs() {
   let instrument_channel_panning_values = [];
   let pannings = document.querySelectorAll(".panning-popup");
   for (let i = 0; i < 8; i++) {
-    let panning_value = pannings[i].innerText.split(" "); // Split value
+    let panning_value = pannings[i].innerText.split(" "); // Split "Panning: "
     instrument_channel_panning_values.push(panning_value[1]);
   }
   return instrument_channel_panning_values;
@@ -214,5 +214,6 @@ function get_instrument_channel_panning_knobs() {
 // Sets new instrument channel panning values for snapshot upload
 function set_instrument_channel_panning_knob(index, value) {
   document.getElementById(`instrument-channel-panning-popup-${index}`).innerText = "Panning: " + value;
-  rotateTic(index, value);
+  currentAngle[index] = value; // Applies the actual panning value change
+  rotateTic(index, value); // Updates panning knob display
 }

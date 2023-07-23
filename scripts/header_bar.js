@@ -223,6 +223,7 @@ function set_tempo_value(value) {
 // ----------------------------------------------------------------------------
 // PAN AUDIO  -----------------------------------------------------------------
 // ----------------------------------------------------------------------------
+
 function panAudio() {
   for(let i = 1; i < numInstruments+1; i++) {
     const angle = Number(0.01*currentAngle[i]);
@@ -267,10 +268,6 @@ function play_beat() {
   beat = 0; // Restart at beginning of loop. Beat variable will always be 1-8
             // (except when being initialized)
 
-  // Add Audio Context for scheduling
-  //if (audioContx == null) {
-    //audioContx = new AudioContext();
-  // }
   createAudioContx(); 
 
   nextNoteTime = audioContx.currentTime + 0.05;

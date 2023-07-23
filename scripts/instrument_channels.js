@@ -145,6 +145,8 @@ function set_instrument_channel_name(id, value) {
 // This function plays audio for clicked instrument channel play button
 function play_icpb_sound(e) {
 
+  createAudioContx();
+
   // Initializes audio variable with the clicked ICPB's associated sound
   const sound = e.target.getAttribute('sound');
   const audio = document.querySelector(`audio[sound="${sound}"]`);
@@ -155,6 +157,7 @@ function play_icpb_sound(e) {
   }
 
   // Plays audio without waiting for previous sound to finish
+  panAudio();
   audio.currentTime = 0;
   audio.play();
 }

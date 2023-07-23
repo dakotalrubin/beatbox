@@ -2,7 +2,7 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-let volume_value_original; // Recovers original volume value
+let volume_value_original; // Recovers original volume for popup Cancel button
 
 let defaultSoundArry = [
 "./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
@@ -367,6 +367,21 @@ function handleMouseMoveVolume(e) {
   updateVolumePopupPosition(e);
 }
 
+// Gets current instrument channel volume values for snapshot download
+function get_instrument_channel_volume_buttons() {
+  let instrument_channel_volume_values = [];
+  let volumes= document.querySelectorAll(".volume-popup-text");
+  for (let i = 0; i < 8; i++) {
+    instrument_channel_volume_values.push(volumes[i].value);
+  }
+  return instrument_channel_volume_values;
+}
+
+// Sets new instrument channel volume values for snapshot upload
+function set_instrument_channel_volume_button(id, value) {
+  document.getElementById(id).value = value;
+}
+
 // ----------------------------------------------------------------------------
 // INSTRUMENT CHANNEL MUTE BUTTON ---------------------------------------------
 // ----------------------------------------------------------------------------
@@ -470,6 +485,3 @@ function close_instrument_channel_popup(e) {
   }
   popup.classList.remove("open-popup");
 }
-
-// export {get_instrument_channel_names, set_instrument_channel_name,
-// get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons}

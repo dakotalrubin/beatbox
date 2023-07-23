@@ -1,7 +1,3 @@
-// import {note_toggle, stop_beat, get_tempo_value, set_tempo_value} from './header_bar.js';
-// import {get_instrument_channel_names, set_instrument_channel_name,
-// get_instrument_channel_mute_buttons, set_instrument_channel_mute_buttons} from './instrument_channels.js';
-
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -111,6 +107,12 @@ function generate_user_data() {
     }
     user_data += "\n";
 
+    // Copy instrument channel volume values
+    let instrument_channel_volume_values = get_instrument_channel_volume_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_volume_values[i] + "\n";
+    }
+
     return user_data;
 }
 
@@ -180,6 +182,10 @@ async function snapshot_upload() {
                 */
 
                 set_instrument_channel_mute_buttons(lines[18]);
+
+                for (let i = 1; i < 9; i++) {
+                    set_instrument_channel_volume_button(`volume-popup-text-${i}`, lines[i+18]);
+                }
             });
         });
     };
@@ -258,7 +264,7 @@ function check_user_data_file(lines) {
 function upload_audio_file(file, index) {
     var audio_element = document.getElementById(`sound-${index}`);
     var bytes = new TextEncoder("utf-8").encode(JSON.stringify(file)).buffer;
-    var blob = new Blob([bytes], {"type": "application/json"});
+    var blob = new Blob([bytes], {"type": "audio/wav"});
     audio_element.src = URL.createObjectURL(blob);
     audio_element.load();
 }

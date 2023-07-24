@@ -32,6 +32,11 @@ function solo_instrument(e) {
     soloBtn.setAttribute("value", 0);
   } else {
     soloBtn.setAttribute("value", 1);
+
+    // Toggle mute button OFF for soloBtn instrument
+    if (document.getElementById(`mute-btn-${soloBtn.id[9]}`).value == 1) {
+      mute_volume(`mute-btn-${soloBtn.id[9]}`);
+    }
   }
 
   // Make all solo button values zero except the solo button clicked
@@ -63,23 +68,13 @@ function solo_instrument(e) {
   // If the soloBtn is on, then mute all other channels
   if (soloBtn.classList.toggle("solo-button-on")) {
 
-    // Disable mute buttons
-    for(let i = 1; i < 9; i++) {
-      document.getElementById(`mute-btn-${i}`).disabled = true;
-    }
-
     soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
-
-    // Enable mute buttons
-    for(let i = 1; i < 9; i++) {
-      document.getElementById(`mute-btn-${i}`).disabled = false;
-    }
 
       // If the soloBtn is turned off, then restore volume to other channels
       if (channelVolumes) {
         restore_volumes_to_channels(channelVolumes, soloStates); 
-      }else{
+      } else {
         for (let i = 1; i < 9; i++) {
           if (document.getElementById(`mute-btn-${i}`).value != 1) {
             let revertAudio = document.querySelector(`audio[sound="${i}"]`);
@@ -141,6 +136,11 @@ function restore_volumes_to_channels(channelVolumes, soloStates) {
     let audio = document.querySelector(`audio[sound="${i + 1}"]`);
     if (channelVolumes[i].soloed === false) {
       audio.volume = soloStates[i];
+      if (document.getElementById(`mute-btn-${i + 1}`).value == 1) {
+        mute_volume(`mute-btn-${i + 1}`);
+        mute_volume(`mute-btn-${i + 1}`);
+        // if there's an active solo button, unmuting should do nothing
+      }
     }
   }
 }

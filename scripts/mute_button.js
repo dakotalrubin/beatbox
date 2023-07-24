@@ -19,7 +19,7 @@ function mute_volume(e) {
   if (e.type == "click") {
     id = e.target.getAttribute('id'); // Apply clicked mute button's id
   } else {
-    id = e; // Mute button was toggled by snapshot load
+    id = e; // Mute button was toggled by snapshot load or solo button
   }
 
   // Initializes id variable with the clicked mute button's id
@@ -41,7 +41,9 @@ function mute_volume(e) {
     document.getElementById(id).setAttribute("value", 1);
   } else {
     document.getElementById(id).setAttribute("value", 0);
-    audio.volume = audio.ogVol;
+    if (activeSoloButton != muteBtn) {
+      audio.volume = audio.ogVol;
+    }
   }
 }
 

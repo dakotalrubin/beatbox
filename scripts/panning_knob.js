@@ -145,8 +145,20 @@ function resetTicAngle(id) {
 // Places the pannning popup to be in the correct position relative to the user's cursor
 // (helper of handleMouseMovePanning)
 function updatePanningPopUpPosition(event) {
+
     let id = clickedPanningKnob();
-    if (id == null) return;
+
+    // Update panning popup position for hover
+    if (id == null) {
+      let id = event.target.id[knobsIndexOfId];
+      let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
+      const x = event.clientX + 20;
+      const y = event.clientY - 20;
+      panningPopup.style.left = `${x}px`;
+      panningPopup.style.top = `${y}px`;
+      return;
+    }
+
     let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
     const x = event.clientX + 20;
     const y = event.clientY - 20;

@@ -2,6 +2,7 @@
 // EVENT LISTENER -------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
+// Channel solo buttons
 const icsbs = document.querySelectorAll(".instrument-channel-solo-button");
 icsbs.forEach((button) => {
   button.addEventListener("click", solo_instrument);

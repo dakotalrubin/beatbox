@@ -164,31 +164,3 @@ function upload_audio(event) {
   // Attach filename to audioElem as data attribute
   audioElem.setAttribute('data', `${this.files[0].name}`);
 }
-
-// ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL POPUP WINDOWS -------------------------------------------
-// ----------------------------------------------------------------------------
-
-// Open the specific instrument channel volume popup window requested
-function open_instrument_channel_popup(e) {
-  let popup = document.getElementById("popup-" + e.target.id[26]);
-  let popup_header_text = document.getElementById("popup-header-" + e.target.id[26]);
-
-  // Add instrument channel name to volume popup window
-  popup_header_text.innerHTML = "Instrument Channel: " + 
-    document.getElementById("instrument-channel-name-" + e.target.id[26]).value;
-  popup.classList.add("open-popup");
-}
-
-// Close the specific instrument channel volume popup window requested
-function close_instrument_channel_popup(e) {
-  let popup;
-
-  // If hitting Cancel button...
-  if (e.target.id[0] == "c") {
-    popup = document.getElementById("popup-" + e.target.id[7]);
-  } else {
-    popup = document.getElementById("popup-" + e.target.id[3]);
-  }
-  popup.classList.remove("open-popup");
-}

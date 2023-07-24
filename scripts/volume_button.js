@@ -2,7 +2,8 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-let volume_value_original; // Recovers original volume for popup Cancel button
+ // Recovers original volume for popup Cancel button
+let volume_value_original = [100, 100, 100, 100, 100, 100, 100, 100];
 
 // ----------------------------------------------------------------------------
 // EVENT LISTENERS ------------------------------------------------------------
@@ -48,7 +49,7 @@ function update_instrument_channel_volume(e) {
   const volume_text = document.getElementById(id);
 
   // Keep track of original volume value
-  volume_value_original = volume_text.value;
+  volume_value_original[id[18]] = volume_text.value;
 
   // Make the cursor appear for visual feedback, highlight button
   volume_text.style.caretColor = "white";
@@ -72,7 +73,7 @@ function update_instrument_channel_volume(e) {
 
       // Exit function if user entered invalid volume
       if (is_valid_volume_value == false) {
-        volume_text.value = volume_value_original;
+        volume_text.value = volume_value_original[id[18]];
         return;
       }
 
@@ -115,7 +116,7 @@ function update_instrument_channel_volume(e) {
 
     // Exit function if user entered invalid volume
     if (is_valid_volume_value == false) {
-      volume_text.value = volume_value_original;
+      volume_text.value = volume_value_original[id[18]];
       return;
     }
 
@@ -153,6 +154,8 @@ function accept_instrument_channel_volume(e) {
   let new_volume = document.getElementById(volume_text_id).value * 0.01;
   const audio = document.querySelector(`audio[sound="${id[3]}"]`);
   audio.volume = new_volume;
+
+  volume_value_original[id[3]] = document.getElementById(volume_text_id).value;
   close_instrument_channel_popup(e);
 }
 
@@ -164,13 +167,8 @@ function deny_instrument_channel_volume(e) {
   // Get the volume text id using this Cancel button's id
   let volume_text_id = "volume-popup-text-" + id[7];
 
-  // If original volume value is undefined, make it default to 100
-  if(volume_value_original == null) {
-    volume_value_original = 100;
-  }
-
   // Revert volume value back to original value
-  document.getElementById(volume_text_id).value = volume_value_original;
+  document.getElementById(volume_text_id).value = volume_value_original[id[7]];
   close_instrument_channel_popup(e);
 }
 
@@ -226,4 +224,32 @@ function get_instrument_channel_volume_buttons() {
 // Sets new instrument channel volume values for snapshot upload
 function set_instrument_channel_volume_button(id, value) {
   document.getElementById(id).value = value;
+}
+
+// ----------------------------------------------------------------------------
+// INSTRUMENT CHANNEL VOLUME POPUP WINDOWS ------------------------------------
+// ----------------------------------------------------------------------------
+
+// Open the specific instrument channel volume popup window requested
+function open_instrument_channel_popup(e) {
+  let popup = document.getElementById("popup-" + e.target.id[26]);
+  let popup_header_text = document.getElementById("popup-header-" + e.target.id[26]);
+
+  // Add instrument channel name to volume popup window
+  popup_header_text.innerHTML = "Instrument Channel: " + 
+    document.getElementById("instrument-channel-name-" + e.target.id[26]).value;
+  popup.classList.add("open-popup");
+}
+
+// Close the specific instrument channel volume popup window requested
+function close_instrument_channel_popup(e) {
+  let popup;
+
+  // If hitting Cancel button...
+  if (e.target.id[0] == "c") {
+    popup = document.getElementById("popup-" + e.target.id[7]);
+  } else {
+    popup = document.getElementById("popup-" + e.target.id[3]);
+  }
+  popup.classList.remove("open-popup");
 }

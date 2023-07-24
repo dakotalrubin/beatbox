@@ -2,6 +2,7 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
+// General variables
 let bpm = 120; // Default 120 bpm
 let lock_grid = false; // Locks note grid during playback
 let lock_icons = document.querySelectorAll(".fa-lock");
@@ -29,7 +30,7 @@ let currentlyRecording = false;
 let endOfLoopRecording = false;
 
 // ----------------------------------------------------------------------------
-// EVENT LISTENERS FOR ALL BUTTONS --------------------------------------------
+// EVENT LISTENERS FOR HEADER BUTTONS -----------------------------------------
 // ----------------------------------------------------------------------------
 
 // Header tempo button
@@ -58,44 +59,6 @@ const notes = document.querySelectorAll(".instrument-note-button");
 notes.forEach((button) => {
   button.addEventListener("click", note_toggle);
 });
-
-// ----------------------------------------------------------------------------
-// SETUP FOR AUDIO CONTEXT AND NODES ------------------------------------------
-// ----------------------------------------------------------------------------
-
-var AudioContext = window.AudioContext;
-const numInstruments = 8;
-
-function createAudioContx() {
-  if (audioContx == null) {
-    audioContx = new AudioContext();
-    connectAudioToAudioContext();
-  }
-  return;
-}
-
-function connectAudioToAudioContext() {
-  audioContx.destination = BaseAudioContext.destination;
-  if (audioNodeMerger == null) {
-    audioNodeMerger = audioContx.createChannelMerger(numInstruments);
-    for (var iChannelIndex = 1; iChannelIndex < numInstruments + 1; iChannelIndex++) {
-      const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${iChannelIndex}"]`));
-      const nodePanner = new StereoPannerNode(audioContx, {pan: 0});
-      const stereoSplitter = audioContx.createChannelSplitter(2);
-
-      // Connect directly to the panner node because we manage volume in the HTML elements
-      audioNode.connect(nodePanner);
-      nodePanner.connect(stereoSplitter);
-      stereoSplitter.connect(audioNodeMerger, 0, 0);
-      stereoSplitter.connect(audioNodeMerger, 1, 1);
-
-      panner[iChannelIndex] = nodePanner;
-    } 
-    
-    audioNodeMerger.connect(audioContx.destination);
-  }
-  return audioNodeMerger;
-}
 
 // ----------------------------------------------------------------------------
 // HEADER TEMPO BUTTON --------------------------------------------------------
@@ -220,8 +183,47 @@ function set_tempo_value(value) {
   bpm = value;
 }
 
+
 // ----------------------------------------------------------------------------
-// PAN AUDIO  -----------------------------------------------------------------
+// SETUP FOR AUDIO CONTEXT AND NODES ------------------------------------------
+// ----------------------------------------------------------------------------
+
+var AudioContext = window.AudioContext;
+const numInstruments = 8;
+
+function createAudioContx() {
+  if (audioContx == null) {
+    audioContx = new AudioContext();
+    connectAudioToAudioContext();
+  }
+  return;
+}
+
+function connectAudioToAudioContext() {
+  audioContx.destination = BaseAudioContext.destination;
+  if (audioNodeMerger == null) {
+    audioNodeMerger = audioContx.createChannelMerger(numInstruments);
+    for (var iChannelIndex = 1; iChannelIndex < numInstruments + 1; iChannelIndex++) {
+      const audioNode = audioContx.createMediaElementSource(document.querySelector(`audio[sound="${iChannelIndex}"]`));
+      const nodePanner = new StereoPannerNode(audioContx, {pan: 0});
+      const stereoSplitter = audioContx.createChannelSplitter(2);
+
+      // Connect directly to the panner node because we manage volume in the HTML elements
+      audioNode.connect(nodePanner);
+      nodePanner.connect(stereoSplitter);
+      stereoSplitter.connect(audioNodeMerger, 0, 0);
+      stereoSplitter.connect(audioNodeMerger, 1, 1);
+
+      panner[iChannelIndex] = nodePanner;
+    } 
+    
+    audioNodeMerger.connect(audioContx.destination);
+  }
+  return audioNodeMerger;
+}
+
+// ----------------------------------------------------------------------------
+// AUDIO PANNING --------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 function panAudio() {
@@ -382,8 +384,8 @@ function startRecording() {
 
   var mergeNode = connectAudioToAudioContext();
 
-  // Create Recorder object to record mono sound (1 channel)
-  rec = new Recorder(mergeNode, {numChannels: 1});
+  // Create Recorder object to record stereo sound (2 channels)
+  rec = new Recorder(mergeNode, {numChannels: 2});
 
   rec.record();
   play_beat();
@@ -420,7 +422,7 @@ function disableHeaderButtons(bool) {
 }
 
 // ----------------------------------------------------------------------------
-// NOTE GRID ------------------------------------------------------------------
+// NOTE GRID FUNCTIONALITY ----------------------------------------------------
 // ----------------------------------------------------------------------------
 
 // This function toggles an instrument note button on (orange) or off (gray)

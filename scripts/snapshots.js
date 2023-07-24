@@ -15,7 +15,7 @@ const load_snapshot = document.querySelector(".header-load-snapshot");
 load_snapshot.addEventListener("click", snapshot_upload);
 
 // ----------------------------------------------------------------------------
-// SNAPSHOT DOWNLOAD BUTTON ---------------------------------------------------
+// SNAPSHOT DOWNLOAD BUTTON FUNCTIONALITY -------------------------------------
 // ----------------------------------------------------------------------------
 
 // Retrieves all current sound files and project settings for download
@@ -71,65 +71,8 @@ async function snapshot_download() {
     });
 }
 
-// This function gathers all settings on the site and compiles them into a string
-function generate_user_data() {
-    let user_data = "";
-
-    // Copy note grid values
-    for (let i = 1; i < 9; i++) {
-        for (let j = 1; j < 9; j++) {
-            let note = "note" + `${j}-${i}`
-            note = document.getElementById(note);
-            user_data += `${note.getAttribute("value")}`;
-        }
-    }
-    user_data += "\n";
-
-    // Copy header tempo value
-    user_data += get_tempo_value() + "\n";
-
-    // Copy instrument channel names
-    let instrument_channel_names = get_instrument_channel_names();
-    for (let i = 0; i < 8; i++) {
-        user_data += instrument_channel_names[i] + "\n";
-    }
-
-    // Copy audio filepaths
-    audio_file_array.sort();
-    for (let i = 0; i < 8; i++) {
-        user_data += audio_file_array[i] + "\n";
-    }
-
-    // Copy instrument channel mute button values
-    let instrument_channel_mute_values = get_instrument_channel_mute_buttons();
-    for (let i = 0; i < 8; i++) {
-        user_data += instrument_channel_mute_values[i];
-    }
-    user_data += "\n";
-
-    // Copy instrument channel volume button values
-    let instrument_channel_volume_values = get_instrument_channel_volume_buttons();
-    for (let i = 0; i < 8; i++) {
-        user_data += instrument_channel_volume_values[i] + "\n";
-    }
-
-    // Copy instrument channel panning knob values
-    let instrument_channel_panning_values = get_instrument_channel_panning_knobs();
-    for (let i = 0; i < 8; i++) {
-        user_data += instrument_channel_panning_values[i] + "\n";
-    }
-
-    // Copy instrument channel solo button values
-    let instrument_channel_solo_values = get_instrument_channel_solo_buttons();
-    for (let i = 0; i < 8; i++) {
-        user_data += instrument_channel_solo_values[i];
-    }
-
-    return user_data;
-}
-
 // ----------------------------------------------------------------------------
-// SNAPSHOT UPLOAD BUTTON -----------------------------------------------------
+// SNAPSHOT UPLOAD BUTTON FUNCTIONALITY ---------------------------------------
 // ----------------------------------------------------------------------------
 
 // Uploads all downloaded sound files and project settings
@@ -187,12 +130,6 @@ async function snapshot_upload() {
                     set_instrument_channel_name(`instrument-channel-name-${i}`, lines[i+1]);
                 }
 
-                /* 
-                for (let i = 1; i < 9; i++) {
-                    upload_audio_file(zip.files[`beatbox_files/${lines[i+9]}`], i);
-                }
-                */
-
                 set_instrument_channel_mute_buttons(lines[18]);
 
                 for (let i = 1; i < 9; i++) {
@@ -214,6 +151,7 @@ async function snapshot_upload() {
 // HELPER FUNCTIONS -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
+// Toggles the note grid buttons on or off from a snapshot
 function load_note_grid(data) {
 
     // Reset note grid values by toggling all active notes off
@@ -254,6 +192,7 @@ function get_formatted_time() {
     return month + "-" + day + "-" + year + "-" + hour + "-" + minute + "-" + second;
 }
 
+// This function performs basic error-checking on user-uploaded snapshot file
 function check_user_data_file(lines) {
 
     // Checks to make sure notes grid formatted correctly
@@ -279,10 +218,59 @@ function check_user_data_file(lines) {
     return 0;
 }
 
-function upload_audio_file(file, index) {
-    var audio_element = document.getElementById(`sound-${index}`);
-    var bytes = new TextEncoder("utf-8").encode(JSON.stringify(file)).buffer;
-    var blob = new Blob([bytes], {"type": "audio/wav"});
-    audio_element.src = URL.createObjectURL(blob);
-    audio_element.load();
+// This function gathers all settings on the site and compiles them into a string
+function generate_user_data() {
+    let user_data = "";
+
+    // Copy note grid values
+    for (let i = 1; i < 9; i++) {
+        for (let j = 1; j < 9; j++) {
+            let note = "note" + `${j}-${i}`
+            note = document.getElementById(note);
+            user_data += `${note.getAttribute("value")}`;
+        }
+    }
+    user_data += "\n";
+
+    // Copy header tempo value
+    user_data += get_tempo_value() + "\n";
+
+    // Copy instrument channel names
+    let instrument_channel_names = get_instrument_channel_names();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_names[i] + "\n";
+    }
+
+    // Copy audio filepaths
+    audio_file_array.sort();
+    for (let i = 0; i < 8; i++) {
+        user_data += audio_file_array[i] + "\n";
+    }
+
+    // Copy instrument channel mute button values
+    let instrument_channel_mute_values = get_instrument_channel_mute_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_mute_values[i];
+    }
+    user_data += "\n";
+
+    // Copy instrument channel volume button values
+    let instrument_channel_volume_values = get_instrument_channel_volume_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_volume_values[i] + "\n";
+    }
+
+    // Copy instrument channel panning knob values
+    let instrument_channel_panning_values = get_instrument_channel_panning_knobs();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_panning_values[i] + "\n";
+    }
+
+    // Copy instrument channel solo button values
+    let instrument_channel_solo_values = get_instrument_channel_solo_buttons();
+    for (let i = 0; i < 8; i++) {
+        user_data += instrument_channel_solo_values[i];
+    }
+
+    return user_data;
 }

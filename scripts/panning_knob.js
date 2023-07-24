@@ -117,7 +117,7 @@ function clampRotationAngle(angle) {
 function rotateTic(id, angle) {
     let panningKnobTic = document.getElementById("instrument-channel-panning-tic-" + id);
     panningKnobTic.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-  }
+}
 
 // Resets the knob's value to zero when the user double clicks it
 function handleDoubleClickPanning(event) {
@@ -168,6 +168,10 @@ function updateKnobTicPosition(event, id) {
 function handleMouseEnterPanning(event) {
   let id = event.target.id[knobsIndexOfId];
   let panningPopup = document.getElementById("instrument-channel-panning-popup-" + id);
+  const x = event.clientX + 20;
+  const y = event.clientY - 20;
+  panningPopup.style.left = `${x}px`;
+  panningPopup.style.top = `${y}px`;
   if (!isDragging[id]) {
     showPPopupTimeout = setTimeout(() => {
       panningPopup.style.opacity = 1;

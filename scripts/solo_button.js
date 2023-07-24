@@ -17,11 +17,6 @@ let soloStates = null;
 
 function solo_instrument(e) {
 
-  // Turn all solo buttons off
-  for (let i = 1; i < 9; i++) {
-    document.getElementById(`solo-btn-${i}`).value = 0;
-  }
-
   var id;
 
   if (e.type == "click") {
@@ -35,9 +30,15 @@ function solo_instrument(e) {
   // Toggle solo button value on/off
   if (soloBtn.getAttribute("value") == 1) {
     soloBtn.setAttribute("value", 0);
-
   } else {
     soloBtn.setAttribute("value", 1);
+  }
+
+  // Make all solo button values zero except the solo button clicked
+  for (let i = 1; i < 9; i++) {
+    if (`solo-btn-${i}` != soloBtn.id) {
+      document.getElementById(`solo-btn-${i}`).value = 0;
+    }
   }
 
   let audio = document.querySelector(`audio[sound="${id[9]}"]`);
@@ -62,18 +63,15 @@ function solo_instrument(e) {
   // If the soloBtn is on, then mute all other channels
   if (soloBtn.classList.toggle("solo-button-on")) {
 
-    // Disable all other mute buttons
+    // Disable mute buttons
     for(let i = 1; i < 9; i++) {
-      if (i != id[9]) {
-        document.getElementById(`mute-btn-${i}`).disabled = true;
-      } else {
-        document.getElementById(`mute-btn-${i}`).disabled = false;
-      }
+      document.getElementById(`mute-btn-${i}`).disabled = true;
     }
+
     soloStates = mute_all_other_channels(channelVolumes, channelID);
   } else {
 
-    // Enable all mute buttons
+    // Enable mute buttons
     for(let i = 1; i < 9; i++) {
       document.getElementById(`mute-btn-${i}`).disabled = false;
     }
@@ -82,9 +80,9 @@ function solo_instrument(e) {
       if (channelVolumes) {
         restore_volumes_to_channels(channelVolumes, soloStates); 
       }else{
-        for (let i = 0; i < 8; i++) {
+        for (let i = 1; i < 9; i++) {
           if (document.getElementById(`mute-btn-${i}`).value != 1) {
-            let revertAudio = document.querySelector(`audio[sound="${i + 1}"]`);
+            let revertAudio = document.querySelector(`audio[sound="${i}"]`);
             revertAudio.volume = 1;
           }
         } 

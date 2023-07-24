@@ -2,7 +2,7 @@
 // GLOBAL VARIABLES -----------------------------------------------------------
 // ----------------------------------------------------------------------------
 
- // Recovers original volume for popup Cancel button
+// Recovers original volume for popup Cancel button
 let volume_value_original = [100, 100, 100, 100, 100, 100, 100, 100];
 
 // ----------------------------------------------------------------------------

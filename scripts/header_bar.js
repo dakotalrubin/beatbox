@@ -4,8 +4,7 @@
 
 // General variables
 let bpm = 120; // Default 120 bpm
-let lock_grid = false; // Locks note grid during playback
-let lock_icons = document.querySelectorAll(".fa-lock");
+
 let interval; // Interval for playing the beat
 let playing_beat = false; // Only allow header play button once
 
@@ -251,14 +250,6 @@ function play_beat() {
   // Header play button is now playing beat
   playing_beat = true;
 
-  // Lock the note grid during playback
-  lock_grid = true;
-
-  // Shows the instrument channel lock icon during playback
-  for (var i = 0; i < lock_icons.length; ++i) {
-    lock_icons[i].classList.add("show-instrument-channel-lock");
-  }
-
   // Prevents errors from spamming header-play button
   // (multiple intervals at a time)
   clearInterval(interval);
@@ -353,14 +344,6 @@ function stop_beat() {
   // Header play button is not playing beat
   playing_beat = false;
 
-  // Unlock the note grid after playback
-  lock_grid = false;
-
-  // Removes the instrument channel lock icons after playback
-  for (var i = 0; i < lock_icons.length; ++i) {
-    lock_icons[i].classList.remove("show-instrument-channel-lock");
-  }
-
   beatsPlaying = false;
   endOfLoopRecording = false;
   beat = 1;
@@ -434,11 +417,6 @@ function note_toggle(e) {
     id = e.target.getAttribute('id'); // Apply clicked note button's id
   } else {
     id = e; // Note was toggled by snapshot load
-  }
-
-  // Don't allow notes to be toggled during beat playback
-  if (lock_grid == true) {
-    return;
   }
 
   // Get background color of an instrument note button

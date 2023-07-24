@@ -36,7 +36,7 @@ pcbs.forEach((button) => {
 });
 
 // ----------------------------------------------------------------------------
-// INSTRUMENT CHANNEL VOLUME BUTTON -------------------------------------------
+// INSTRUMENT CHANNEL VOLUME BUTTON FUNCTIONALITY -----------------------------
 // ----------------------------------------------------------------------------
 
 function update_instrument_channel_volume(e) {
@@ -208,6 +208,10 @@ function handleMouseLeaveVolume(e) {
 function handleMouseMoveVolume(e) {
   updateVolumePopupPosition(e);
 }
+
+// ----------------------------------------------------------------------------
+// INSTRUMENT CHANNEL VOLUME BUTTON GETTER AND SETTER -------------------------
+// ----------------------------------------------------------------------------
 
 // Gets current instrument channel volume values for snapshot download
 function get_instrument_channel_volume_buttons() {

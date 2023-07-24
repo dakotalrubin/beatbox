@@ -14,7 +14,6 @@ let currentAngle = [null, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // How fast the knob turns
 const sensitivity = 1.2;
-
 let showPPopupTimeout;
 
 // ----------------------------------------------------------------------------
@@ -148,7 +147,7 @@ function updatePanningPopUpPosition(event) {
     const x = event.clientX + 20;
     const y = event.clientY - 20;
     panningPopup.style.left = `${x}px`;
-    panningPopup.style.top = `${y}px`;
+    panningPopup.style.top = `${y}px`; // :^)
 }
 
 // Updates the knob's rotation as the user drags it

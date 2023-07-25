@@ -94,12 +94,6 @@ async function snapshot_upload() {
             return;
         }
 
-        // Check filename for "snapshot" substring
-        if (!files[0].name.includes("snapshot")) {
-            alert("This is not a snapshot file. Try again!");
-            return;
-        }
-
         // Upload settings using "user_data.txt" values
         var zip = new JSZip();
         zip.folder().loadAsync(files[0]).then(function(zip) {
@@ -195,7 +189,7 @@ function get_formatted_time() {
 // This function performs basic error-checking on user-uploaded snapshot file
 function check_user_data_file(lines) {
 
-    // Checks to make sure notes grid formatted correctly
+    // Checks to make sure note grid line formatted correctly
     if (lines[0].length != 64) {
         alert("User data file is corrupted! Pick a different snapshot!");
         return 1;

@@ -440,7 +440,6 @@ function note_toggle(e) {
 // color - the color palette to be applied wrapped in quotes
 // e.g. "#FFFFFF" for the color white
 function highlightElemBackground(obj, color) {
-  console.log(obj.value);
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;

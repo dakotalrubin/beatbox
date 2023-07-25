@@ -3,8 +3,8 @@
 // ----------------------------------------------------------------------------
 
 let defaultSoundArry = [
-"./sounds/kick.wav", "./sounds/clap.wav", "./sounds/hihat.wav", "./sounds/boom.wav",
-"./sounds/openhat.wav", "./sounds/ride.wav", "./sounds/snare.wav", "./sounds/tink.wav"
+"./sounds/kick-bl.wav", "./sounds/snare-bl.wav", "./sounds/hihat.wav", "./sounds/openhat.wav",
+"./sounds/clap.wav", "./sounds/ride.wav", "./sounds/tom.wav", "./sounds/boom.wav"
 ]
 
 // ----------------------------------------------------------------------------
@@ -137,8 +137,8 @@ function upload_audio(event) {
   const instrumentChannelIndex = uploadBtn.getAttribute("instrument-channel");
 
   // Check if file is smaller than 1 MB
-  if (this.files[0].size > 1048576) {
-    alert("Max File size is 1MB. Try again!");
+  if (this.files[0].size > 2097152) {
+    alert("Max File size is 2 MB. Try again!");
     return;
   }
     
@@ -146,18 +146,18 @@ function upload_audio(event) {
   $(`audio[sound="${instrumentChannelIndex}"]`).attr("src", URL.createObjectURL(files[0]));
   document.querySelector(`audio[sound="${instrumentChannelIndex}"]`).load();
 
-  // Check if audio file is less than 2 seconds
+  // Check if audio file is less than 3 seconds
   var audioElem = document.getElementById(`sound-${instrumentChannelIndex}`);
 
   audioElem.addEventListener("loadedmetadata", function() {
 
-    // If audio file is greater than 2 seconds, default to kick drum
-    if (audioElem.duration > 2) {
-      alert("Max file duration is 2 seconds. Try again!");
+    // If audio file is greater than 3 seconds, revert to default instrument
+    if (audioElem.duration > 3) {
+      alert("Max file duration is 3 seconds. Try again!");
 
       // Reset audio element
       audioElem.src = defaultSoundArry[instrumentChannelIndex - 1];
-      audioElem.load();      
+      audioElem.load();
     }
   });
 

@@ -440,6 +440,7 @@ function note_toggle(e) {
 // color - the color palette to be applied wrapped in quotes
 // e.g. "#FFFFFF" for the color white
 function highlightElemBackground(obj, color) {
+  console.log(obj.value);
 
   // Calculation to turn bpm into time between beats (tbb) in milliseconds
   let tbb = (60 / bpm) * 1000;
@@ -449,6 +450,10 @@ function highlightElemBackground(obj, color) {
 
   // Create timeout so the note flashes with the beat
   setTimeout(() => {
-    obj.style.backgroundColor = flash;
+    if (obj.value == 0) {
+      obj.style.backgroundColor = flash;
+    } else {
+      obj.style.backgroundColor = "rgb(255, 130, 67)";
+    }
   }, tbb);
 }

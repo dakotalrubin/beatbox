@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 let defaultSoundArry = [
-"./sounds/kick-bl.wav", "./sounds/snare-bl.wav", "./sounds/hihat.wav", "./sounds/openhat.wav",
+"./sounds/kick.wav", "./sounds/snare.wav", "./sounds/hihat.wav", "./sounds/openhat.wav",
 "./sounds/clap.wav", "./sounds/ride.wav", "./sounds/tom.wav", "./sounds/boom.wav"
 ]
 
